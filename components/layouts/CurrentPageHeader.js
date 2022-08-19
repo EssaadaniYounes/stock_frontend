@@ -13,7 +13,7 @@ function CurrentPageHeader({ icon: Icon, title, component: Component = null }) {
     }
 
     return (
-        <div className={`z-10 bg-slate-50 px-10 sticky top-0 shadow-md h-12 flex items-center justify-between`}>
+        <div className={`z-10 bg-slate-50 pl-3 pr-10 sticky top-0 shadow-md h-12 flex items-center justify-between`}>
 
             <div className="flex gap-x-8">
                 <div>
@@ -27,7 +27,7 @@ function CurrentPageHeader({ icon: Icon, title, component: Component = null }) {
                     }
                 </div>
                 <div className='flex items-center gap-x-2'>
-                    <Icon />
+                    {Icon && <Icon />}
                     <div className='text-lg font-semibold'>
                         {title}
                     </div>

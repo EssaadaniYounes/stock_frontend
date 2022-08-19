@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { fetch } from '../../lib/fetch';
 import { useAuthStore } from '../../store/authStore';
 import setCookie from '../../utils/set-cookies';
 function Login() {
-
+    const router = useRouter();
     const [data, setData] = useState({
         email: '',
         password: ''
@@ -29,6 +30,7 @@ function Login() {
             setCookie('user', JSON.stringify(data), 30);
             setUser(userData);
             setError(null);
+            router.push('/dashboard');
         }
         else {
             setError(userData.error);
