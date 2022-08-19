@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { fetch } from '../../lib/fetch';
-import { classes } from '../../data/classes';
 import { useAuthStore } from '../../store/authStore';
+import setCookie from '../../utils/set-cookies';
 function Login() {
 
     const [data, setData] = useState({
         email: '',
         password: ''
     });
+    const [error, setError] = useState(null);
 
     const { setUser, user } = useAuthStore(state => state);
 
@@ -23,34 +24,47 @@ function Login() {
             method: 'POST',
             data: data
         });
-        setUser(userData);
+        if (userData.success) {
+            setCookie('token', userData.token, 30);
+            setCookie('user', JSON.stringify(data), 30);
+            setUser(userData);
+            setError(null);
+        }
+        else {
+            setError(userData.error);
+        }
     }
 
     return (
-        <div className={classes.centreItems}>
-            <div className={classes.card}>
+        <div className='w-full h-full flex justify-center items-center'>
+            <div className='w-[300px] md:w-[360px] h-[300px] overflow-hidden bg-gray-200 rounded-md shadow-sm mt-10'>
                 <div>
-                    <div className={classes.cardHeader}>
+                    <div className='text-center text-white text-2xl font-semibold bg-black py-2'>
                         Login
                     </div>
-                    <div className={classes.cardBody}>
-                        <div className={classes.inputContainer}>
+                    <div className='px-2 py-4 flex flex-col items-center'>
+                        <div className='relative mb-6 w-[285px] group'>
                             <input type="text"
                                 name='email'
-                                className={classes.input}
+                                className='block py-2.5 px-0 w-full text-[18px] text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                                 value={data.email}
                                 onChange={(e) => handleChange(e)}
                                 placeholder=" email " />
                         </div>
-                        <div className={classes.inputContainer}>
+                        <div className='relative mb-6 w-[285px] group'>
                             <input type="text"
                                 name='password'
-                                className={classes.input}
+                                className='block py-2.5 px-0 w-full text-[18px] text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                                 value={data.password}
                                 onChange={(e) => handleChange(e)}
                                 placeholder=" password " />
                         </div>
-                        <button onClick={() => handleClick()} type="button" className={classes.blueButton}>
+                        {
+                            error && <div className="text-red-500 mb-3 duration-150">
+                                {error}
+                            </div>
+                        }
+                        <button onClick={() => handleClick()} type="button" className='blue-button'>
                             Login
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />

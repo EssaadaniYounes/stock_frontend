@@ -1,19 +1,42 @@
-import { CurrentPageHeader } from "../components/layouts";
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react';
+import { autoLogin } from '../services/autoLogin';
+import { useAuthStore } from '../store/authStore';
 
-
-export default function Home() {
-  const Icon = () => {
-    return <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-    </svg>
-  }
-  const Component = () => {
-    return <div>Component</div>
-  }
+const Home = ({ dataUser }) => {
+  const router = useRouter();
+  const { setUser, user } = useAuthStore(state => state);
+  useEffect(() => {
+    if (dataUser) {
+      setUser(dataUser);
+      return () => router.push('/dashboard');
+    }
+    return () => router.push('/auth/login');
+  }, [router, dataUser, setUser]);
 
   return (
-    <>
-      <CurrentPageHeader icon={Icon} title="Home" component={Component } />
-    </>
+
+    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+      <Head>
+        <title>Create Next App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div>
+        {JSON.stringify(user)}
+      </div>
+    </div>
   )
 }
+
+export const getServerSideProps = async (ctx) => {
+  console.log(ctx);
+  const res = await autoLogin(ctx);
+  return {
+    props: {
+      dataUser: res.dataUser,
+    }
+  }
+}
+
+export default Home
