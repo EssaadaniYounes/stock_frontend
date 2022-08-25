@@ -5,13 +5,13 @@ import CustomDataTable from '../../../components/parts/CustomDataTable'
 import { SearchClient, VendorActions } from '../../../components/ui'
 import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
-import { deleteService } from '../../../services'
+import autoLogin, { deleteService } from '../../../services'
 import { useMainStore } from '../../../store/MainStore'
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-function index({ vendorsData }) {
-
+import { can } from '../../../utils/can'
+function index({ vendorsData, userData }) {
+    const permissions = JSON.parse(userData.data.permissions).vendors;
     const columns = [
         {
             name: "#",
@@ -23,16 +23,16 @@ function index({ vendorsData }) {
         {
             name: "Actions",
             cell: row => <div className="flex items-center gap-2">
-                <button onClick={() => deleteVendor(row.id)}>
+                {can(permission, 'delete') && <button onClick={() => deleteVendor(row.id)}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 duration-100 hover:text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
-                </button>
-                < Link href={`/dashboard/vendors/vendor/${row.id}`}>
+                </button>}
+                {can(permission, 'update') && < Link href={`/dashboard/vendors/vendor/${row.id}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 cursor-pointer duration-100 hover:text-orange-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                     </svg>
-                </Link>
+                </Link>}
             </div >,
             ignoreRowClick: true,
             allowOverflow: true,
@@ -123,9 +123,11 @@ export async function getServerSideProps(ctx) {
     const response = await fetch('vendors', {
         token: ctx.req.cookies.token
     })
+    const loginResponse = await autoLogin(ctx);
     return {
         props: {
-            vendorsData: response.data
+            vendorsData: response.data,
+            userData: loginResponse.dataUser
         }
     }
 }
