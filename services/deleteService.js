@@ -3,8 +3,9 @@ import getCookie from "../utils/get-cookie";
 
 
 
-export default async function deleteService(service, id) {
-    if (confirm(`Are you sure you want to delete this ${service.slice(0, service.length - 1)}?`)) {
+export default async function deleteService(service, id, name = null) {
+    const message = `Are you sure you want to delete this ${name ? name : service.slice(0, service.length - 1)}?`;
+    if (confirm(message)) {
         const token = getCookie("token");
 
         const res = await fetch(`${service}/${id}`, {
@@ -14,4 +15,5 @@ export default async function deleteService(service, id) {
 
         return res;
     }
+    return false;
 }

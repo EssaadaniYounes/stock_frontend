@@ -35,7 +35,6 @@ function add() {
             role_name: role.role_name,
             permissions: JSON.stringify(role.permissions)
         });
-        console.log(res);
     }
 
 

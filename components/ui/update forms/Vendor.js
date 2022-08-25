@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import icons from '../../../data/iconsComponents';
 import { addService, updateService } from '../../../services';
+import { useMainStore } from '../../../store/MainStore';
+import { useSharedVariableStore } from '../../../store/sharedVariablesStore';
 const classes = {
     label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
     input: 'block py-2.5 px-0 w-full text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
 }
-function Client({ client = null }) {
-    const [data, setData] = useState(client ? client : {
+function Vendor({ vendor = null, callBack }) {
+    const [data, setData] = useState(vendor ? vendor : {
         full_name: '',
         street: '',
         zip_code: '',
@@ -16,22 +18,28 @@ function Client({ client = null }) {
         email: '',
         ice: ''
     });
-
+    const { vendors, setVendors } = useMainStore(state => state);
+    const { setShowVendor } = useSharedVariableStore(state => state);
     const handleOnChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     }
 
     const handleOnSubmit = async () => {
-        if (client) {
-            const res = await updateService('clients', client.id, data);
+        if (vendor) {
+            const res = await updateService('vendors', vendor.id, data);
         }
         else {
-            const res = await addService('clients', data);
+            const res = await addService('vendors', data);
+            setVendors([...vendors, res.data]);
+            if (callBack) {
+                callBack(res.data.id);
+                setShowVendor(false);
+            }
         }
     }
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col ">
 
             <div className='w-full flex flex-wrap gap-x-2'>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
@@ -107,7 +115,7 @@ function Client({ client = null }) {
                     <label className={classes.label}>Ice</label>
                 </div>
             </div>
-            <button onClick={() => handleOnSubmit()} className={`${!client ? 'blue-button' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
+            <button onClick={() => handleOnSubmit()} className={`${!vendor ? 'blue-button' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
                 {<icons.Save />}
                 <div className='ml-1'>Save</div>
             </button>
@@ -115,4 +123,4 @@ function Client({ client = null }) {
     )
 }
 
-export default Client
+export default Vendor

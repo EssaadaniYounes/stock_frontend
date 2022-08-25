@@ -11,12 +11,12 @@ function SearchClient() {
     }
 
     return (
-        <div className='w-[calc(100%-2rem)] flex flex-col h-[200px] mx-auto mt-2 border rounded-md overflow-hidden border-blue-400'>
+        <div className='w-[calc(100%-2rem)] flex flex-col min-h-[140px] mx-auto mt-2 border rounded-md overflow-hidden border-blue-400'>
             <div className='w-full h-8 flex items-center justify-start gap-x-2 text-white font-semibold bg-gray-800 p-2'>
                 <div className='w-5 h-5'>{<icons.Search />}</div>
                 Search
             </div>
-            <div className='p-2 px-6 flex justify-between'>
+            <div className='p-2 px-6 flex justify-between flex-wrap'>
 
                 <div className="relative z-0 mb-6 group">
                     <input type="text" placeholder=' ' className={classes.input} />
@@ -35,12 +35,6 @@ function SearchClient() {
                     <label htmlFor="" className={classes.label}>Email</label>
                 </div>
             </div>
-            <button onClick={() => onClickHandler()} className='purple-button w-[160px] flex justify-center items-center gap-x-2 mx-auto'>
-                <div>
-                    {<icons.Search />}
-                </div>
-                Search
-            </button>
         </div>
     )
 }

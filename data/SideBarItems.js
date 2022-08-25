@@ -9,11 +9,33 @@ const items = [
                 title: 'Clients',
                 icon: <icons.Clients />,
                 link: '/dashboard/clients'
+            },
+            {
+                title: 'Vendors',
+                icon: <icons.Vendor />,
+                link: '/dashboard/vendors'
             }
         ]
     },
     {
         id: 2,
+        title: 'Stock',
+        icon: <icons.Stock />,
+        subItems: [
+            {
+                title: 'Caregories',
+                icon: <icons.Categories />,
+                link: '/dashboard/categories'
+            },
+            {
+                title: 'Products',
+                icon: <icons.Product />,
+                link: '/dashboard/products'
+            },
+        ]
+    },
+    {
+        id: 3,
         title: 'Configuration',
         icon: <icons.Settings />,
         subItems: [
@@ -23,6 +45,6 @@ const items = [
                 link: '/dashboard/roles'
             }
         ]
-    }
+    },
 ]
 export default items;
