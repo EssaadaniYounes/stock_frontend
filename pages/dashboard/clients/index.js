@@ -5,14 +5,14 @@ import CustomDataTable from '../../../components/parts/CustomDataTable'
 import { ClientActions, SearchClient } from '../../../components/ui'
 import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
-import { deleteService } from '../../../services'
+import autoLogin, { deleteService } from '../../../services'
 import { useMainStore } from '../../../store/MainStore'
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can'
 
 function index({ clientsData, userData }) {
-    const permissions = JSON.parse(userData.data.permissions).clients;
+    const permission = JSON.parse(userData.data.permissions).clients;
     const columns = [
         {
             name: "#",
@@ -109,7 +109,7 @@ function index({ clientsData, userData }) {
                 transition={Flip}
                 pauseOnHover />
             <CurrentPageHeader icon={icons.Clients} title="Clients" component={ClientActions} />
-            <SearchClient />
+            <SearchClient allClients={clientsData} />
             <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
                 <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
                     Clients list
