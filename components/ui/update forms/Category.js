@@ -4,7 +4,11 @@ import icons from '../../../data/iconsComponents'
 import { addService, updateService } from '../../../services'
 import { useOnClickOutside } from '../../../hooks/click-outside'
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
-import { useMainStore } from '../../../store/MainStore'
+import { useMainStore } from '../../../store/MainStore';
+import ToastDone from '../../../utils/toast-update'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const classes = {
     label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
     input: 'block py-2.5 px-0 w-full text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
@@ -21,12 +25,16 @@ function Category({ category = null, callBack }) {
     useOnClickOutside(ref, () => { setShowCategory(false) });
 
     const handleOnSubmit = async () => {
+        const id = toast.loading('Please wait...')
         if (!category) {
             const res = await addService('categories', data);
             setCategories([...categories, res.data]);
             if (callBack) {
                 callBack(res.data.id);
             }
+            ToastDone("Category added successfully", id, res);
+
+
         }
         else {
             const res = await updateService('categories', category.id, data);
@@ -34,6 +42,7 @@ function Category({ category = null, callBack }) {
                 if (c.id == category.id) { return { ...c, name: data.name } }
                 return c;
             });
+            ToastDone("Category updated successfully", id, res);
             setCategories(newCategories)
         }
         setShowCategory(false);

@@ -7,7 +7,10 @@ const classes = {
 }
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ToastDone from '../../../utils/toast-update';
+import { useRouter } from 'next/router';
 function Client({ client = null }) {
+    const router = useRouter();
     const [data, setData] = useState(client ? client : {
         full_name: '',
         street: '',
@@ -25,26 +28,18 @@ function Client({ client = null }) {
 
     const handleOnSubmit = async () => {
         const id = toast.loading("Please wait...")
-        const message = "Empty";
         if (client) {
             const res = await updateService('clients', client.id, data);
-            message = "Client updated successfully";
+            ToastDone("Client updated successfully", id, res);
+
         }
         else {
             const res = await addService('clients', data);
-            message = "Client added successfully";
+            ToastDone("Client added successfully", id, res);
         }
-        toast.update(id, {
-            render: message, type: "success",
-            isLoading: false,
-            position: "top-center",
-            autoClose: 1500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
+        setTimeout(() => {
+            router.push('/dashboard/clients');
+        }, 1500);
     }
 
     return (

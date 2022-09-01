@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { CurrentPageHeader } from '../../../components/layouts'
 import CustomDataTable from '../../../components/parts/CustomDataTable'
-import { ProductActions } from '../../../components/ui'
+import { ProductActions, SearchProduct } from '../../../components/ui'
 import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import autoLogin, { deleteService } from '../../../services'
@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can';
 function index({ productsData, userData }) {
 
-    const permissions = JSON.parse(userData.data.permissions).products;
+    const permission = JSON.parse(userData.data.permissions).products;
 
     const columns = [
         {
@@ -120,6 +120,7 @@ function index({ productsData, userData }) {
                 transition={Flip}
                 pauseOnHover />
             <CurrentPageHeader icon={icons.Product} title="Products" component={ProductActions} />
+            <SearchProduct allProducts={productsData} />
             <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
                 <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
                     Products list

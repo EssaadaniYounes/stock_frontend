@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '../../../components/layouts'
 import CustomDataTable from '../../../components/parts/CustomDataTable'
-import { SearchClient, VendorActions } from '../../../components/ui'
+import { SearchVendor, VendorActions } from '../../../components/ui'
 import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import autoLogin, { deleteService } from '../../../services'
@@ -11,7 +11,7 @@ import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can'
 function index({ vendorsData, userData }) {
-    const permissions = JSON.parse(userData.data.permissions).vendors;
+    const permission = JSON.parse(userData.data.permissions).vendors;
     const columns = [
         {
             name: "#",
@@ -108,7 +108,7 @@ function index({ vendorsData, userData }) {
                 transition={Flip}
                 pauseOnHover />
             <CurrentPageHeader icon={icons.Vendor} title="Vendors" component={VendorActions} />
-            <SearchClient />
+            <SearchVendor allVendors={vendorsData} />
             <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
                 <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
                     Vendors list

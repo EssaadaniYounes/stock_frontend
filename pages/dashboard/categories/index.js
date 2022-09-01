@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { CurrentPageHeader } from '../../../components/layouts'
 import CustomDataTable from '../../../components/parts/CustomDataTable'
-import { Category, CategoryActions, SearchClient, VendorActions } from '../../../components/ui'
+import { Category, CategoryActions, SearchCategory, SearchClient, VendorActions } from '../../../components/ui'
 import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import autoLogin, { deleteService } from '../../../services'
@@ -85,7 +85,7 @@ function index({ categoriesData, userData }) {
 
     return (
         <div className=''>
-            <ToastContainer position="top-right"
+            <ToastContainer position="top-center"
                 autoClose={1500}
                 hideProgressBar={false}
                 newestOnTop={false}
@@ -97,6 +97,7 @@ function index({ categoriesData, userData }) {
                 pauseOnHover />
             <CurrentPageHeader icon={icons.Categories} title="Categories" component={CategoryActions} />
             {showCategory && <Category category={category} />}
+            <SearchCategory allCategories={categoriesData}/>
             <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
                 <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
                     Categories list

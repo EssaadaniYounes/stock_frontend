@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import icons from '../../../data/iconsComponents';
 import { addService, updateService } from '../../../services';
 import { useMainStore } from '../../../store/MainStore';
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore';
 import { Category, Vendor } from '../';
+import { useOnClickOutside } from '../../../hooks/click-outside';
+import ToastDone from '../../../utils/toast-update';
 
 const classes = {
     label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
@@ -20,33 +22,39 @@ function Product({ product = null }) {
         unit: 'kg',
         nbr_products: ''
     });
-
-
+    const ref = useRef();
     const { showCategory, setShowCategory, showVendor, setShowVendor } = useSharedVariableStore(state => state);
-
+    
     const { categories, vendors } = useMainStore(state => state);
-
-
+    
+    
+    useOnClickOutside(ref, () => { setShowVendor(false) });
 
     const handleOnChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     }
 
     const handleOnSubmit = async () => {
+        const id = toast.loading("Please wait...")
         if (product) {
             const res = await updateService('products', product.id, data);
+            ToastDone("Product updated successfully", id, res);
         }
         else {
             const res = await addService('products', data);
+            ToastDone("Product added successfully", id, res);
         }
+        setTimeout(() => {
+            router.push('/dashboard/products');
+        }, 1500);
     }
 
     return (
         <div>
             {showCategory && <div className='-ml-4'><Category callBack={(val) => setData({ ...data, category_id: val })} /></div>}
             {showVendor &&
-                <div className='w-full h-[calc(100vh-110px)] bg-gray-100 bg-opacity-40 backdrop-blur-sm  absolute top-[50px] z-10 flex items-center justify-center -ml-4 p-4'>
-                    <div className='bg-white p-3 shadow-md rounded-md relative md:top-0 top-20'>
+                <div  className='w-full h-[calc(100vh-110px)] bg-gray-100 bg-opacity-40 backdrop-blur-sm  absolute top-[50px] z-10 flex items-center justify-center -ml-4 p-4'>
+                    <div ref={ref} className='bg-white p-3 shadow-md rounded-md relative md:top-0 top-20'>
                         <Vendor callBack={(val) => setData({ ...data, vendor_id: val })} />
                     </div>
                 </div>
