@@ -7,6 +7,10 @@ const classes = {
     label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
     input: 'block py-2.5 px-0 w-full text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
 }
+import { ToastContainer, toast, Flip } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router';
+import ToastDone from '../../../utils/toast-update';
 function Vendor({ vendor = null, callBack }) {
     const [data, setData] = useState(vendor ? vendor : {
         full_name: '',
@@ -18,6 +22,7 @@ function Vendor({ vendor = null, callBack }) {
         email: '',
         ice: ''
     });
+    const router = useRouter();
     const { vendors, setVendors } = useMainStore(state => state);
     const { setShowVendor } = useSharedVariableStore(state => state);
     const handleOnChange = (e) => {
@@ -25,8 +30,10 @@ function Vendor({ vendor = null, callBack }) {
     }
 
     const handleOnSubmit = async () => {
+        const id = toast.loading("Please wait...")
         if (vendor) {
             const res = await updateService('vendors', vendor.id, data);
+            ToastDone("Vendor updated successfully", id, res);
         }
         else {
             const res = await addService('vendors', data);
@@ -35,12 +42,28 @@ function Vendor({ vendor = null, callBack }) {
                 callBack(res.data.id);
                 setShowVendor(false);
             }
+            ToastDone("Vendor added successfully", id, res);
+        }
+        if (!callBack) {
+
+            setTimeout(() => {
+                router.push('/dashboard/clients');
+            }, 1500);
         }
     }
 
     return (
         <div className="flex flex-col ">
-
+            <ToastContainer position="top-center"
+                autoClose={1500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                transition={Flip}
+                pauseOnHover />
             <div className='w-full flex flex-wrap gap-x-2'>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
                     <input type="text"
