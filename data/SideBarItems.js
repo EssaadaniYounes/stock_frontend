@@ -41,6 +41,18 @@ const items = [
     },
     {
         id: 3,
+        title: 'Invoices',
+        icon: <icons.Invoice />,
+        subItems: [
+            {
+                title: 'Clients invoices',
+                icon: <icons.Invoices />,
+                link: '/dashboard/clients/invoices'
+            }
+        ]
+    },
+    {
+        id: 4,
         title: 'Configuration',
         icon: <icons.Settings />,
         subItems: [
