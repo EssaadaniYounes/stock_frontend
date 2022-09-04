@@ -28,6 +28,11 @@ const items = [
                 link: '/dashboard/categories'
             },
             {
+                title: 'Units',
+                icon: <icons.Unit />,
+                link: '/dashboard/units'
+            },
+            {
                 title: 'Products',
                 icon: <icons.Product />,
                 link: '/dashboard/products'

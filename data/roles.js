@@ -6,5 +6,6 @@ const roles = {
     products: ['create', 'read', 'update', 'delete'],
     vendors: ['create', 'read', 'update', 'delete'],
     categories: ['create', 'read', 'update', 'delete'],
+    units: ['create', 'read', 'update', 'delete'],
 }
 export default roles

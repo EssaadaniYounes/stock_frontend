@@ -13,22 +13,19 @@ const classes = {
     label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
     input: 'block py-2.5 px-0 w-full text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
 }
-function Product({ product = null }) {
+function Product({ items, product = null }) {
+    const { categories, vendors, units } = useMainStore(state => state);
     const [data, setData] = useState(product ? product : {
         barcode: '',
-        designation: '',
-        vendor_id: '',
-        category_id: '',
+        vendor_id: items.vendors[0]?.id,
+        category_id: items.categories[0]?.id,
+        unit_id: items.units[0]?.id,
         name: '',
-        quantity: '',
-        unit: 'kg',
-        nbr_products: ''
+        quantity_initial: '',
     });
     const router = useRouter();
     const ref = useRef();
     const { showCategory, setShowCategory, showVendor, setShowVendor } = useSharedVariableStore(state => state);
-
-    const { categories, vendors } = useMainStore(state => state);
 
 
     useOnClickOutside(ref, () => { setShowVendor(false) });
@@ -47,9 +44,9 @@ function Product({ product = null }) {
             const res = await addService('products', data);
             ToastDone("Product added successfully", id, res);
         }
-        setTimeout(() => {
-            router.push('/dashboard/products');
-        }, 1500);
+        // setTimeout(() => {
+        //     router.push('/dashboard/products');
+        // }, 1500);
     }
 
     return (
@@ -85,12 +82,12 @@ function Product({ product = null }) {
                     </div>
                     <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
                         <input type="text"
-                            name='designation'
+                            name='name'
                             className={classes.input}
-                            value={data.designation}
+                            value={data.name}
                             onChange={(e) => handleOnChange(e)}
                             placeholder=" " />
-                        <label className={classes.label}>Designation</label>
+                        <label className={classes.label}>Product name</label>
                     </div>
                     <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
                         <div className="flex items-center">
@@ -131,46 +128,29 @@ function Product({ product = null }) {
 
                         <label className={classes.label}>Category</label>
                     </div>
+
                     <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
                         <input type="text"
-                            name='name'
+                            name='quantity_initial'
                             className={classes.input}
-                            value={data.name}
+                            value={data.quantity_initial}
                             onChange={(e) => handleOnChange(e)}
                             placeholder=" " />
-                        <label className={classes.label}>Product name</label>
-                    </div>
-                    <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                        <input type="text"
-                            name='quantity'
-                            className={classes.input}
-                            value={data.quantity}
-                            onChange={(e) => handleOnChange(e)}
-                            placeholder=" " />
-                        <label className={classes.label}>Quantity</label>
+                        <label className={classes.label}>Quantity initial</label>
                     </div>
                     <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
                         <select
-                            value={data.unit}
-                            name='unit'
+                            value={data.unit_id}
+                            name='unit_id'
                             className={classes.input}
                             onChange={(e) => handleOnChange(e)}>
-                            <option value='kg' >Kg</option>
-                            <option value='metre'>Metre</option>
-                            <option value='litre'>Litre</option>
-                            <option value='unit'>Unit</option>
-
+                            {
+                                units.map(unit => {
+                                    return <option value={unit.id} key={unit.id}>{unit.name}</option>
+                                })
+                            }
                         </select>
                         <label className={classes.label}>Unit</label>
-                    </div>
-                    <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                        <input type="text"
-                            name='nbr_products'
-                            className={classes.input}
-                            value={data.nbr_products}
-                            onChange={(e) => handleOnChange(e)}
-                            placeholder=" " />
-                        <label className={classes.label}>Number of products</label>
                     </div>
                 </div>
                 <button onClick={() => handleOnSubmit()} className={`${!product ? 'blue-button' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>

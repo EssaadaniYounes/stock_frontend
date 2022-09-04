@@ -6,20 +6,21 @@ import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import { useMainStore } from '../../../store/MainStore'
 
-function add({ categories, vendors }) {
+function add({ categories, vendors, units }) {
 
-    const { setCategories, setVendors } = useMainStore(state => state);
+    const { setCategories, setVendors, setUnits } = useMainStore(state => state);
     useEffect(() => {
         setCategories(categories);
         setVendors(vendors);
+        setUnits(units);
     }, []);
 
     return (
         <div className=''>
             <CurrentPageHeader icon={icons.AddItem} title="Add product" />
-            
+
             <Form>
-                <Product />
+                <Product items={{ vendors, categories, units }} />
             </Form>
         </div>
     )
@@ -33,11 +34,15 @@ export async function getServerSideProps(ctx) {
     const vendorsRes = await fetch('vendors', {
         token: ctx.req.cookies.token
     });
+    const unitsRes = await fetch('units', {
+        token: ctx.req.cookies.token
+    });
 
     return {
         props: {
             categories: categoriesRes.data,
-            vendors: vendorsRes.data
+            vendors: vendorsRes.data,
+            units: unitsRes.data
         }
     }
 

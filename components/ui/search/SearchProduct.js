@@ -10,7 +10,7 @@ function SearchProduct({ allProducts }) {
     const { setProducts } = useMainStore(state => state);
     const [searchItems, setSearchItems] = useState({
         barcode: '',
-        designation: '',
+        unit_name: '',
         vendor_name: '',
         category_name: '',
         name: ''
@@ -18,7 +18,7 @@ function SearchProduct({ allProducts }) {
 
     const callBack = (product) => {
         return (product.barcode.toLowerCase().includes(searchItems.barcode) &&
-            product.designation.toLowerCase().includes(searchItems.designation) &&
+            product.unit_name.toLowerCase().includes(searchItems.unit_name) &&
             product.vendor_name.toLowerCase().includes(searchItems.vendor_name) &&
             product.category_name.toLowerCase().includes(searchItems.category_name) &&
             product.name.toLowerCase().includes(searchItems.name))
@@ -50,11 +50,11 @@ function SearchProduct({ allProducts }) {
                 </div>
                 <div className="relative z-0 mb-6 group">
                     <input type="text"
-                        name='designation'
+                        name='name'
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
                         className={classes.input} />
-                    <label htmlFor="" className={classes.label}>Designation</label>
+                    <label htmlFor="" className={classes.label}>Product name</label>
                 </div>
                 <div className="relative z-0 mb-6 group">
                     <input type="text"
@@ -74,11 +74,11 @@ function SearchProduct({ allProducts }) {
                 </div>
                 <div className="relative z-0 mb-6 group">
                     <input type="text"
-                        name="name"
+                        name="unit_name"
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
                         className={classes.input} />
-                    <label htmlFor="" className={classes.label}>Product name</label>
+                    <label htmlFor="" className={classes.label}>Unit</label>
                 </div>
             </div>
         </div>
