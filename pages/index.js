@@ -23,7 +23,6 @@ const Home = ({ dataUser }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        {JSON.stringify(user)}
       </div>
     </div>
   )

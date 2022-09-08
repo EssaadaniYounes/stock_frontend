@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '../../../../components/layouts'
 import CustomDataTable from '../../../../components/parts/CustomDataTable'
-import { ClientActions, SearchClient } from '../../../../components/ui'
+import { ClientsInvoicesActions, SearchClientsInvoices } from '../../../../components/ui'
 import icons from '../../../../data/iconsComponents'
 import { fetch } from '../../../../lib/fetch'
 import autoLogin, { deleteService } from '../../../../services'
@@ -11,7 +11,7 @@ import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../../utils/can'
 
-function index({ invoicesData, userData }) {
+function index({ invoicesData, userData, clients }) {
     const permission = JSON.parse(userData.data.permissions).invoices;
     const columns = [
         {
@@ -76,10 +76,11 @@ function index({ invoicesData, userData }) {
         }
     ];
 
-    const { clientsInvoices, setClientsInvoices } = useMainStore(state => state);
+    const { clientsInvoices, setClientsInvoices, setClients } = useMainStore(state => state);
 
     useEffect(() => {
         setClientsInvoices(invoicesData);
+        setClients(clients)
     }, []);
 
     const deleteInvoice = async (id) => {
@@ -109,7 +110,8 @@ function index({ invoicesData, userData }) {
                 draggable
                 transition={Flip}
                 pauseOnHover />
-            <CurrentPageHeader icon={icons.Invoices} title="Clients invoices" component={ClientActions} />
+            <CurrentPageHeader icon={icons.Invoices} title="Clients invoices" component={ClientsInvoicesActions} />
+            <SearchClientsInvoices allInvoices={invoicesData} />
             <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
                 <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
                     Invoices list
@@ -124,12 +126,16 @@ export async function getServerSideProps(ctx) {
     const response = await fetch('clients_invoices', {
         token: ctx.req.cookies.token
     })
+    const clientsResponse = await fetch('clients', {
+        token: ctx.req.cookies.token
+    })
 
     const loginResponse = await autoLogin(ctx);
     return {
         props: {
             invoicesData: response.data,
-            userData: loginResponse.dataUser
+            userData: loginResponse.dataUser,
+            clients: clientsResponse.data
         }
     }
 }
