@@ -9,7 +9,7 @@ function SharedHeader() {
 
     const router = useRouter();
 
-    const user = useAuthStore((state) => state.user);
+    const { user, setUser } = useAuthStore((state) => state);
     const [currentUser, setCurrentUser] = useState({
         token: '',
         data: {
@@ -30,6 +30,7 @@ function SharedHeader() {
     const handleLogout = () => {
         const cookiesDeleted = deleteAllCookies();
         if (cookiesDeleted) {
+            setUser(null);
             setShowSideBar(false)
             router.push('/auth/login');
         }

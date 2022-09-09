@@ -32,14 +32,18 @@
 .icon {
   width: 20px;
   height: 20px;
+  cursor: pointer;
 }
-
+.actions {
+  width: 27px;
+  height: 27px;
+}
 .xs {
   max-width: 5%;
 }
-.sm{
+.sm {
   max-width: 8%;
 }
-.lg{
-  max-width:15%
+.lg {
+  max-width: 15%;
 }

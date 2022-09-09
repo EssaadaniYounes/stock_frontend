@@ -8,7 +8,9 @@ import { useOnClickOutside } from '../../../hooks/click-outside';
 import ToastDone from '../../../utils/toast-update';
 import { toast, ToastContainer, Flip } from 'react-toastify';
 import { useRouter } from 'next/router';
+import Select from 'react-select'
 import 'react-toastify/dist/ReactToastify.css';
+import { Toast } from '../../parts';
 const classes = {
     label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
     input: 'block py-2.5 px-0 w-full text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
@@ -23,10 +25,8 @@ function Product({ items, product = null }) {
         name: '',
         quantity_initial: '',
     });
-    const router = useRouter();
     const ref = useRef();
     const { showCategory, setShowCategory, showVendor, setShowVendor } = useSharedVariableStore(state => state);
-
 
     useOnClickOutside(ref, () => { setShowVendor(false) });
 
@@ -60,16 +60,7 @@ function Product({ items, product = null }) {
                 </div>
             }
             <div className="flex flex-col p-6">
-                <ToastContainer position="top-center"
-                    autoClose={1500}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    transition={Flip}
-                    pauseOnHover />
+                <Toast />
                 <div className='w-full flex flex-wrap gap-x-2'>
                     <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
                         <input type="text"
@@ -139,7 +130,7 @@ function Product({ items, product = null }) {
                         <label className={classes.label}>Quantity initial</label>
                     </div>
                     <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                        <select
+                        {/* <select
                             value={data.unit_id}
                             name='unit_id'
                             className={classes.input}
@@ -149,7 +140,7 @@ function Product({ items, product = null }) {
                                     return <option value={unit.id} key={unit.id}>{unit.name}</option>
                                 })
                             }
-                        </select>
+                        </select> */}
                         <label className={classes.label}>Unit</label>
                     </div>
                 </div>

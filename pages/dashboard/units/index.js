@@ -9,11 +9,12 @@ import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import autoLogin, { deleteService } from '../../../services'
 import { useMainStore } from '../../../store/MainStore'
-import { ToastContainer, toast, Flip } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuthStore } from '../../../store/authStore'
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
 import { can } from '../../../utils/can'
+import { Toast } from '../../../components/parts'
 function index({ unitsData, userData }) {
     const { setUser } = useAuthStore(state => state);
 
@@ -91,16 +92,7 @@ function index({ unitsData, userData }) {
             <CurrentPageHeader icon={icons.Unit} title="Units" component={UnitActions} />
 
             <div className='px-4'>
-                <ToastContainer position="top-center"
-                    autoClose={1500}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    transition={Flip}
-                    pauseOnHover />
+                <Toast />
                 {showUnit && <Unit unit={unit} />}
                 <SearchUnit allUnits={unitsData} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>

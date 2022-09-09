@@ -5,9 +5,10 @@ import { useSharedVariableStore } from '../../store/sharedVariablesStore'
 function Container(props) {
     const router = useRouter()
     const { showSideBar, setShowSideBar } = useSharedVariableStore(state => state)
-    
+
     return (
         <div className=''>
+            
             {router.pathname != '/auth/login' && <SharedHeader />}
             <div className='flex overflow-hidden'>
                 {router.pathname != '/auth/login' && <SideBar />}

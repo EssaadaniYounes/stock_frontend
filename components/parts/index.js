@@ -4,3 +4,4 @@ export { default as MainAccordion } from './Accordion/MainAccordion';
 export { default as Form } from './Forms/Form';
 export { default as LinkButton } from './buttons/LinkButton';
 export { default as Button } from './buttons/Button';
+export { default as Toast } from './Toast';

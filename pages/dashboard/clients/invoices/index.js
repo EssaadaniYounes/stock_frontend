@@ -7,9 +7,10 @@ import icons from '../../../../data/iconsComponents'
 import { fetch } from '../../../../lib/fetch'
 import autoLogin, { deleteService } from '../../../../services'
 import { useMainStore } from '../../../../store/MainStore'
-import { ToastContainer, toast, Flip } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../../utils/can'
+import { Toast } from '../../../../components/parts'
 
 function index({ invoicesData, userData, clients }) {
     const permission = JSON.parse(userData.data.permissions).invoices;
@@ -95,16 +96,7 @@ function index({ invoicesData, userData, clients }) {
         <>
             <CurrentPageHeader icon={icons.Invoices} title="Clients invoices" component={ClientsInvoicesActions} />
             <div className='px-4'>
-                <ToastContainer position="top-right"
-                    autoClose={1500}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    transition={Flip}
-                    pauseOnHover />
+                <Toast />
                 <SearchClientsInvoices allInvoices={invoicesData} />
                 <div className='w-full h-full rounded-md overflow-hidden mt-4'>
                     <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >

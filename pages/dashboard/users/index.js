@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '../../../components/layouts'
 import CustomDataTable from '../../../components/parts/CustomDataTable'
-import { SearchVendor, VendorActions } from '../../../components/ui'
+import { RoleActions, SearchRole, SearchUser, UserActions } from '../../../components/ui'
 import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import autoLogin, { deleteService } from '../../../services'
@@ -11,8 +11,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can'
 import { Toast } from '../../../components/parts'
-function index({ vendorsData, userData }) {
-    const permission = JSON.parse(userData.data.permissions).vendors;
+
+function index({ usersData, userData }) {
+    const permission = JSON.parse(userData.data.permissions).users;
     const columns = [
         {
             name: "#",
@@ -23,12 +24,14 @@ function index({ vendorsData, userData }) {
         },
         {
             name: "Actions",
-            cell: row => <div className="flex items-center gap-2">
-                {can(permission, 'delete') && <button onClick={() => deleteVendor(row.id)}>
+            cell: row => <div className="flex items-center gap-x-2">
+                {can(permission, 'delete') && <button onClick={() => deleteUser(row.id)}>
                     {<icons.Remove />}
                 </button>}
-                {can(permission, 'update') && < Link href={`/dashboard/vendors/vendor/${row.id}`}>
-                    {<icons.Update />}
+                {can(permission, 'update') && < Link href={`/dashboard/users/user/${row.id}`}>
+                    <div className="text-orange-400">
+                        {<icons.Update />}
+                    </div>
                 </Link>}
             </div >,
             ignoreRowClick: true,
@@ -36,51 +39,32 @@ function index({ vendorsData, userData }) {
             button: true,
         },
         {
-            name: 'Full name',
-            selector: row => row.full_name,
+            name: 'name',
+            selector: row => row.name,
             sortable: true,
-
         },
         {
-            name: 'Street',
-            selector: row => row.street,
-            sortable: true,
-
-        },
-        {
-            name: 'City',
-            selector: row => row.city,
-            sortable: true,
-
-        },
-        {
-            name: 'Phone',
-            selector: row => row.tel,
-            sortable: true,
-
-        },
-
-        {
-            name: 'Email',
+            name: 'email',
             selector: row => row.email,
             sortable: true,
-
+        },
+        {
+            name: 'role name',
+            selector: row => row.role_name,
+            sortable: true,
         }
-
     ];
 
-    const { vendors, setVendors } = useMainStore(state => state);
+    const { users, setUsers } = useMainStore(state => state);
 
     useEffect(() => {
-        if (!vendors.length) {
-            setVendors(vendorsData);
-        }
+        setUsers(usersData);
     }, []);
 
-    const deleteVendor = async (id) => {
-        const res = await deleteService('vendors', id);
+    const deleteUser = async (id) => {
+        const res = await deleteService('users', id);
         if (res) {
-            setVendors(vendors.filter(vendor => vendor.id !== id));
+            setUsers(users.filter(user => user.id !== id));
             toast.success(res.message, {
                 position: "top-right",
                 autoClose: 1500,
@@ -93,32 +77,31 @@ function index({ vendorsData, userData }) {
         }
     };
     return (
-        <>
-            <CurrentPageHeader icon={icons.Vendor} title="Vendors" component={VendorActions} />
-
-            <div className='px-4'>
+        <div>
+            <CurrentPageHeader icon={icons.Users} title="Users" component={UserActions} />
+            <div className='content'>
                 <Toast />
-                <SearchVendor allVendors={vendorsData} />
+                <SearchUser allUsers={usersData.filter(u => u.id != userData.id)} />
                 <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
                     <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-                        Vendors list
+                        Users list
                     </div>
-                    <CustomDataTable data={vendors} columns={columns} />
+                    <CustomDataTable data={users} columns={columns} />
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
 export async function getServerSideProps(ctx) {
-    const response = await fetch('vendors', {
+    const { data: usersData } = await fetch('users', {
         token: ctx.req.cookies.token
     })
-    const loginResponse = await autoLogin(ctx);
+    const { dataUser: userData } = await autoLogin(ctx);
     return {
         props: {
-            vendorsData: response.data,
-            userData: loginResponse.dataUser
+            usersData,
+            userData
         }
     }
 }

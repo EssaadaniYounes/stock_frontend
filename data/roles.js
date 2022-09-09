@@ -7,6 +7,6 @@ const roles = {
     vendors: ['create', 'read', 'update', 'delete'],
     categories: ['create', 'read', 'update', 'delete'],
     units: ['create', 'read', 'update', 'delete'],
-    invoices: ['create', 'read', 'update', 'delete'],
+    invoices: ['create', 'read', 'update', 'delete','print'],
 }
 export default roles

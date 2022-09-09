@@ -9,11 +9,12 @@ const classes = {
     textarea: 'block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
 
 }
-import { ToastContainer, toast, Flip } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ToastDone from '../../../utils/toast-update';
 import { useRouter } from 'next/router';
 import { useMainStore } from '../../../store/MainStore';
+import { Toast } from '../../parts';
 function Invoice({ invoice = null, invoiceProducts = null }) {
     const { products, clients, clientsInvoices } = useMainStore(state => state);
     const router = useRouter();
@@ -119,16 +120,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
 
     return (
         <div className="flex flex-col mr-4">
-            <ToastContainer position="top-center"
-                autoClose={1500}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                transition={Flip}
-                pauseOnHover />
+            <Toast />
             <div className="search-box mb-3">
                 <div className="search-header">Invoice Info</div>
                 <div className="p-4 w-full">

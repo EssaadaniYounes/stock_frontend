@@ -7,9 +7,10 @@ import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import autoLogin, { deleteService } from '../../../services'
 import { useMainStore } from '../../../store/MainStore'
-import { ToastContainer, toast, Flip } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can'
+import { Toast } from '../../../components/parts'
 
 function index({ clientsData, userData }) {
     const permission = JSON.parse(userData.data.permissions).clients;
@@ -99,16 +100,7 @@ function index({ clientsData, userData }) {
             <CurrentPageHeader icon={icons.Clients} title="Clients" component={ClientActions} />
 
             <div className='content'>
-                <ToastContainer position="top-right"
-                    autoClose={1500}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    transition={Flip}
-                    pauseOnHover />
+                <Toast />
                 <SearchClient allClients={clientsData} />
                 <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
                     <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >

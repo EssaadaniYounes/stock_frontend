@@ -7,11 +7,12 @@ import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import autoLogin, { deleteService } from '../../../services'
 import { useMainStore } from '../../../store/MainStore'
-import { ToastContainer, toast, Flip } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuthStore } from '../../../store/authStore'
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
 import { can } from '../../../utils/can'
+import { Toast } from '../../../components/parts'
 function index({ categoriesData, userData }) {
     const { user, setUser } = useAuthStore(state => state);
 
@@ -82,16 +83,7 @@ function index({ categoriesData, userData }) {
 
     return (
         <div className=''>
-            <ToastContainer position="top-center"
-                autoClose={1500}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                transition={Flip}
-                pauseOnHover />
+            <Toast />
             <CurrentPageHeader icon={icons.Categories} title="Categories" component={CategoryActions} />
             {showCategory && <Category category={category} />}
             <SearchCategory allCategories={categoriesData} />
