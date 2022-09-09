@@ -2,7 +2,7 @@ import create from "zustand";
 
 
 export const useSharedVariableStore = create(set => ({
-    showSideBar: false,
+    showSideBar: true,
     showCategory: false,
     showVendor: false,
     showUnit: false,

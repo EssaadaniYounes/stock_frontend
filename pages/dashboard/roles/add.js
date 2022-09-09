@@ -82,7 +82,7 @@ function add() {
 
 
                     })}
-                <button onClick={() => handleSubmit()} className='blue-button mt-4 max-w-[100px]'>
+                <button onClick={() => handleSubmit()} className='button-add mt-4 max-w-[100px]'>
                     {<icons.Save />}
                     Save
                 </button>

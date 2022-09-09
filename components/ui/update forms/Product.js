@@ -153,7 +153,7 @@ function Product({ items, product = null }) {
                         <label className={classes.label}>Unit</label>
                     </div>
                 </div>
-                <button onClick={() => handleOnSubmit()} className={`${!product ? 'blue-button' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
+                <button onClick={() => handleOnSubmit()} className={`${!product ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
                     {<icons.Save />}
                     <div className='ml-1'>Save</div>
                 </button>

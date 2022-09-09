@@ -9,9 +9,9 @@ function AccordionBodyItems({ subItems }) {
                 subItems.map((subItem, index) => {
                     return (
                         <Link href={subItem.link} key={index}>
-                            <a className={`${router.asPath === subItem.link ? '' : 'bg-red-100'} mb-[2px] flex items-center py-2 pl-3 gap-x-2`} >
+                            <a className={`${router.asPath === subItem.link ? '' : 'bg-[#343d4a]'} text-[#f5f5f5] mb-[1px] flex items-center py-2 pl-3 gap-x-2`} >
                                 {subItem.icon}
-                                <div className='font-semibold'>
+                                <div className='font-semibold text-[14px]'>
                                     {subItem.title}
                                 </div>
                             </a>

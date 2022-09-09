@@ -62,7 +62,7 @@ function Category({ category = null, callBack }) {
                             placeholder=" " />
                         <label className={classes.label}>Category name</label>
                     </div>
-                    <button onClick={() => handleOnSubmit()} className={`${!category ? 'blue-button' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
+                    <button onClick={() => handleOnSubmit()} className={`${!category ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
                         {<icons.Save />}
                         <div className='ml-1'>Save</div>
                     </button>

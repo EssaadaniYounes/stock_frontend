@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import icons from '../../../data/iconsComponents';
 import { addService, updateService } from '../../../services';
 const classes = {
-    label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
-    input: 'block py-2.5 px-0 w-full text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
+    label: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300',
+    input: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
     th: 'py-3 px-6',
     td: 'py-4 px-6',
-    textarea: 'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+    textarea: 'block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
 
 }
 import { ToastContainer, toast, Flip } from 'react-toastify';
@@ -52,10 +52,11 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
 
         const value = e.target.value;
         const name = e.target.name;
-        console.log(name, value);
         const product = products.find(p => p[name] == value);
+        console.log(product);
         const Obj = {
             name: product.name,
+            unit: product.unit_name,
             barcode: product.barcode,
             product_id: product.id,
             price: 0,
@@ -117,7 +118,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
     }
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col mr-4">
             <ToastContainer position="top-center"
                 autoClose={1500}
                 hideProgressBar={false}
@@ -128,145 +129,158 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                 draggable
                 transition={Flip}
                 pauseOnHover />
-            <div className='w-full flex flex-wrap justify-between'>
-                <div className="relative z-0 mb-6 w-full md:w-[32%]  group">
-                    <input type="text"
-                        name='invoice_num'
-                        readOnly
-                        className={classes.input}
-                        value={data.invoice_num}
-                        onChange={(e) => handleOnChange(e)}
-                        placeholder=" " />
-                    <label className={classes.label}>Invoice number</label>
-                </div>
-                <div className="relative z-0 mb-6 w-full md:w-[32%]  group">
-                    <input type="date"
-                        name='invoice_date'
-                        className={classes.input}
-                        value={data.invoice_date}
-                        onChange={(e) => handleOnChange(e)}
-                        placeholder=" " />
-                    <label className={classes.label}>Date</label>
-                </div>
-                <div className="relative z-0 mb-6 w-full md:w-[32%]  group">
-                    <select
-                        name='client_id'
-                        readOnly
-                        className={classes.input}
-                        value={data.client_id}
-                        onChange={(e) => handleOnChange(e)}
-                        placeholder=" " >
-                        {clients.map(c => <option key={c.id} value={c.id}>{c.full_name}</option>)}
-                    </select>
-                    <label className={classes.label}>Client</label>
-                </div>
+            <div className="search-box mb-3">
+                <div className="search-header">Invoice Info</div>
+                <div className="p-4 w-full">
+                    <div className='w-full flex flex-wrap justify-between'>
+                        <div className="relative z-0 mb-6 w-full md:w-[32%]  group">
+                            <label className={classes.label}>Invoice number</label>
+                            <input type="text"
+                                name='invoice_num'
+                                readOnly
+                                className={classes.input}
+                                value={data.invoice_num}
+                                onChange={(e) => handleOnChange(e)}
+                                placeholder=" " />
+                        </div>
+                        <div className="relative z-0 mb-6 w-full md:w-[32%]  group">
+                            <label className={classes.label}>Date</label>
+                            <input type="date"
+                                name='invoice_date'
+                                className={classes.input}
+                                value={data.invoice_date}
+                                onChange={(e) => handleOnChange(e)}
+                                placeholder=" " />
+                        </div>
+                        <div className="relative z-0 mb-6 w-full md:w-[32%]  group">
+                            <label className={classes.label}>Client</label>
+                            <select
+                                name='client_id'
+                                readOnly
+                                className={classes.input}
+                                value={data.client_id}
+                                onChange={(e) => handleOnChange(e)}
+                                placeholder=" " >
+                                {clients.map(c => <option key={c.id} value={c.id}>{c.full_name}</option>)}
+                            </select>
+                        </div>
 
+                    </div>
+                    <div className='w-full flex flex-wrap justify-between'>
+                        <div className="relative z-0 mb-6 w-full md:w-[55%]  group">
+                            <label className={classes.label}>Barcode</label>
+                            <input type="text"
+                                name='barcode'
+                                className={classes.input}
+                                onKeyDown={(e) => handleBarcodeSearch(e)}
+                                placeholder=" " />
+                        </div>
+
+                        <div className="relative z-0 mb-6 w-full md:w-[44%]  group">
+                            <label className={classes.label}>Product</label>
+                            <select className={classes.input} name='id' value={selectedProductId} onChange={(e) => handleSelectionChange(e)}>
+                                <option value='0' disabled >Select a product</option>
+                                {products.map((p, index) => <option key={index} value={p.id}>{p.barcode + ' / ' + p.name}</option>)}
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className='w-full flex flex-wrap justify-between'>
-                <div className="relative z-0 mb-6 w-full md:w-[55%]  group">
-                    <input type="text"
-                        name='barcode'
-                        className={classes.input}
-                        onKeyDown={(e) => handleBarcodeSearch(e)}
-
-                        placeholder=" " />
-                    <label className={classes.label}>Barcode</label>
+            <div className="search-box">
+                <div className="search-header">
+                    Products
                 </div>
-
-                <div className="relative z-0 mb-6 w-full md:w-[44%]  group">
-                    <select className={classes.input} name='id' value={selectedProductId} onChange={(e) => handleSelectionChange(e)}>
-                        <option value='0' disabled >Select a product</option>
-                        {products.map((p, index) => <option key={index} value={p.id}>{p.barcode + ' / ' + p.name}</option>)}
-                    </select>
-                    <label className={classes.label}>Product</label>
-                </div>
-            </div>
-            <div className="overflow-x-auto relative max-h-64 overflow-y-auto">
-                <table className="w-full  text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 sticky top-0 dark:text-gray-400">
-                        <tr>
-                            <th className={classes.th}>#</th>
-                            <th className={classes.th}></th>
-                            <th className={classes.th}>Barcode</th>
-                            <th className={classes.th}>Name</th>
-                            <th className={classes.th}>Quantity</th>
-                            <th className={classes.th}>Price</th>
-                            <th className={classes.th}>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {invoiceItems.map((product, index) =>
-                            <tr key={index} className="bg-white even:bg-gray-200 border-b border-gray-500 ">
-                                <td className={classes.td}>
-                                    {index + 1}
-                                </td>
-                                <td className={classes.td} onClick={() => removeInvoiceItem(index)}>
-                                    {<icons.Delete />}
-                                </td>
-                                <td className={classes.td}>
-                                    <input type="text" name="name" value={product.barcode} readOnly />
-                                </td>
-                                <td className={classes.td}>
-                                    <input type="text" name="name" value={product.name} onChange={(e) => onProductChange(e, index)} />
-                                </td>
-                                <td className={classes.td}>
-                                    <input type="number" name="quantity" value={product.quantity} onChange={(e) => onProductChange(e, index)} />
-                                </td>
-                                <td className={classes.td}>
-                                    <input type="number" name="price" value={product.price} onChange={(e) => onProductChange(e, index)} />
-                                </td>
-                                <td className={classes.td}>
-                                    <input type="number" name="amount" readOnly value={product.amount} />
-                                </td>
+                <div className="w-full overflow-x-auto relative max-h-64 overflow-y-auto ">
+                    <table className="w-full  text-sm text-left text-gray-500 dark:text-gray-400" style={{ 'width': "100%" }}>
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 sticky top-0 dark:text-gray-400">
+                            <tr>
+                                <th className={classes.th + ' xs'}>#</th>
+                                <th className={classes.th + ' xs'}></th>
+                                <th className={classes.th + ' lg'}>Barcode</th>
+                                <th className={classes.th + ' lg'}>Name</th>
+                                <th className={classes.th + ' md'}>Unit</th>
+                                <th className={classes.th + ' md'}>Quantity</th>
+                                <th className={classes.th + ' md'}>Price</th>
+                                <th className={classes.th + ' md'}>Amount</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {invoiceItems.map((product, index) =>
+                                <tr key={index} className="bg-white even:bg-gray-200">
+                                    <td className={classes.td} >
+                                        {invoiceItems.length - index}
+                                    </td>
+                                    <td className={classes.td} onClick={() => removeInvoiceItem(index)}>
+                                        {<icons.Delete />}
+                                    </td>
+                                    <td className={classes.td}>
+                                        <input type="text" className={classes.input} name="barcode" value={product.barcode} readOnly />
+                                    </td>
+                                    <td className={classes.td}>
+                                        <input type="text" className={classes.input} name="name" value={product.name} onChange={(e) => onProductChange(e, index)} />
+                                    </td>
+                                    <td className={classes.td}>
+                                        <input type="text" className={classes.input} name="unit" value={product.unit} readOnly />
+                                    </td>
+                                    <td className={classes.td}>
+                                        <input type="number" className={classes.input} name="quantity" value={product.quantity} onChange={(e) => onProductChange(e, index)} />
+                                    </td>
+                                    <td className={classes.td}>
+                                        <input type="number" className={classes.input} name="price" value={product.price} onChange={(e) => onProductChange(e, index)} />
+                                    </td>
+                                    <td className={classes.td}>
+                                        <input type="number" className={classes.input} name="amount" readOnly value={product.amount} />
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div className='w-full flex flex-wrap justify-between mt-12'>
+            <div className='w-full flex flex-wrap justify-between pt-6 mt-12 '>
                 <div className="relative z-0 mb-6 w-full md:w-[32%]  group">
                     <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Notes</label>
                     <textarea id="message" rows="4" value={data.notes} className={classes.textarea} name="notes" onChange={e => handleOnChange(e)} placeholder="Notes"></textarea>
                 </div>
                 <div className="relative mt-2 z-0 mb-6 w-full flex gap-y-4 flex-col md:w-[32%]  group">
                     <div className='relative'>
+                        <label className={classes.label}>Discount</label>
                         <input type="text"
                             name='discount'
                             className={classes.input}
                             value={data.discount}
                             onChange={(e) => handleOnChange(e)}
                             placeholder=" " />
-                        <label className={classes.label}>Discount</label>
                     </div>
                     <div className='relative'>
+                        <label className={classes.label}>Total with Discount</label>
                         <input type="text"
                             name='total'
                             className={classes.input}
                             value={+data.total + +data.discount}
                             readOnly
                             placeholder=" " />
-                        <label className={classes.label}>Total with Discount</label>
                     </div>
 
 
                 </div>
                 <div className="relative mt-2 z-0 mb-6 w-full md:w-[32%]  group">
                     <div className='relative'>
+                        <label className={classes.label}>Total</label>
                         <input type="text"
                             name='total'
                             className={classes.input}
                             value={data.total}
                             readOnly
                             placeholder=" " />
-                        <label className={classes.label}>Total</label>
                     </div>
                 </div>
             </div>
-            <button onClick={() => handleOnSubmit()} className={`${!invoice ? 'blue-button' : 'yellow-button'} mt-10 flex items-center mx-auto`}>
+            <button onClick={() => handleOnSubmit()} className={`${!invoice ? 'button-save' : 'yellow-button'} mt-10 flex items-center mx-auto`}>
                 {<icons.Save />}
                 <div className='ml-1'>Save</div>
             </button>
-        </div>
+        </div >
     )
 }
 

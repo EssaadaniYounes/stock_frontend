@@ -71,7 +71,7 @@ function Unit({ unit = null, callBack }) {
                             placeholder=" " />
                         <label className={classes.label}>Symbol</label>
                     </div>
-                    <button onClick={() => handleOnSubmit()} className={`${!unit ? 'blue-button' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
+                    <button onClick={() => handleOnSubmit()} className={`${!unit ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
                         {<icons.Save />}
                         <div className='ml-1'>Save</div>
                     </button>

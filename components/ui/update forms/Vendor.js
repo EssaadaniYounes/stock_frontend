@@ -138,7 +138,7 @@ function Vendor({ vendor = null, callBack }) {
                     <label className={classes.label}>Ice</label>
                 </div>
             </div>
-            <button onClick={() => handleOnSubmit()} className={`${!vendor ? 'blue-button' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
+            <button onClick={() => handleOnSubmit()} className={`${!vendor ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
                 {<icons.Save />}
                 <div className='ml-1'>Save</div>
             </button>

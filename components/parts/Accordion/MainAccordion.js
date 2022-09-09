@@ -14,11 +14,11 @@ function MainAccordion({ items }) {
                     return (
                         <Accordion open={open == item.id} key={item.id} icon={open == item.id ? <icons.ArrowUp /> : <icons.ArrowDown />} onClick={() => handleOpen(item.id)}>
                             <TheAccordtionHeader item={item} />
-                            <AccordionBody open={open === item.id} style={{ paddingBottom: -3 }}>
-                                <AccordionBodyItems subItems={item.subItems} />
-                            </AccordionBody>
+                            <AccordionBody open={open === item.id} style={{ margin: 0, padding: 0  }}>
+                            <AccordionBodyItems subItems={item.subItems} />
+                        </AccordionBody>
                         </Accordion>)
-                })
+})
             }
         </>
     )

@@ -2,8 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-.blue-button {
-  @apply flex gap-x-2 w-[260px] mx-auto justify-center text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg  px-5 py-2 text-base text-center mb-2;
+.button-add {
+  @apply focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-500;
+}
+.button-save {
+  @apply focus:outline-none text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 w-fit;
 }
 
 .purple-button {
@@ -12,4 +15,31 @@
 
 .yellow-button {
   @apply focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-xl px-5 py-2.5  mb-2 dark:focus:ring-yellow-900;
+}
+
+.search-box {
+  @apply w-full flex flex-col items-center min-h-[140px] mx-auto mt-2 border border-slate-200 rounded-md overflow-hidden;
+}
+.search-header {
+  @apply w-full h-8 flex items-center justify-start gap-x-2 text-gray-900 font-semibold bg-slate-200 p-2;
+}
+.search-body {
+  @apply p-2 w-full px-6 mt-2 flex justify-between flex-wrap gap-x-2;
+}
+.content {
+  padding: 0 8px;
+}
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.xs {
+  max-width: 5%;
+}
+.sm{
+  max-width: 8%;
+}
+.lg{
+  max-width:15%
 }

@@ -33,13 +33,13 @@ function SearchVendor({ allVendors }) {
 
 
     return (
-        <div className='w-[calc(100%-2rem)] flex flex-col min-h-[140px] mx-auto mt-2 border rounded-md overflow-hidden border-blue-400'>
-            <div className='w-full h-8 flex items-center justify-start gap-x-2 text-white font-semibold bg-gray-800 p-2'>
+        <div className='search-box'>
+            <div className='search-header'>
                 <div className='w-5 h-5'>{<icons.Search />}</div>
                 Search
             </div>
-            <div className='p-2 px-6 flex justify-between flex-wrap'>
-                <div className="relative z-0 mb-6 group">
+            <div className='search-body'>
+                <div className="relative flex-1 z-0 mb-6 group">
                     <input type="text"
                         name="full_name"
                         onChange={e => handleOnChange(e)}
@@ -47,7 +47,7 @@ function SearchVendor({ allVendors }) {
                         className={classes.input} />
                     <label htmlFor="" className={classes.label}>Name</label>
                 </div>
-                <div className="relative z-0 mb-6 group">
+                <div className="relative flex-1 z-0 mb-6 group">
                     <input type="text"
                         name='city'
                         onChange={e => handleOnChange(e)}
@@ -55,7 +55,7 @@ function SearchVendor({ allVendors }) {
                         className={classes.input} />
                     <label htmlFor="" className={classes.label}>City</label>
                 </div>
-                <div className="relative z-0 mb-6 group">
+                <div className="relative flex-1 z-0 mb-6 group">
                     <input type="text"
                         name="tel"
                         onChange={e => handleOnChange(e)}
@@ -63,7 +63,7 @@ function SearchVendor({ allVendors }) {
                         className={classes.input} />
                     <label htmlFor="" className={classes.label}>Phone</label>
                 </div>
-                <div className="relative z-0 mb-6 group">
+                <div className="relative flex-1 z-0 mb-6 group">
                     <input type="text"
                         name="email"
                         onChange={e => handleOnChange(e)}
