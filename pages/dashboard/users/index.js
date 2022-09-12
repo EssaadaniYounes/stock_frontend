@@ -30,7 +30,7 @@ function index({ usersData, userData }) {
                 </button>}
                 {can(permission, 'update') && < Link href={`/dashboard/users/user/${row.id}`}>
                     <div className="text-orange-400">
-                        {<icons.Update />}
+                        <a>{<icons.Update />}</a>
                     </div>
                 </Link>}
             </div >,
@@ -94,10 +94,12 @@ function index({ usersData, userData }) {
 }
 
 export async function getServerSideProps(ctx) {
-    const { data: usersData } = await fetch('users', {
+    let { data: usersData } = await fetch('users', {
         token: ctx.req.cookies.token
     })
     const { dataUser: userData } = await autoLogin(ctx);
+    console.log(usersData)
+    usersData = usersData.filter(user => user.id != userData.data.id);
     return {
         props: {
             usersData,

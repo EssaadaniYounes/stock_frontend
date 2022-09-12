@@ -29,7 +29,7 @@ function index({ invoicesData, userData, clients }) {
                     {<icons.Remove />}
                 </button>}
                 {can(permission, 'update') && < Link href={`/dashboard/clients/invoices/invoice/${row.id}`}>
-                    {<icons.Update />}
+                    <a>{<icons.Update />}</a>
                 </Link>}
                 {can(permission, 'read') && < Link href={`/dashboard/clients/invoices/invoice/products/${row.id}`}>
                     {<icons.Print />}

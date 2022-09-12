@@ -26,3 +26,4 @@ export { default as Product } from './update forms/Product';
 export { default as Unit } from './update forms/Unit';
 export { default as Role } from './update forms/Role';
 export { default as User } from './update forms/User';
+export { default as Company } from './update forms/Company';

@@ -34,7 +34,7 @@ function index({ categoriesData, userData }) {
                 </button>
                 }
                 {can(permission, 'update') && < button onClick={() => handleOnUpdateClick(row.id)}>
-                    {<icons.Update />}
+                    <a>{<icons.Update />}</a>
                 </button >
                 }
             </div >,

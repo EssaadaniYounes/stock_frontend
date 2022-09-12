@@ -28,7 +28,7 @@ function index({ vendorsData, userData }) {
                     {<icons.Remove />}
                 </button>}
                 {can(permission, 'update') && < Link href={`/dashboard/vendors/vendor/${row.id}`}>
-                    {<icons.Update />}
+                    <a>{<icons.Update />}</a>
                 </Link>}
             </div >,
             ignoreRowClick: true,

@@ -30,7 +30,7 @@ function index({ clientsData, userData }) {
                 </button>}
                 {can(permission, 'update') && < Link href={`/dashboard/clients/client/${row.id}`}>
                     <div className="text-orange-400">
-                        {<icons.Update />}
+                        <a>{<icons.Update />}</a>
                     </div>
                 </Link>}
             </div >,

@@ -15,7 +15,7 @@ function edit({ user, roles }) {
             <CurrentPageHeader title="Update user" />
 
             <Form>
-                <User user={user} />
+                <User targetUser={user} />
             </Form>
 
         </>

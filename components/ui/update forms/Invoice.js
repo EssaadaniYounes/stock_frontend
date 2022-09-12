@@ -24,7 +24,8 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
         notes: '',
         invoice_date: '',
         discount: '',
-        total: ''
+        total: '',
+        created_by: 'nnnn'
     });
     const [invoiceItems, setInvoiceItems] = useState(invoiceProducts ? invoiceProducts : []);
 

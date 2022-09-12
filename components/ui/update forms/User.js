@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import icons from '../../../data/iconsComponents';
 import { addService, updateService } from '../../../services';
 const classes = {
@@ -11,9 +11,11 @@ import ToastDone from '../../../utils/toast-update';
 import { useRouter } from 'next/router';
 import { Toast } from '../../parts';
 import { useMainStore } from '../../../store/MainStore';
-function User({ user = null }) {
+import { useAuthStore } from '../../../store/authStore';
+function User({ targetUser = null }) {
+    const { user } = useAuthStore(state => state);
     const router = useRouter();
-    const [data, setData] = useState(user ? user : {
+    const [data, setData] = useState(targetUser ? targetUser : {
         name: '',
         email: '',
         password: '',
@@ -28,13 +30,14 @@ function User({ user = null }) {
         const id = toast.loading("Please wait...")
         let res;
         let message;
-        if (user) {
-            res = await updateService('users', user.id, data);
+        if (targetUser) {
+            res = await updateService('users', targetUser.id, data);
             message = "User updated successfully";
 
         }
         else {
-            res = await addService('register', data);
+            console.log({ ...data, company_id: user.data.company_id });
+            res = await addService('register', { ...data, company_id: user.data.company_id });
             message = "User added successfully";
         }
         ToastDone(message, id, res);
@@ -65,7 +68,7 @@ function User({ user = null }) {
                         placeholder=" " />
                     <label className={classes.label}>Email</label>
                 </div>
-                {!user && <div className="relative z-0 mb-6 w-full md:w-[49%] group">
+                {!targetUser && <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
                         className={classes.input}
                         name='password'
@@ -83,7 +86,7 @@ function User({ user = null }) {
                 </div>
 
             </div>
-            <button onClick={() => handleOnSubmit()} className={`${!user ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
+            <button onClick={() => handleOnSubmit()} className={`${!targetUser ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
                 {<icons.Save />}
                 <div className='ml-1'>Save</div>
             </button>
