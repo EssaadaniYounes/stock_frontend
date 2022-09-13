@@ -36,7 +36,6 @@ function User({ targetUser = null }) {
 
         }
         else {
-            console.log({ ...data, company_id: user.data.company_id });
             res = await addService('register', { ...data, company_id: user.data.company_id });
             message = "User added successfully";
         }

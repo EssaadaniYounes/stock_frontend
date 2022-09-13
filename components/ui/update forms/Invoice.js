@@ -55,7 +55,6 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
         const value = e.target.value;
         const name = e.target.name;
         const product = products.find(p => p[name] == value);
-        console.log(product);
         const Obj = {
             name: product.name,
             unit: product.unit_name,
@@ -112,7 +111,6 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
         else {
             const res = await addService('clients_invoices', { invoice: data, invoice_items: invoiceItems });
             ToastDone("Client added successfully", id, res);
-            console.log(res);
         }
         setTimeout(() => {
             router.push('/dashboard/clients/invoices');

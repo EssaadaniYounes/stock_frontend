@@ -29,7 +29,6 @@ function Unit({ unit = null, callBack }) {
         const id = toast.loading('Please wait...')
         if (!unit) {
             const res = await addService('units', data);
-            console.log(res.data)
             setUnits([...units, res.data]);
             if (callBack) {
                 callBack(res.data.id);

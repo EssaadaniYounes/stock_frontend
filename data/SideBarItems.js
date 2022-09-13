@@ -6,16 +6,22 @@ const items = [
         icon: <icons.DashBoard />,
         subItems: [
             {
-                key:'clients',
+                key: 'clients',
                 title: 'Clients',
                 icon: <icons.Clients />,
                 link: '/dashboard/clients'
             },
             {
-                key:'vendors',
+                key: 'vendors',
                 title: 'Vendors',
                 icon: <icons.Vendor />,
                 link: '/dashboard/vendors'
+            },
+            {
+                key: 'companies',
+                title: 'Company',
+                icon: <icons.Company />,
+                link: '/dashboard/companies/details'
             }
         ]
     },
@@ -25,19 +31,19 @@ const items = [
         icon: <icons.Stock />,
         subItems: [
             {
-                key:'categories',
+                key: 'categories',
                 title: 'Caregories',
                 icon: <icons.Categories />,
                 link: '/dashboard/categories'
             },
             {
-                key:'units',
+                key: 'units',
                 title: 'Units',
                 icon: <icons.Unit />,
                 link: '/dashboard/units'
             },
             {
-                key:'products',
+                key: 'products',
                 title: 'Products',
                 icon: <icons.Product />,
                 link: '/dashboard/products'
@@ -50,7 +56,7 @@ const items = [
         icon: <icons.Invoice />,
         subItems: [
             {
-                key:'invoices',
+                key: 'invoices',
                 title: 'Clients invoices',
                 icon: <icons.Invoices />,
                 link: '/dashboard/clients/invoices'
@@ -63,13 +69,13 @@ const items = [
         icon: <icons.Settings />,
         subItems: [
             {
-                key:'users',
+                key: 'users',
                 title: 'Users',
                 icon: <icons.Users />,
                 link: '/dashboard/users'
             },
             {
-                key:'roles',
+                key: 'roles',
                 title: 'Roles',
                 icon: <icons.Key />,
                 link: '/dashboard/roles'

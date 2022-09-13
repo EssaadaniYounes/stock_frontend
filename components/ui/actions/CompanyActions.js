@@ -2,13 +2,13 @@ import React from 'react'
 import icons from '../../../data/iconsComponents'
 import { LinkButton } from '../../parts'
 
-function ClientActions() {
+function CompanyActions() {
     return (
         <div className='flex items-center justify-end'>
-            
-            <LinkButton href='/dashboard/clients/add' icon={<icons.Add />} className="button-add mt-2" title="Add" />
+
+            <LinkButton href='/dashboard/companies/update' icon={<icons.Edit />} className="button-add mt-2" title="Update" />
         </div>
     )
 }
 
-export default ClientActions
+export default CompanyActions

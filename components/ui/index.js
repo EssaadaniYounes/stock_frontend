@@ -8,6 +8,7 @@ export { default as ProductActions } from './actions/ProductActions';
 export { default as UnitActions } from './actions/UnitActions';
 export { default as RoleActions } from './actions/RoleActions';
 export { default as UserActions } from './actions/UserActions';
+export { default as CompanyActions } from './actions/CompanyActions';
 //Search
 export { default as SearchCategory } from './search/SearchCategory';
 export { default as SearchProduct } from './search/SearchProduct';

@@ -4,12 +4,9 @@ import { Form } from '../../../components/parts'
 import { Company } from '../../../components/ui'
 import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
-import autoLogin from '../../../services'
-import { useMainStore } from '../../../store/MainStore'
 
 function update({ company }) {
 
-  console.log(company)
   return (
     <div className=''>
       <CurrentPageHeader icon={icons.Update} title="Update company" />

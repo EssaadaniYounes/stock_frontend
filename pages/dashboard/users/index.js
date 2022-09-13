@@ -98,7 +98,6 @@ export async function getServerSideProps(ctx) {
         token: ctx.req.cookies.token
     })
     const { dataUser: userData } = await autoLogin(ctx);
-    console.log(usersData)
     usersData = usersData.filter(user => user.id != userData.data.id);
     return {
         props: {

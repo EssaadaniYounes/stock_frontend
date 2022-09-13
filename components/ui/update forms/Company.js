@@ -40,7 +40,7 @@ function Company({ company = null }) {
         const formData = new FormData();
         formData.append('logo', file[0]);
         const data = await addService('companies/store_imgs', formData);
-        return data.file;
+        return process.env.NEXT_PUBLIC_MAIN_URL + '/images/companies/' + data.file;
     }
     const handleOnSubmit = async () => {
 

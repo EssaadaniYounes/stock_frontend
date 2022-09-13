@@ -15,7 +15,6 @@ function edit({ invoice = null, invoiceProducts = null, clients, products }) {
     setProducts(products);
   }, []);
 
-  console.log(invoice, invoiceProducts);
   return (
     <>
       <CurrentPageHeader icon={icons.AddClient} title="Add invoice" />
