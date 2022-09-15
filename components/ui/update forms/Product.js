@@ -16,6 +16,7 @@ const classes = {
     input: 'block py-2.5 px-0 w-full text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
 }
 function Product({ items, product = null }) {
+    const router = useRouter();
     const { categories, vendors, units } = useMainStore(state => state);
     const [data, setData] = useState(product ? product : {
         barcode: '',
@@ -44,9 +45,9 @@ function Product({ items, product = null }) {
             const res = await addService('products', data);
             ToastDone("Product added successfully", id, res);
         }
-        // setTimeout(() => {
-        //     router.push('/dashboard/products');
-        // }, 1500);
+        setTimeout(() => {
+            router.push('/dashboard/products');
+        }, 1500);
     }
 
     return (
@@ -130,17 +131,18 @@ function Product({ items, product = null }) {
                         <label className={classes.label}>Quantity initial</label>
                     </div>
                     <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                        {/* <select
+                        <select
                             value={data.unit_id}
                             name='unit_id'
                             className={classes.input}
                             onChange={(e) => handleOnChange(e)}>
+                            <option value="0">select unit</option>
                             {
                                 units.map(unit => {
                                     return <option value={unit.id} key={unit.id}>{unit.name}</option>
                                 })
                             }
-                        </select> */}
+                        </select>
                         <label className={classes.label}>Unit</label>
                     </div>
                 </div>

@@ -6,13 +6,14 @@ import icons from '../../../../data/iconsComponents'
 import { fetch } from '../../../../lib/fetch'
 import { useMainStore } from '../../../../store/MainStore'
 
-function add({ clients, products, invoices }) {
-  const { setClients, setProducts, setClientsInvoices } = useMainStore(state => state);
+function add({ clients, products, invoices, config }) {
+  const { setClients, setProducts, setClientsInvoices, setConfig } = useMainStore(state => state);
 
   useEffect(() => {
     setClients(clients);
     setProducts(products);
     setClientsInvoices(invoices)
+    setConfig(config);
   }, []);
 
   return (
@@ -36,12 +37,17 @@ export async function getServerSideProps(ctx) {
   const { data: invoices } = await fetch('clients_invoices', {
     token: ctx.req.cookies.token
   })
+  const { data: config } = await fetch('config', {
+    token: ctx.req.cookies.token
+  })
+
 
   return {
     props: {
       clients,
       products,
-      invoices
+      invoices,
+      config
     }
   }
 

@@ -48,7 +48,7 @@ function Vendor({ vendor = null, callBack }) {
         if (!callBack) {
 
             setTimeout(() => {
-                router.push('/dashboard/clients');
+                router.push('/dashboard/vendors');
             }, 1500);
         }
     }

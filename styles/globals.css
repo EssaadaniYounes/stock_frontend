@@ -41,12 +41,27 @@
   width: 27px;
   height: 27px;
 }
-.xs {
-  max-width: 5%;
+.xss {
+  width: 20px;
 }
-.sm {
-  max-width: 8%;
+.xs {
+  width: 55px;
+}
+.md {
+  width: 90px;
 }
 .lg {
-  max-width: 15%;
+  width: 110px;
+}
+.max-xss {
+  max-width: 20px;
+}
+.max-xs {
+  max-width: 55px;
+}
+.max-md {
+  max-width: 90px;
+}
+.max-lg {
+  max-width: 110px;
 }

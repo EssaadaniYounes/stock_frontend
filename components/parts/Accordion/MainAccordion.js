@@ -5,7 +5,7 @@ import icons from '../../../data/iconsComponents';
 
 function MainAccordion({ items }) {
     const [open, setOpen] = useState(0);
-    
+
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
     };
@@ -14,9 +14,13 @@ function MainAccordion({ items }) {
             {
                 items.map((item, index) => {
                     return (
-                        <Accordion open={open == item.id} key={item.id} icon={open == item.id ? <icons.ArrowUp /> : <icons.ArrowDown />} onClick={() => handleOpen(item.id)}>
+                        <Accordion open={open === item.id}
+                            key={item.id}
+                            icon={open == item.id ? <icons.ArrowUp /> : <icons.ArrowDown />}
+                            onClick={() => handleOpen(item.id)}>
                             <TheAccordtionHeader item={item} />
-                            <AccordionBody open={open === item.id} style={{ margin: 0, padding: 0 }}>
+                            <AccordionBody open={open === item.id} 
+                            style={{ margin: 0, padding: 0 }}>
                                 <AccordionBodyItems subItems={item.subItems} />
                             </AccordionBody>
                         </Accordion>

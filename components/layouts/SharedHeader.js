@@ -55,6 +55,7 @@ function SharedHeader() {
             <div onClick={() => setShowLogout(!showLogout)} className="flex items-center gap-x-2 font-semibold cursor-pointer duration-150 hover:text-gray-300 text-white uppercase">
                 <p>{<icons.UserProfile />}</p>
                 <p>{currentUser.data.name}</p>
+                {<icons.ArrowDown />}
             </div>
             {showLogout && <div className="absolute right-0 font-semibold top-14 w-[200px] h-[70px] rounded-bl-lg duration-150 hover:bg-gray-200 flex items-center justify-center z-[11] bg-gray-300">
                 <button className='flex items-center gap-x-1 cursor-pointer' onClick={() => handleLogout()}>

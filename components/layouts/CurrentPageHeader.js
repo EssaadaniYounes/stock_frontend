@@ -21,10 +21,12 @@ function CurrentPageHeader({ icon: Icon, title, component: Component = null }) {
             </div>
             <div className='flex items-center pr-5'>
                 {Component && <Component />}
-                <button onClick={() => router.back()} className='flex gap-x-2 button-back'>
-                    {<icons.Back />}
-                    Back
-                </button>
+                {
+                    router.pathname != "/auth/login" && <button onClick={() => router.back()} className='flex gap-x-2 button-back'>
+                        {<icons.Back />}
+                        Back
+                    </button>
+                }
             </div>
         </div>
     )

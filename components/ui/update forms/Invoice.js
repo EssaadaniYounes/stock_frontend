@@ -3,9 +3,9 @@ import icons from '../../../data/iconsComponents';
 import { addService, updateService } from '../../../services';
 const classes = {
     label: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300',
-    input: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
-    th: 'py-3 px-6',
-    td: 'py-4 px-6',
+    input: 'bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+    th: 'py-3 px-3',
+    td: 'p-[2px] ',
     textarea: 'block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
 
 }
@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import { useMainStore } from '../../../store/MainStore';
 import { Toast } from '../../parts';
 function Invoice({ invoice = null, invoiceProducts = null }) {
-    const { products, clients, clientsInvoices } = useMainStore(state => state);
+    const { products, clients, clientsInvoices, config } = useMainStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(invoice ? invoice : {
         client_id: '',
@@ -29,7 +29,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
     });
     const [invoiceItems, setInvoiceItems] = useState(invoiceProducts ? invoiceProducts : []);
 
-    const [selectedProductId, setSelectedProductId] = useState(products[0]?.id || '0');
+    const [selectedProductId, setSelectedProductId] = useState(0);
     //get invoice num
     useEffect(() => {
         if (invoice) {
@@ -50,8 +50,8 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
     const handleOnChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     }
-    const handleSelectionChange = (e) => {
 
+    const handleSelectionChange = (e) => {
         const value = e.target.value;
         const name = e.target.name;
         const product = products.find(p => p[name] == value);
@@ -62,7 +62,9 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
             product_id: product.id,
             price: 0,
             quantity: 0,
-            amount: 0
+            amount: 0,
+            tax_amount: 0,
+            amount_total: 0
         }
         setInvoiceItems([Obj, ...invoiceItems]);
         setSelectedProductId(0);
@@ -78,7 +80,9 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                 const amountValue = name == "price"
                     ? +value * +p.quantity
                     : +value * +p.price;
-                return { ...p, [name]: value, amount: amountValue };
+                const taxAmount = amountValue * (parseInt(config.default_tax) / 100);
+                const amountTotal = amountValue + taxAmount;
+                return { ...p, [name]: value, amount: amountValue, tax_amount: taxAmount, amount_total: amountTotal };
             }
             return p;
         })
@@ -177,64 +181,71 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                     </div>
                 </div>
             </div>
-            <div className="search-box">
+            <div className=" search-box  ">
                 <div className="search-header">
-                    Products
+                    Invoice items
                 </div>
-                <div className="w-full overflow-x-auto relative max-h-64 overflow-y-auto ">
-                    <table className="w-full  text-sm text-left text-gray-500 dark:text-gray-400" style={{ 'width': "100%" }}>
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 sticky top-0 dark:text-gray-400">
+                <div className="w-full overflow-auto relative max-h-64">
+                    <table className="w-full text-sm text-left border text-gray-500 dark:text-gray-400" style={{ 'width': "100%" }}>
+                        <thead className="text-[10px] md:text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 sticky top-0 dark:text-gray-400">
                             <tr>
-                                <th className={classes.th + ' xs'}>#</th>
-                                <th className={classes.th + ' xs'}></th>
-                                <th className={classes.th + ' lg'}>Barcode</th>
-                                <th className={classes.th + ' lg'}>Name</th>
-                                <th className={classes.th + ' md'}>Unit</th>
-                                <th className={classes.th + ' md'}>Quantity</th>
-                                <th className={classes.th + ' md'}>Price</th>
-                                <th className={classes.th + ' md'}>Amount</th>
+                                <th className={classes.th + 'max-xss'}>#</th>
+                                <th className={classes.th + 'max-md'}>Barcode</th>
+                                <th className={classes.th + 'max-lg'}>Name</th>
+                                <th className={classes.th + 'max-xs'}>Unit</th>
+                                <th className={classes.th + 'max-xs'}>Quantity</th>
+                                <th className={classes.th + 'max-xs'}>Price</th>
+                                <th className={classes.th + 'max-xs'}>Amount</th>
+                                <th className={classes.th + 'max-xs'}>Tax amount</th>
+                                <th className={classes.th + 'max-xs'}>Amount total</th>
+                                <th className={classes.th + 'max-xss'}></th>
                             </tr>
                         </thead>
                         <tbody>
                             {invoiceItems.map((product, index) =>
                                 <tr key={index} className="bg-white even:bg-gray-200">
-                                    <td className={classes.td} >
+                                    <td className={classes.td + 'xss'} >
                                         {invoiceItems.length - index}
                                     </td>
-                                    <td className={classes.td} onClick={() => removeInvoiceItem(index)}>
+                                    <td className={classes.td + 'md'}>
+                                        <input type="text" className={classes.input + ' rounded-none bg-gray-100'} name="barcode" value={products.find((p, i) => p.id == product.product_id).barcode} readOnly />
+                                    </td>
+                                    <td className={classes.td + 'lg'}>
+                                        <input type="text" className={classes.input + ' rounded-none'} name="name" value={product.name} onChange={(e) => onProductChange(e, index)} />
+                                    </td>
+                                    <td className={classes.td + 'xs'}>
+                                        <input type="text" className={classes.input + ' rounded-none bg-gray-100'} name="unit" value={products.find((p, i) => p.id == product.product_id).unit_name} readOnly />
+                                    </td>
+                                    <td className={classes.td + 'xs'}>
+                                        <input type="number" className={classes.input + '  text-center rounded-none'} name="quantity" value={product.quantity} onChange={(e) => onProductChange(e, index)} />
+                                    </td>
+                                    <td className={classes.td + 'xs'}>
+                                        <input type="number" className={classes.input + '  text-center rounded-none'} name="price" value={product.price} onChange={(e) => onProductChange(e, index)} />
+                                    </td>
+                                    <td className={classes.td + 'xs'}>
+                                        <input type="number" className={classes.input + '  text-right rounded-none bg-gray-100'} name="amount" readOnly value={product.amount} />
+                                    </td>
+                                    <td className={classes.td + 'xs'}>
+                                        <input type="text" className={classes.input + '  text-center rounded-none bg-gray-100'} readOnly value={product.tax_amount} />
+                                    </td>
+                                    <td className={classes.td + 'xs'}>
+                                        <input type="text" className={classes.input + '  text-right rounded-none bg-gray-100'} readOnly value={product.amount_total} />
+                                    </td>
+
+                                    <td className={classes.td + 'xss'} onClick={() => removeInvoiceItem(index)}>
                                         {<icons.Delete />}
                                     </td>
-                                    <td className={classes.td}>
-                                        <input type="text" className={classes.input} name="barcode" value={product.barcode} readOnly />
-                                    </td>
-                                    <td className={classes.td}>
-                                        <input type="text" className={classes.input} name="name" value={product.name} onChange={(e) => onProductChange(e, index)} />
-                                    </td>
-                                    <td className={classes.td}>
-                                        <input type="text" className={classes.input} name="unit" value={product.unit} readOnly />
-                                    </td>
-                                    <td className={classes.td}>
-                                        <input type="number" className={classes.input} name="quantity" value={product.quantity} onChange={(e) => onProductChange(e, index)} />
-                                    </td>
-                                    <td className={classes.td}>
-                                        <input type="number" className={classes.input} name="price" value={product.price} onChange={(e) => onProductChange(e, index)} />
-                                    </td>
-                                    <td className={classes.td}>
-                                        <input type="number" className={classes.input} name="amount" readOnly value={product.amount} />
-                                    </td>
                                 </tr>
+
                             )}
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div className='w-full flex flex-wrap justify-between pt-6 mt-12 '>
-                <div className="relative z-0 mb-6 w-full md:w-[32%]  group">
-                    <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Notes</label>
-                    <textarea id="message" rows="4" value={data.notes} className={classes.textarea} name="notes" onChange={e => handleOnChange(e)} placeholder="Notes"></textarea>
-                </div>
-                <div className="relative mt-2 z-0 mb-6 w-full flex gap-y-4 flex-col md:w-[32%]  group">
-                    <div className='relative'>
+            <div className='w-full flex flex-wrap justify-between pt-6 mt-[20px] '>
+
+                <div className="relative mt-2 z-0 mb-6 w-full flex flex-wrap gap-x-4  group">
+                    <div className='relative flex-1 min-w-[120px]'>
                         <label className={classes.label}>Discount</label>
                         <input type="text"
                             name='discount'
@@ -243,20 +254,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                             onChange={(e) => handleOnChange(e)}
                             placeholder=" " />
                     </div>
-                    <div className='relative'>
-                        <label className={classes.label}>Total with Discount</label>
-                        <input type="text"
-                            name='total'
-                            className={classes.input}
-                            value={+data.total + +data.discount}
-                            readOnly
-                            placeholder=" " />
-                    </div>
-
-
-                </div>
-                <div className="relative mt-2 z-0 mb-6 w-full md:w-[32%]  group">
-                    <div className='relative'>
+                    <div className='relative flex-1 min-w-[120px]'>
                         <label className={classes.label}>Total</label>
                         <input type="text"
                             name='total'
@@ -265,6 +263,20 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                             readOnly
                             placeholder=" " />
                     </div>
+                    <div className='relative flex-1 min-w-[120px]'>
+                        <label className={classes.label}>Total with Discount</label>
+                        <input type="text"
+                            name='total'
+                            className={classes.input}
+                            value={+data.total + +data.discount}
+                            readOnly
+                            placeholder=" " />
+                    </div>
+                    
+                </div>
+                <div className="relative z-0 mb-6 w-full  group">
+                    <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Notes</label>
+                    <textarea id="message" rows="4" value={data.notes} className={classes.textarea} name="notes" onChange={e => handleOnChange(e)} placeholder="Notes"></textarea>
                 </div>
             </div>
             <button onClick={() => handleOnSubmit()} className={`${!invoice ? 'button-save' : 'yellow-button'} mt-10 flex items-center mx-auto`}>

@@ -8,15 +8,21 @@ function Container(props) {
 
     return (
         <div className=''>
-            
+
             {router.pathname != '/auth/login' && <SharedHeader />}
             <div className='flex overflow-hidden'>
                 {router.pathname != '/auth/login' && <SideBar />}
-                <div className={` duration-100 relative ${!showSideBar ? 'min-w-[100vw]' : 'w-[calc(100vw-220px)]'}`}>
+                <div className={` duration-100 relative 
+                ${showSideBar
+                        ? 'min-w-[100vw]' :
+                        router.pathname != "/auth/login"
+                            ? 'w-[calc(100vw-220px)]'
+                            : 'min-w-[100vw]'
+                    }`}>
                     {props.children}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
