@@ -19,7 +19,7 @@ const Home = ({ dataUser }) => {
 
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
-        <title>Create Next App</title>
+        <title>Stock app</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>

@@ -1,0 +1,64 @@
+{
+    "login":{
+        "title": "تسجيل الدخول",
+        "log":"دخول"
+    },
+    "info": {
+        "email": "الايميل",
+        "password": "كلمة السر",
+        "phone": "الهاتف",
+        "name": "الاسم",
+        "full_name": "الاسم الكامل",
+        "street":"الشارع",
+        "city": "المدينة",
+        "zip_code": "Zip code",
+        "address": "العنوان",
+        "ice": "Ice"
+    },
+    "pages": {
+        "home": "الرئيسية",
+        "stock": "المخزون",
+        "configuration": "الإعدادات",
+        "clients": "الزبناء",
+        "vendors": "الموردين",
+        "companies": "الشركة",
+        "categories": "الأصناف",
+        "units": "الوحدات",
+        "products": "المنتجات",
+        "invoices": "الفواتير",
+        "roles": "الأدوار",
+        "users": "المستخدمين"
+    },
+    "models": {
+        "home": "الرئيسية",
+        "stock": "المخزون",
+        "configuration": "الإعدادات",
+        "client": "زبون",
+        "vendor": "مورد",
+        "company": "الشركة",
+        "category": "صنف",
+        "unit": "وحدة",
+        "product": "منتج",
+        "invoice": "فاتورة",
+        "role": "دور",
+        "user": "مستخدم"
+    },
+    "actions":{
+        "back":"رجوع",
+        "search": "بحث",
+        "add": "إضافة",
+        "update": "تعديل",
+        "delete": "حذف",
+        "save": "حفظ"
+    },
+    "general":{
+        "list":"لائحة",
+        "actions": "الاجراءات"
+    },
+    "toast": {
+        "wait": "...المرجو الإنتظار",
+        "add": "تمت الإضافة بنجاح",
+        "update": "تم التعديل بنجاح",
+        "delete": "تمت الحذف بنجاح"
+    }
+}

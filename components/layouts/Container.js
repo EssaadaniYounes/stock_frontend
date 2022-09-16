@@ -2,16 +2,17 @@ import React, { useEffect } from 'react'
 import { SharedHeader, SideBar } from './'
 import { useRouter } from 'next/router'
 import { useSharedVariableStore } from '../../store/sharedVariablesStore'
+import useTranslation from 'next-translate/useTranslation'
 function Container(props) {
     const router = useRouter()
+    const { lang } = useTranslation()
     const { showSideBar, setShowSideBar } = useSharedVariableStore(state => state)
-
     return (
-        <div className=''>
+        <div dir={`${lang != "ar" ? 'ltr' : 'rtl'}`}>
 
-            {router.pathname != '/auth/login' && <SharedHeader />}
+            {(router.pathname != '/auth/login' && router.pathname != '/') && <SharedHeader />}
             <div className='flex overflow-hidden'>
-                {router.pathname != '/auth/login' && <SideBar />}
+                {(router.pathname != '/auth/login' && router.pathname != '/') && <SideBar />}
                 <div className={` duration-100 relative 
                 ${showSideBar
                         ? 'min-w-[100vw]' :

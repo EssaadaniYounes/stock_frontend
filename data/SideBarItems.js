@@ -2,6 +2,7 @@ import icons from "./iconsComponents";
 const items = [
     {
         id: 1,
+        key: "home",
         title: 'Home',
         icon: <icons.DashBoard />,
         subItems: [
@@ -27,6 +28,7 @@ const items = [
     },
     {
         id: 2,
+        key:'stock',
         title: 'Stock',
         icon: <icons.Stock />,
         subItems: [
@@ -52,6 +54,7 @@ const items = [
     },
     {
         id: 3,
+        key:'invoices',
         title: 'Invoices',
         icon: <icons.Invoice />,
         subItems: [
@@ -65,6 +68,7 @@ const items = [
     },
     {
         id: 4,
+        key: 'configuration',
         title: 'Configuration',
         icon: <icons.Settings />,
         subItems: [

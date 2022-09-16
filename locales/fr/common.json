@@ -1,0 +1,64 @@
+{
+    "login": {
+        "title": "Connexion",
+        "log": "Connexion"
+    },
+    "info": {
+        "email": "Email",
+        "password": "Mot de passe",
+        "phone": "Téléphone",
+        "name": "Nom",
+        "full_name": "Nom complet",
+        "street": "Street",
+        "city": "Ville",
+        "zip_code": "Zip code",
+        "address": "Address",
+        "ice": "Ice"
+    },
+    "pages": {
+        "home": "Accueil",
+        "stock": "Stocker",
+        "configuration": "Settings",
+        "clients": "Clients",
+        "vendors": "Fournisseurs",
+        "companies": "Compagnie",
+        "categories": "Catégories",
+        "units": "Unités",
+        "products": "Produits",
+        "invoices": "Factures",
+        "roles": "Rôles",
+        "users": "Utilisateurs"
+    },
+    "models": {
+        "home": "Accueil",
+        "stock": "Stocker",
+        "configuration": "Settings",
+        "client": "Client",
+        "vendor": "Fournisseur",
+        "company": "Compagnie",
+        "category": "Catégorie",
+        "unit": "Unité",
+        "product": "Produit",
+        "invoice": "Facture",
+        "role": "Rôle",
+        "user": "Utilisateur"
+    },
+    "actions": {
+        "back": "Retour",
+        "search": "Chercher",
+        "add": "Ajouter",
+        "update": "Modifier",
+        "delete": "Supprimer",
+        "save": "Sauvegarder"
+    },
+    "general": {
+        "list": "Liste",
+        "actions": "Actions"
+    },
+    "toast": {
+        "wait": "S'il vous plaît, attendez...",
+        "add": "ajouté avec succès",
+        "update": "Mis à jour avec succés",
+        "delete": "Supprimé avec succès"
+    }
+}

@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.2",
     "@material-tailwind/react": "^1.2.3",
     "axios": "^0.27.2",
+    "i18n": "^0.15.0",
     "next": "12.2.5",
+    "next-translate": "^1.5.0",
     "react": "18.2.0",
     "react-data-table-component": "^7.5.2",
     "react-dom": "18.2.0",

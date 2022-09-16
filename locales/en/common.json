@@ -1,0 +1,64 @@
+{
+    "login": {
+        "title": "Login",
+        "log": "Login"
+    },
+    "info": {
+        "email": "Email",
+        "password": "Password",
+        "phone": "Phone",
+        "name": "Name",
+        "full_name": "Full name",
+        "street": "Street",
+        "city": "City",
+        "zip_code": "Zip code",
+        "address": "Address",
+        "ice": "Ice"
+    },
+    "pages": {
+        "home": "Home",
+        "stock": "Stock",
+        "configuration": "Configuration",
+        "clients": "Clients",
+        "vendors": "Suppliers",
+        "companies": "Company",
+        "categories": "Categories",
+        "units": "Units",
+        "products": "Products",
+        "invoices": "Invoices",
+        "roles": "Roles",
+        "users": "Users"
+    },
+    "models": {
+        "home": "Home",
+        "stock": "Stock",
+        "configuration": "Configuration",
+        "client": "Client",
+        "vendor": "Supplier",
+        "company": "Company",
+        "category": "Category",
+        "unit": "Unit",
+        "product": "Product",
+        "invoice": "Invoice",
+        "role": "Role",
+        "user": "User"
+    },
+    "actions": {
+        "back": "Back",
+        "search": "Search",
+        "add": "Add",
+        "update": "Update",
+        "delete": "Delete",
+        "save": "Save"
+    },
+    "general": {
+        "list": "List",
+        "actions": "Actions"
+    },
+    "toast": {
+        "wait": "Please wait...",
+        "add": "added successfully",
+        "update": "updated successfully",
+        "delete": "deleted successfully"
+    }
+}

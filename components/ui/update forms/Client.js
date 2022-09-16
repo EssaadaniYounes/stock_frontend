@@ -10,8 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import ToastDone from '../../../utils/toast-update';
 import { useRouter } from 'next/router';
 import { Toast } from '../../parts';
+import useTranslation from 'next-translate/useTranslation';
 function Client({ client = null }) {
     const router = useRouter();
+    const { t } = useTranslation();
     const [data, setData] = useState(client ? client : {
         full_name: '',
         street: '',
@@ -28,15 +30,15 @@ function Client({ client = null }) {
     }
 
     const handleOnSubmit = async () => {
-        const id = toast.loading("Please wait...")
+        const id = toast.loading(t('common:toast.wait'))
         if (client) {
             const res = await updateService('clients', client.id, data);
-            ToastDone("Client updated successfully", id, res);
+            ToastDone(t('common:toast.update'), id, res);
 
         }
         else {
             const res = await addService('clients', data);
-            ToastDone("Client added successfully", id, res);
+            ToastDone(t('common:toast.add'), id, res);
         }
         setTimeout(() => {
             router.push('/dashboard/clients');
@@ -54,7 +56,7 @@ function Client({ client = null }) {
                         value={data.full_name}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Full name</label>
+                    <label className={classes.label}>{t('common:info.full_name')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -63,7 +65,7 @@ function Client({ client = null }) {
                         value={data.email}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Email</label>
+                    <label className={classes.label}>{t('common:info.email')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -72,7 +74,7 @@ function Client({ client = null }) {
                         value={data.tel}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Phone</label>
+                    <label className={classes.label}>{t('common:info.phone')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -81,7 +83,7 @@ function Client({ client = null }) {
                         value={data.street}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Street</label>
+                    <label className={classes.label}>{t('common:info.street')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -90,7 +92,7 @@ function Client({ client = null }) {
                         value={data.zip_code}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Zip code</label>
+                    <label className={classes.label}>{t('common:info.zip_code')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -99,7 +101,7 @@ function Client({ client = null }) {
                         value={data.city}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>City</label>
+                    <label className={classes.label}>{t('common:info.city')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -108,7 +110,7 @@ function Client({ client = null }) {
                         value={data.address}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Address</label>
+                    <label className={classes.label}>{t('common:info.address')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -117,12 +119,14 @@ function Client({ client = null }) {
                         value={data.ice}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Ice</label>
+                    <label className={classes.label}>{t('common:info.ice')}</label>
                 </div>
             </div>
-            <button onClick={() => handleOnSubmit()} className={`${!client ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
+            <button onClick={() => handleOnSubmit()} className={`${!client ? 'button-save' : 'yellow-button'} max-w-[180px] flex items-center mx-auto`}>
                 {<icons.Save />}
-                <div className='ml-1'>Save</div>
+                <div className='mx-1'>
+                    {t('common:actions.save')}
+                </div>
             </button>
         </div>
     )

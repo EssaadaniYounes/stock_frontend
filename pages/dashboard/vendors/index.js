@@ -11,8 +11,10 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can'
 import { Toast } from '../../../components/parts'
+import useTranslation from 'next-translate/useTranslation'
 function index({ vendorsData, userData }) {
     const permission = JSON.parse(userData.data.permissions).vendors;
+    const { t } = useTranslation()
     const columns = [
         {
             name: "#",
@@ -22,13 +24,15 @@ function index({ vendorsData, userData }) {
             button: true,
         },
         {
-            name: "Actions",
-            cell: row => <div className="flex items-center gap-2">
+            name: t('common:general.actions'),
+            cell: row => <div className="flex items-center gap-x-2">
                 {can(permission, 'delete') && <button onClick={() => deleteVendor(row.id)}>
                     {<icons.Remove />}
                 </button>}
                 {can(permission, 'update') && < Link href={`/dashboard/vendors/vendor/${row.id}`}>
-                    <a>{<icons.Update />}</a>
+                    <div className="text-orange-400">
+                        <a>{<icons.Update />}</a>
+                    </div>
                 </Link>}
             </div >,
             ignoreRowClick: true,
@@ -36,32 +40,32 @@ function index({ vendorsData, userData }) {
             button: true,
         },
         {
-            name: 'Full name',
+            name: t('common:info.full_name'),
             selector: row => row.full_name,
             sortable: true,
 
         },
         {
-            name: 'Street',
+            name: t('common:info.street'),
             selector: row => row.street,
             sortable: true,
 
         },
         {
-            name: 'City',
+            name: t('common:info.city'),
             selector: row => row.city,
             sortable: true,
 
         },
         {
-            name: 'Phone',
+            name: t('common:info.phone'),
             selector: row => row.tel,
             sortable: true,
 
         },
 
         {
-            name: 'Email',
+            name: t('common:info.email'),
             selector: row => row.email,
             sortable: true,
 
@@ -94,14 +98,14 @@ function index({ vendorsData, userData }) {
     };
     return (
         <>
-            <CurrentPageHeader icon={icons.Vendor} title="Vendors" component={VendorActions} />
+            <CurrentPageHeader icon={icons.Vendor} title={t('common:pages.vendors')} component={VendorActions} />
 
             <div className='px-4'>
                 <Toast />
                 <SearchVendor allVendors={vendorsData} />
                 <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
                     <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-                        Vendors list
+                        {t('common:general.list')} {t('common:pages.vendors')}
                     </div>
                     <CustomDataTable data={vendors} columns={columns} />
                 </div>

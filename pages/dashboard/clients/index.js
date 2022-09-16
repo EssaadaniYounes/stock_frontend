@@ -11,9 +11,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can'
 import { Toast } from '../../../components/parts'
+import useTranslation from 'next-translate/useTranslation'
 
 function index({ clientsData, userData }) {
     const permission = JSON.parse(userData.data.permissions).clients;
+    const { t } = useTranslation()
     const columns = [
         {
             name: "#",
@@ -23,7 +25,7 @@ function index({ clientsData, userData }) {
             button: true,
         },
         {
-            name: "Actions",
+            name: t('common:general.actions'),
             cell: row => <div className="flex items-center gap-x-2">
                 {can(permission, 'delete') && <button onClick={() => deleteClient(row.id)}>
                     {<icons.Remove />}
@@ -39,32 +41,32 @@ function index({ clientsData, userData }) {
             button: true,
         },
         {
-            name: 'Full name',
+            name: t('common:info.full_name'),
             selector: row => row.full_name,
             sortable: true,
 
         },
         {
-            name: 'Street',
+            name: t('common:info.street'),
             selector: row => row.street,
             sortable: true,
 
         },
         {
-            name: 'City',
+            name: t('common:info.city'),
             selector: row => row.city,
             sortable: true,
 
         },
         {
-            name: 'Phone',
+            name: t('common:info.phone'),
             selector: row => row.tel,
             sortable: true,
 
         },
 
         {
-            name: 'Email',
+            name: t('common:info.email'),
             selector: row => row.email,
             sortable: true,
 
@@ -97,14 +99,14 @@ function index({ clientsData, userData }) {
     };
     return (
         <div>
-            <CurrentPageHeader icon={icons.Clients} title="Clients" component={ClientActions} />
+            <CurrentPageHeader icon={icons.Clients} title={t('common:pages.clients')} component={ClientActions} />
 
             <div className='content'>
                 <Toast />
                 <SearchClient allClients={clientsData} />
                 <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
                     <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-                        Clients list
+                        {t('common:general.list')} {t('common:pages.clients')}
                     </div>
                     <CustomDataTable data={clients} columns={columns} />
                 </div>

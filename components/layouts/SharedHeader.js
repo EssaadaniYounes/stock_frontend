@@ -39,7 +39,7 @@ function SharedHeader() {
 
     return (
         <div className='w-full relative h-14 bg-[#343d4a] flex justify-between  px-8 items-center'>
-            <div className='flex space-x-6 '>
+            <div className='flex gap-x-6 '>
                 <div className='text-white uppercase text-2xl font-semibold'>Stock App</div>
                 <div>
                     {/* Show Toggle icon if we are logged in */}
@@ -51,6 +51,7 @@ function SharedHeader() {
                         </div>
                     }
                 </div>
+               
             </div>
             <div onClick={() => setShowLogout(!showLogout)} className="flex items-center gap-x-2 font-semibold cursor-pointer duration-150 hover:text-gray-300 text-white uppercase">
                 <p>{<icons.UserProfile />}</p>

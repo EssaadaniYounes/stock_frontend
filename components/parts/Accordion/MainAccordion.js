@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Accordion, AccordionBody } from '@material-tailwind/react'
 import { TheAccordtionHeader, AccordionBodyItems } from '..'
 import icons from '../../../data/iconsComponents';
+import { useSharedVariableStore } from '../../../store/sharedVariablesStore';
 
 function MainAccordion({ items }) {
-    const [open, setOpen] = useState(0);
+    const {open, setOpen} = useSharedVariableStore(state => state);
 
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
