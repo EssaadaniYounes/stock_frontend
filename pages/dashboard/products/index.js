@@ -95,7 +95,7 @@ function index({ productsData, userData }) {
 
     return (
         <>
-            <CurrentPageHeader icon={icons.Product} title="Products" component={ProductActions} />
+            <CurrentPageHeader icon={icons.Product} title="Products" showBack={false} component={ProductActions} />
 
             <div className='relative px-4'>
                 <Toast />

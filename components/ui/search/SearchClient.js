@@ -1,6 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
-import React, { useEffect, useState } from 'react'
-import icons from '../../../data/iconsComponents'
+import React, { useEffect, useRef, useState } from 'react'
+import useFocus from '../../../hooks/useAutoFocus';
 import useSearch from '../../../hooks/useSearch';
 import { useMainStore } from '../../../store/MainStore'
 import { SearchHeader } from '../../parts';
@@ -17,7 +17,7 @@ function SearchClient({ allClients }) {
         tel: '',
         email: ''
     })
-
+    const ref = useRef();
     const callBack = (client) => {
         return (client.full_name.toLowerCase().includes(searchItems.full_name) &&
             client.city.toLowerCase().includes(searchItems.city) &&
@@ -25,7 +25,7 @@ function SearchClient({ allClients }) {
             client.email.toLowerCase().includes(searchItems.email))
     }
     useSearch(callBack, setClients, searchItems, allClients);
-
+    useFocus(ref);
     const handleOnChange = (e) => {
         const value = e.target.value;
         const name = e.target.name;
@@ -43,6 +43,7 @@ function SearchClient({ allClients }) {
                         name="full_name"
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
+                        ref={ref}
                         className={classes.input} />
                     <label htmlFor="" className={classes.label}>{t('common:info.name')}</label>
                 </div>

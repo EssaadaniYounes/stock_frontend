@@ -2,16 +2,14 @@ import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import setLanguage from 'next-translate/setLanguage'
 import icons from '../../data/iconsComponents'
-import useTranslation from 'next-translate/useTranslation'
 
 export default function DropDown() {
-    const {lang}=useTranslation()
     return (
-        <div className="text-right">
+        <div className="text-right z-[1000]">
             <Menu as="div" className="relative inline-block text-left">
                 <div>
-                    <Menu.Button className="inline-flex justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                        {lang}
+                    <Menu.Button className="inline-flex justify-center rounded-md bg-black bg-opacity-50 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                        {<icons.Language />}
                         {<icons.ArrowDown />}
                     </Menu.Button>
                 </div>
@@ -31,7 +29,7 @@ export default function DropDown() {
                                     onClick={async () => await setLanguage('en')}
                                     className={`bg-gray-500 my-1 hover:bg-gray-700 text-white group flex w-[100px] md:w-full items-center rounded-md px-2 py-2 text-sm`}
                                 >
-                                    En
+                                    English
                                 </button>
                             </Menu.Item>
                             <Menu.Item>
@@ -39,7 +37,7 @@ export default function DropDown() {
                                     onClick={async () => await setLanguage('ar')}
                                     className={`bg-gray-500 my-1 hover:bg-gray-700 text-white group flex w-[100px] md:w-full items-center rounded-md px-2 py-2 text-sm`}
                                 >
-                                    Ar
+                                    العربية
                                 </button>
                             </Menu.Item>
                             <Menu.Item>
@@ -47,7 +45,7 @@ export default function DropDown() {
                                     onClick={async () => await setLanguage('fr')}
                                     className={`bg-gray-500 my-1 hover:bg-gray-700 text-white group flex w-[100px] md:w-full items-center rounded-md px-2 py-2 text-sm`}
                                 >
-                                    Fr
+                                    Francais
                                 </button>
                             </Menu.Item>
                         </div>

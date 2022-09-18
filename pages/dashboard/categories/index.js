@@ -82,18 +82,20 @@ function index({ categoriesData, userData }) {
     }
 
     return (
-        <div className=''>
-            <Toast />
-            <CurrentPageHeader icon={icons.Categories} title="Categories" component={CategoryActions} />
-            {showCategory && <Category category={category} />}
-            <SearchCategory allCategories={categoriesData} />
-            <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
-                <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-                    Categories list
+        <>
+            <CurrentPageHeader icon={icons.Categories} title="Categories" showBack={false} component={CategoryActions} />
+            <div className='content'>
+                <Toast />
+                {showCategory && <Category category={category} />}
+                <SearchCategory allCategories={categoriesData} />
+                <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
+                    <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
+                        Categories list
+                    </div>
+                    <CustomDataTable data={categories} columns={columns} />
                 </div>
-                <CustomDataTable data={categories} columns={columns} />
             </div>
-        </div>
+        </>
     )
 }
 

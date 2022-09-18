@@ -1,6 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
-import React, { useEffect, useState } from 'react'
-import icons from '../../../data/iconsComponents'
+import React, { useRef, useState } from 'react'
+import useFocus from '../../../hooks/useAutoFocus'
 import useSearch from '../../../hooks/useSearch';
 import { useMainStore } from '../../../store/MainStore'
 import { SearchHeader } from '../../parts';
@@ -27,7 +27,8 @@ function SearchVendor({ allVendors }) {
     }
 
     useSearch(callBack, setVendors, searchItems, allVendors);
-
+    const ref = useRef();
+    useFocus(ref)
     const handleOnChange = (e) => {
         const value = e.target.value;
         const name = e.target.name;
@@ -44,6 +45,7 @@ function SearchVendor({ allVendors }) {
                         name="full_name"
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
+                        ref={ref}
                         className={classes.input} />
                     <label htmlFor="" className={classes.label}>{t('common:info.name')}</label>
                 </div>

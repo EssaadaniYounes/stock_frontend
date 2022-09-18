@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import icons from '../../../data/iconsComponents'
+import React, { useRef, useState } from 'react'
+import useFocus from '../../../hooks/useAutoFocus'
+
 import useSearch from '../../../hooks/useSearch';
 import { useMainStore } from '../../../store/MainStore'
 import { SearchHeader } from '../../parts';
@@ -22,7 +23,8 @@ function SearchUser({ allUsers }) {
     }
 
     useSearch(callBack, setUsers, searchItems, allUsers);
-
+    const ref = useRef();
+    useFocus(ref)
     const handleOnChange = (e) => {
         const value = e.target.value;
         const name = e.target.name;
@@ -39,6 +41,7 @@ function SearchUser({ allUsers }) {
                         name="name"
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
+                        ref={ref}
                         className={classes.input} />
                     <label htmlFor="" className={classes.label}>Name</label>
                 </div>

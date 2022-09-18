@@ -67,7 +67,7 @@ function index({ rolesData, userData }) {
   };
   return (
     <div>
-      <CurrentPageHeader icon={icons.Key} title="Roles" component={RoleActions} />
+      <CurrentPageHeader icon={icons.Key} title="Roles" showBack={false} component={RoleActions} />
       <div className='content'>
         <Toast />
         <SearchRole allRoles={rolesData} />

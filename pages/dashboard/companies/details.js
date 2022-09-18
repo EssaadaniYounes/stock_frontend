@@ -30,7 +30,7 @@ function update({ company, companyPermissions }) {
     }
     return (
         <>
-            <CurrentPageHeader title="Company details" icon={icons.Company} component={companyPermissions.indexOf('update') != -1 && CompanyActions} />
+            <CurrentPageHeader title="Company details" icon={icons.Company} showBack={false} component={companyPermissions.indexOf('update') != -1 && CompanyActions} />
             <div className='content mt-4 gap-x-3 gap-y-4 flex flex-wrap'>
                 <Box title="Company info" items={company_info} icon={icons.Info} />
                 <Box title="Contact" items={contact_data} icon={icons.Contact} />
@@ -67,7 +67,6 @@ export async function getServerSideProps(ctx) {
             companyPermissions
         }
     }
-
 }
 
 export default update

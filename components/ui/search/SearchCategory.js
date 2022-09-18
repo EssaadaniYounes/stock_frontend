@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import icons from '../../../data/iconsComponents'
+import React, { useEffect, useRef, useState } from 'react'
+import useFocus from '../../../hooks/useAutoFocus';
 import useSearch from '../../../hooks/useSearch';
 import { useMainStore } from '../../../store/MainStore'
 import { SearchHeader } from '../../parts';
@@ -12,10 +12,10 @@ function SearchCategory({ allCategories }) {
     const [searchItems, setSearchItems] = useState({
         name: ''
     })
-
+    const ref= useRef();
     const callBack = (category) => category.name.toLowerCase().includes(searchItems.name)
     useSearch(callBack, setCategories, searchItems, allCategories);
-
+    useFocus(ref);
     const handleOnChange = (e) => {
         const value = e.target.value;
         const name = e.target.name;
@@ -31,6 +31,7 @@ function SearchCategory({ allCategories }) {
                 <div className="relative z-0 mb-6 group w-full">
                     <input type="text"
                         name="name"
+                        ref={ref}
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
                         className={classes.input} />

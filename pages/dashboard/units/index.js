@@ -89,7 +89,7 @@ function index({ unitsData, userData }) {
 
     return (
         <>
-            <CurrentPageHeader icon={icons.Unit} title="Units" component={UnitActions} />
+            <CurrentPageHeader icon={icons.Unit} title="Units" showBack={false} component={UnitActions} />
 
             <div className='px-4'>
                 <Toast />

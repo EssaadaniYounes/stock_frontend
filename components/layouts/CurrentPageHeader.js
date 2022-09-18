@@ -1,10 +1,9 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import icons from '../../data/iconsComponents';
-import { DropDown } from '../parts';
 import useTranslation from 'next-translate/useTranslation';
-function CurrentPageHeader({ icon: Icon, title, component: Component = null }) {
-    const {t}= useTranslation()
+function CurrentPageHeader({ icon: Icon, title, component: Component = null, showBack = true }) {
+    const { t } = useTranslation()
     const router = useRouter();
 
     return (
@@ -16,12 +15,12 @@ function CurrentPageHeader({ icon: Icon, title, component: Component = null }) {
                         {title}
                     </div>
                 </div>
-                <DropDown />
+
             </div>
-            <div className='flex items-center gap-x-2 pr-5'>
+            <div className='flex items-center gap-x-2 '>
                 {Component && <Component />}
                 {
-                    router.pathname != "/auth/login" && <button onClick={() => router.back()} className='flex gap-x-2 button-back'>
+                    showBack && <button onClick={() => router.back()} className='flex gap-x-2 button-back'>
                         {<icons.Back />}
                         {t('common:actions.back')}
                     </button>

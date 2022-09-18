@@ -12,7 +12,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import ToastDone from '../../../utils/toast-update';
 import { Toast } from '../../parts';
+import useTranslation from 'next-translate/useTranslation';
 function Vendor({ vendor = null, callBack }) {
+    const { t } = useTranslation();
     const [data, setData] = useState(vendor ? vendor : {
         full_name: '',
         street: '',
@@ -31,10 +33,10 @@ function Vendor({ vendor = null, callBack }) {
     }
 
     const handleOnSubmit = async () => {
-        const id = toast.loading("Please wait...")
+        const id = toast.loading(t('common:toast.wait'));
         if (vendor) {
             const res = await updateService('vendors', vendor.id, data);
-            ToastDone("Vendor updated successfully", id, res);
+            ToastDone(t('common:toast.update'), id, res);
         }
         else {
             const res = await addService('vendors', data);
@@ -43,10 +45,9 @@ function Vendor({ vendor = null, callBack }) {
                 callBack(res.data.id);
                 setShowVendor(false);
             }
-            ToastDone("Vendor added successfully", id, res);
+            ToastDone(t('common:toast.add'), id, res);
         }
         if (!callBack) {
-
             setTimeout(() => {
                 router.push('/dashboard/vendors');
             }, 1500);
@@ -64,7 +65,7 @@ function Vendor({ vendor = null, callBack }) {
                         value={data.full_name}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Full name</label>
+                    <label className={classes.label}>{t('common:info.full_name')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -73,7 +74,7 @@ function Vendor({ vendor = null, callBack }) {
                         value={data.email}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Email</label>
+                    <label className={classes.label}>{t('common:info.email')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -82,7 +83,7 @@ function Vendor({ vendor = null, callBack }) {
                         value={data.tel}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Phone</label>
+                    <label className={classes.label}>{t('common:info.phone')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -91,7 +92,7 @@ function Vendor({ vendor = null, callBack }) {
                         value={data.street}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Street</label>
+                    <label className={classes.label}>{t('common:info.street')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -100,7 +101,7 @@ function Vendor({ vendor = null, callBack }) {
                         value={data.zip_code}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Zip code</label>
+                    <label className={classes.label}>{t('common:info.zip_code')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -109,7 +110,7 @@ function Vendor({ vendor = null, callBack }) {
                         value={data.city}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>City</label>
+                    <label className={classes.label}>{t('common:info.city')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -118,7 +119,7 @@ function Vendor({ vendor = null, callBack }) {
                         value={data.address}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Address</label>
+                    <label className={classes.label}>{t('common:info.address')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -127,12 +128,14 @@ function Vendor({ vendor = null, callBack }) {
                         value={data.ice}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Ice</label>
+                    <label className={classes.label}>{t('common:info.ice')}</label>
                 </div>
             </div>
-            <button onClick={() => handleOnSubmit()} className={`${!vendor ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
+            <button onClick={() => handleOnSubmit()} className={`${!vendor ? 'button-save' : 'yellow-button'}  flex items-center mx-auto`}>
                 {<icons.Save />}
-                <div className='ml-1'>Save</div>
+                <div className='mx-1'>
+                    {t('common:actions.save')}
+                </div>
             </button>
         </div>
     )

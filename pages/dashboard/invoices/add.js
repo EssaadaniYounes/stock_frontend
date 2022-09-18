@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import { CurrentPageHeader } from '../../../../components/layouts'
-import { Form } from '../../../../components/parts'
-import { Invoice } from '../../../../components/ui'
-import icons from '../../../../data/iconsComponents'
-import { fetch } from '../../../../lib/fetch'
-import { useMainStore } from '../../../../store/MainStore'
+import { CurrentPageHeader } from '../../../components/layouts'
+import { Form } from '../../../components/parts'
+import { Invoice } from '../../../components/ui'
+import icons from '../../../data/iconsComponents'
+import { fetch } from '../../../lib/fetch'
+import { useMainStore } from '../../../store/MainStore'
 
 function add({ clients, products, invoices, config }) {
   const { setClients, setProducts, setClientsInvoices, setConfig } = useMainStore(state => state);

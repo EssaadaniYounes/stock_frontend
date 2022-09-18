@@ -78,7 +78,7 @@ function index({ usersData, userData }) {
     };
     return (
         <div>
-            <CurrentPageHeader icon={icons.Users} title="Users" component={UserActions} />
+            <CurrentPageHeader icon={icons.Users} title="Users" showBack={false} component={UserActions} />
             <div className='content'>
                 <Toast />
                 <SearchUser allUsers={usersData.filter(u => u.id != userData.id)} />

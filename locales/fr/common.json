@@ -1,7 +1,8 @@
 {
     "login": {
         "title": "Connexion",
-        "log": "Connexion"
+        "log": "Connexion",
+        "logout": "Deconexion"
     },
     "info": {
         "email": "Email",
@@ -14,6 +15,7 @@
         "zip_code": "Zip code",
         "address": "Address",
         "ice": "Ice"
+
     },
     "pages": {
         "home": "Accueil",

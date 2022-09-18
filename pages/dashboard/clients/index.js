@@ -99,15 +99,12 @@ function index({ clientsData, userData }) {
     };
     return (
         <div>
-            <CurrentPageHeader icon={icons.Clients} title={t('common:pages.clients')} component={ClientActions} />
+            <CurrentPageHeader icon={icons.Clients} title={t('common:pages.clients')} showBack={false} component={ClientActions} />
 
             <div className='content'>
                 <Toast />
                 <SearchClient allClients={clientsData} />
                 <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
-                    <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-                        {t('common:general.list')} {t('common:pages.clients')}
-                    </div>
                     <CustomDataTable data={clients} columns={columns} />
                 </div>
             </div>

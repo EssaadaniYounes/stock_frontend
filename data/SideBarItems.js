@@ -62,7 +62,7 @@ const items = [
                 key: 'invoices',
                 title: 'Clients invoices',
                 icon: <icons.Invoices />,
-                link: '/dashboard/clients/invoices'
+                link: '/dashboard/invoices'
             }
         ]
     },

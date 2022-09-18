@@ -10,9 +10,9 @@ function Container(props) {
     return (
         <div dir={`${lang != "ar" ? 'ltr' : 'rtl'}`}>
 
-            {(router.pathname != '/auth/login' && router.pathname != '/') && <SharedHeader />}
+            <SharedHeader />
             <div className='flex overflow-hidden'>
-                {(router.pathname != '/auth/login' && router.pathname != '/') && <SideBar />}
+                {router.pathname != '/auth/login' && <SideBar />}
                 <div className={` duration-100 relative 
                 ${showSideBar
                         ? 'min-w-[100vw]' :

@@ -98,7 +98,7 @@ function index({ vendorsData, userData }) {
     };
     return (
         <>
-            <CurrentPageHeader icon={icons.Vendor} title={t('common:pages.vendors')} component={VendorActions} />
+            <CurrentPageHeader icon={icons.Vendor} title={t('common:pages.vendors')} showBack={false} component={VendorActions} />
 
             <div className='px-4'>
                 <Toast />

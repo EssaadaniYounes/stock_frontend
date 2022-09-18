@@ -4,16 +4,18 @@ import { useSharedVariableStore } from '../../store/sharedVariablesStore';
 import { useAuthStore } from '../../store/authStore';
 import icons from '../../data/iconsComponents';
 import deleteAllCookies from '../../utils/clear-cookies';
+import { DropDown } from '../parts';
+import useTranslation from 'next-translate/useTranslation';
 
 function SharedHeader() {
 
     const router = useRouter();
-
+    const { lang, t } = useTranslation();
     const { user, setUser } = useAuthStore((state) => state);
     const [currentUser, setCurrentUser] = useState({
         token: '',
         data: {
-            name: ''
+            name: null
         }
     })
     const [showLogout, setShowLogout] = useState(false);
@@ -51,17 +53,20 @@ function SharedHeader() {
                         </div>
                     }
                 </div>
-               
+
             </div>
-            <div onClick={() => setShowLogout(!showLogout)} className="flex items-center gap-x-2 font-semibold cursor-pointer duration-150 hover:text-gray-300 text-white uppercase">
-                <p>{<icons.UserProfile />}</p>
-                <p>{currentUser.data.name}</p>
-                {<icons.ArrowDown />}
+            <div className="flex items-center gap-x-3">
+                <DropDown />
+                {currentUser.data.name && <div onClick={() => setShowLogout(!showLogout)} className="flex items-center gap-x-2 font-semibold cursor-pointer duration-150 hover:text-gray-300 text-white uppercase">
+                    <p>{<icons.UserProfile />}</p>
+                    <p>{currentUser.data.name}</p>
+                    {<icons.ArrowDown />}
+                </div>}
             </div>
-            {showLogout && <div className="absolute right-0 font-semibold top-14 w-[200px] h-[70px] rounded-bl-lg duration-150 hover:bg-gray-200 flex items-center justify-center z-[11] bg-gray-300">
+            {showLogout && <div className={`absolute ${lang != "ar" ? ' right-0 ' : ' left-0 '} font-semibold top-14 w-[200px] h-[70px] rounded-b-lg duration-150 hover:bg-gray-200 flex items-center justify-center z-[11] bg-gray-300`}>
                 <button className='flex items-center gap-x-1 cursor-pointer' onClick={() => handleLogout()}>
                     {<icons.Logout />}
-                    Logout
+                    {t('common:login.logout')}
                 </button>
             </div>}
         </div >

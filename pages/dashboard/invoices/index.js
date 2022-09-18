@@ -1,16 +1,16 @@
 import Link from 'next/link'
 import React, { useEffect } from 'react'
-import { CurrentPageHeader } from '../../../../components/layouts'
-import CustomDataTable from '../../../../components/parts/CustomDataTable'
-import { ClientsInvoicesActions, SearchClientsInvoices } from '../../../../components/ui'
-import icons from '../../../../data/iconsComponents'
-import { fetch } from '../../../../lib/fetch'
-import autoLogin, { deleteService } from '../../../../services'
-import { useMainStore } from '../../../../store/MainStore'
+import { CurrentPageHeader } from '../../../components/layouts'
+import CustomDataTable from '../../../components/parts/CustomDataTable'
+import { ClientsInvoicesActions, SearchClientsInvoices } from '../../../components/ui'
+import icons from '../../../data/iconsComponents'
+import { fetch } from '../../../lib/fetch'
+import autoLogin, { deleteService } from '../../../services'
+import { useMainStore } from '../../../store/MainStore'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { can } from '../../../../utils/can'
-import { Toast } from '../../../../components/parts'
+import { can } from '../../../utils/can'
+import { Toast } from '../../../components/parts'
 
 function index({ invoicesData, userData, clients }) {
     const permission = JSON.parse(userData.data.permissions).invoices;
@@ -28,10 +28,10 @@ function index({ invoicesData, userData, clients }) {
                 {can(permission, 'delete') && <button onClick={() => deleteInvoice(row.id)}>
                     {<icons.Remove />}
                 </button>}
-                {can(permission, 'update') && < Link href={`/dashboard/clients/invoices/invoice/${row.id}`}>
+                {can(permission, 'update') && < Link href={`/dashboard/invoices/invoice/${row.id}`}>
                     <a>{<icons.Update />}</a>
                 </Link>}
-                {can(permission, 'read') && < Link href={`/dashboard/clients/invoices/invoice/products/${row.id}`}>
+                {can(permission, 'read') && < Link href={`/dashboard/invoices/invoice/products/${row.id}`}>
                     {<icons.Print />}
                 </Link>}
             </div >,
@@ -94,7 +94,7 @@ function index({ invoicesData, userData, clients }) {
     };
     return (
         <>
-            <CurrentPageHeader icon={icons.Invoices} title="Clients invoices" component={ClientsInvoicesActions} />
+            <CurrentPageHeader icon={icons.Invoices} title="Clients invoices" showBack={false} component={ClientsInvoicesActions} />
             <div className='px-4'>
                 <Toast />
                 <SearchClientsInvoices allInvoices={invoicesData} />

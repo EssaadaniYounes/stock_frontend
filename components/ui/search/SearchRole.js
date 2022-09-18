@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import icons from '../../../data/iconsComponents'
+import React, { useEffect, useRef, useState } from 'react'
+import useFocus from '../../../hooks/useAutoFocus'
 import useSearch from '../../../hooks/useSearch';
 import { useMainStore } from '../../../store/MainStore'
 import { SearchHeader } from '../../parts';
@@ -19,7 +19,8 @@ function SearchRole({ allRoles }) {
         )
     }
     useSearch(callBack, setRoles, searchItems, allRoles);
-
+    const ref = useRef();
+    useFocus(ref)
     const handleOnChange = (e) => {
         const value = e.target.value;
         const name = e.target.name;
@@ -36,6 +37,7 @@ function SearchRole({ allRoles }) {
                         name="role_name"
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
+                        ref={ref}
                         className={classes.input} />
                     <label htmlFor="" className={classes.label}>Role name</label>
                 </div>

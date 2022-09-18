@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import icons from '../../../data/iconsComponents'
+import React, { useEffect, useRef, useState } from 'react'
+import useFocus from '../../../hooks/useAutoFocus'
 import useSearch from '../../../hooks/useSearch';
 import { useMainStore } from '../../../store/MainStore'
 import { SearchHeader } from '../../parts';
@@ -25,7 +25,8 @@ function SearchProduct({ allProducts }) {
             product.name.toLowerCase().includes(searchItems.name))
     }
     useSearch(callBack, setProducts, searchItems, allProducts);
-
+    const ref = useRef();
+    useFocus(ref)
     const handleOnChange = (e) => {
         const value = e.target.value;
         const name = e.target.name;
@@ -51,6 +52,7 @@ function SearchProduct({ allProducts }) {
                         name='name'
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
+                        ref={ref}
                         className={classes.input} />
                     <label htmlFor="" className={classes.label}>Product name</label>
                 </div>

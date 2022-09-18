@@ -1,7 +1,8 @@
 {
     "login": {
         "title": "Login",
-        "log": "Login"
+        "log": "Login",
+        "logout": "Logout"
     },
     "info": {
         "email": "Email",
@@ -13,7 +14,18 @@
         "city": "City",
         "zip_code": "Zip code",
         "address": "Address",
-        "ice": "Ice"
+        "ice": "Ice",
+        "company_name": "Company name",
+        "mobile": "Mobile",
+        "tax_number": "Tax number",
+        "manager": "Manager",
+        "fax": "Fax",
+        "website": "Website",
+        "bank_name": "Bank name",
+        "bank_account": "Bank Account",
+        "bank_swift_code": "Bank Swift Code",
+        "bank_iban": "Bank iban",
+        "logo": "Logo"
     },
     "pages": {
         "home": "Home",
