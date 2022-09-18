@@ -20,9 +20,9 @@ function Product({ items, product = null }) {
     const { categories, vendors, units } = useMainStore(state => state);
     const [data, setData] = useState(product ? product : {
         barcode: '',
-        vendor_id: items.vendors[0]?.id,
-        category_id: items.categories[0]?.id,
-        unit_id: items.units[0]?.id,
+        vendor_id: 0,
+        category_id:0,
+        unit_id: 0,
         name: '',
         quantity_initial: '',
     });
@@ -88,6 +88,7 @@ function Product({ items, product = null }) {
                                 name='vendor_id'
                                 className={classes.input}
                                 onChange={(e) => handleOnChange(e)}>
+                                <option value="0">Select supplier</option>
                                 {
                                     vendors.map(vendor => {
                                         return <option value={vendor.id} key={vendor.id}>{vendor.full_name}</option>
@@ -107,6 +108,7 @@ function Product({ items, product = null }) {
                                 name='category_id'
                                 className={classes.input}
                                 onChange={(e) => handleOnChange(e)}>
+                                <option value="0">Select category</option>
                                 {
                                     categories.map(category => {
                                         return <option value={category.id} key={category.id}>{category.name}</option>

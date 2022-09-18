@@ -11,20 +11,15 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can';
 import { Toast } from '../../../components/parts'
+import calStockQty from '../../../utils/calc-qty-stock'
 function index({ productsData, userData }) {
 
     const permission = JSON.parse(userData.data.permissions).products;
 
     const columns = [
+
         {
             name: "#",
-            cell: (row, index) => index + 1,
-            ignoreRowClick: true,
-            allowOverflow: true,
-            button: true,
-        },
-        {
-            name: "Actions",
             cell: row => <div className="flex items-center gap-2">
                 {can(permission, 'delete') && < button onClick={() => deleteProduct(row.id)}>
                     {<icons.Remove />}
@@ -63,8 +58,13 @@ function index({ productsData, userData }) {
         },
 
         {
-            name: 'Quantity initial',
-            selector: row => row.quantity_initial + ' ' + row.unit_name,
+            name: 'Quantity in Stock',
+            //suppliers_invoices_qty + clients_returns_qty - clients_invoices_qty - suppliers_returns_qty
+            selector: row => calStockQty(row.quantity_initial,
+                                        row.clients_invoices_qty,
+                                        row.suppliers_invoices_qty,
+                                        row.clients_returns_qty,
+                                        row.suppliers_returns_qty),
             sortable: true,
 
         }

@@ -15,15 +15,9 @@ import { Toast } from '../../../components/parts'
 function index({ invoicesData, userData, clients }) {
     const permission = JSON.parse(userData.data.permissions).invoices;
     const columns = [
+
         {
             name: "#",
-            cell: (row, index) => index + 1,
-            ignoreRowClick: true,
-            allowOverflow: true,
-            button: true,
-        },
-        {
-            name: "Actions",
             cell: row => <div className="flex items-center gap-2">
                 {can(permission, 'delete') && <button onClick={() => deleteInvoice(row.id)}>
                     {<icons.Remove />}

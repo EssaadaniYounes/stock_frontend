@@ -19,15 +19,9 @@ function index({ categoriesData, userData }) {
     const permission = JSON.parse(userData.data.permissions).categories;
 
     const columns = [
+       
         {
             name: "#",
-            cell: (row, index) => index + 1,
-            ignoreRowClick: true,
-            allowOverflow: true,
-            button: true,
-        },
-        {
-            name: "Actions",
             cell: row => <div className="flex items-center gap-2">
                 {can(permission, 'delete') && < button onClick={() => deleteCategory(row.id)}>
                     {<icons.Remove />}

@@ -15,8 +15,7 @@ const classes = {
 }
 function Unit({ unit = null, callBack }) {
     const [data, setData] = useState(unit ? unit : {
-        name: '',
-        symbol: ''
+        name: ''
     })
     const { units, setUnits } = useMainStore(state => state);
     const { setShowUnit } = useSharedVariableStore(state => state);
@@ -38,7 +37,7 @@ function Unit({ unit = null, callBack }) {
         else {
             const res = await updateService('units', unit.id, data);
             const newUnits = units.map(u => {
-                if (u.id == unit.id) { return { ...u, name: data.name, symbol: data.symbol } }
+                if (u.id == unit.id) { return { name: data.name} }
                 return u;
             });
             ToastDone("Unit updated successfully", id, res);
@@ -61,7 +60,7 @@ function Unit({ unit = null, callBack }) {
                             placeholder=" " />
                         <label className={classes.label}>Unit name</label>
                     </div>
-                    <div className="relative z-0 mb-6 w-full  group">
+                    {/* <div className="relative z-0 mb-6 w-full  group">
                         <input type="text"
                             name='symbol'
                             className={classes.input}
@@ -69,7 +68,7 @@ function Unit({ unit = null, callBack }) {
                             onChange={(e) => setData({ ...data, symbol: e.target.value })}
                             placeholder=" " />
                         <label className={classes.label}>Symbol</label>
-                    </div>
+                    </div> */}
                     <button onClick={() => handleOnSubmit()} className={`${!unit ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
                         {<icons.Save />}
                         <div className='ml-1'>Save</div>

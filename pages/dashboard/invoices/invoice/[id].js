@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react'
-import { CurrentPageHeader } from '../../../../../components/layouts'
-import { Invoice } from '../../../../../components/ui'
-import icons from '../../../../../data/iconsComponents';
-import { fetch } from '../../../../../lib/fetch';
-import { useMainStore } from '../../../../../store/MainStore';
+import { CurrentPageHeader } from '../../../../components/layouts'
+import { Invoice } from '../../../../components/ui'
+import icons from '../../../../data/iconsComponents';
+import { fetch } from '../../../../lib/fetch';
+import { useMainStore } from '../../../../store/MainStore';
 
-function edit({ invoice = null, invoiceProducts = null, clients, products }) {
+function edit({ invoice = null, invoiceProducts = null, clients, products, config }) {
 
-  const { setClients, setProducts } = useMainStore(state => state);
-
-
+  const { setClients, setProducts, setConfig } = useMainStore(state => state);
   useEffect(() => {
     setClients(clients);
     setProducts(products);
+    setConfig(config);
   }, []);
 
   return (
@@ -41,12 +40,16 @@ export async function getServerSideProps(ctx) {
   const { data: invoiceProducts } = await fetch(`clients_invoices_items/items/${id}`, {
     token: ctx.req.cookies.token
   });
+  const { data: config } = await fetch('config', {
+    token: ctx.req.cookies.token
+  })
   return {
     props: {
       invoice,
       invoiceProducts,
       clients,
-      products
+      products,
+      config
     }
   }
 }

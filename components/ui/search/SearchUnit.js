@@ -10,16 +10,11 @@ const classes = {
 function SearchUnit({ allUnits }) {
     const { setUnits } = useMainStore(state => state);
     const [searchItems, setSearchItems] = useState({
-        name: '',
-        symbol: ''
+        name: ''
     })
 
-    const callBack = (unit) => {
-        return (
-            unit.name.toLowerCase().includes(searchItems.name) &&
-            unit.symbol.toLowerCase().includes(searchItems.symbol)
-        )
-    }
+    const callBack = (unit) => unit.name.toLowerCase().includes(searchItems.name);
+
     useSearch(callBack, setUnits, searchItems, allUnits);
     const ref = useRef();
     useFocus(ref)
@@ -43,14 +38,14 @@ function SearchUnit({ allUnits }) {
                         className={classes.input} />
                     <label htmlFor="" className={classes.label}>Unit name</label>
                 </div>
-                <div className="relative z-0 mb-6 flex-1 group">
+                {/* <div className="relative z-0 mb-6 flex-1 group">
                     <input type="text"
                         name="symbol"
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
                         className={classes.input} />
                     <label htmlFor="" className={classes.label}>Symbol</label>
-                </div>
+                </div> */}
             </div>
         </div>
     )

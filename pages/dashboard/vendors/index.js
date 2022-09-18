@@ -16,15 +16,9 @@ function index({ vendorsData, userData }) {
     const permission = JSON.parse(userData.data.permissions).vendors;
     const { t } = useTranslation()
     const columns = [
+
         {
-            name: "#",
-            cell: (row, index) => index + 1,
-            ignoreRowClick: true,
-            allowOverflow: true,
-            button: true,
-        },
-        {
-            name: t('common:general.actions'),
+            name:"#",
             cell: row => <div className="flex items-center gap-x-2">
                 {can(permission, 'delete') && <button onClick={() => deleteVendor(row.id)}>
                     {<icons.Remove />}

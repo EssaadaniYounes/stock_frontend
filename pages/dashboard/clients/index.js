@@ -19,13 +19,6 @@ function index({ clientsData, userData }) {
     const columns = [
         {
             name: "#",
-            cell: (row, index) => index + 1,
-            ignoreRowClick: true,
-            allowOverflow: true,
-            button: true,
-        },
-        {
-            name: t('common:general.actions'),
             cell: row => <div className="flex items-center gap-x-2">
                 {can(permission, 'delete') && <button onClick={() => deleteClient(row.id)}>
                     {<icons.Remove />}

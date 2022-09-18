@@ -17,13 +17,6 @@ function index({ rolesData, userData }) {
   const columns = [
     {
       name: "#",
-      cell: (row, index) => index + 1,
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
-    },
-    {
-      name: "Actions",
       cell: row => <div className="flex items-center gap-x-2">
         {can(permission, 'delete') && <button onClick={() => deleteRole(row.id)}>
           {<icons.Remove />}

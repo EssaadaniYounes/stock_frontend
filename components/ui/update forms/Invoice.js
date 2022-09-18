@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import icons from '../../../data/iconsComponents';
-import { addService, updateService } from '../../../services';
+import { addService, deleteService, updateService } from '../../../services';
 const classes = {
     label: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300',
     input: 'bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
@@ -15,14 +15,15 @@ import ToastDone from '../../../utils/toast-update';
 import { useRouter } from 'next/router';
 import { useMainStore } from '../../../store/MainStore';
 import { Toast } from '../../parts';
+import getToday from '../../../utils/get-today';
 function Invoice({ invoice = null, invoiceProducts = null }) {
     const { products, clients, clientsInvoices, config } = useMainStore(state => state);
-    const router = useRouter();
+
     const [data, setData] = useState(invoice ? invoice : {
-        client_id: '',
+        client_id: 0,
         invoice_num: 1,
         notes: '',
-        invoice_date: '',
+        invoice_date: getToday(),
         discount: '',
         total: '',
         created_by: 'nnnn'
@@ -30,6 +31,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
     const [invoiceItems, setInvoiceItems] = useState(invoiceProducts ? invoiceProducts : []);
 
     const [selectedProductId, setSelectedProductId] = useState(0);
+    
     //get invoice num
     useEffect(() => {
         if (invoice) {
@@ -41,6 +43,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
 
         }
     }, [clientsInvoices]);
+
     //update total value
     useEffect(() => {
         const totalAmount = invoiceItems.reduce((prev, current) => prev + current.amount, 0);
@@ -55,18 +58,30 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
         const value = e.target.value;
         const name = e.target.name;
         const product = products.find(p => p[name] == value);
-        const Obj = {
-            name: product.name,
-            unit: product.unit_name,
-            barcode: product.barcode,
-            product_id: product.id,
-            price: 0,
-            quantity: 0,
-            amount: 0,
-            tax_amount: 0,
-            amount_total: 0
+        const invoiceItem = invoiceItems.find(item => item.product_id == product.id);
+        if (invoiceItem) {
+            const newItems = invoiceItems.map(item => {
+                if (item.product_id == invoiceItem.product_id) {
+                    return { ...item, quantity: ++item.quantity };
+                }
+                return item;
+            })
+            setInvoiceItems(newItems);
         }
-        setInvoiceItems([Obj, ...invoiceItems]);
+        else {
+            const Obj = {
+                name: product.name,
+                unit: product.unit_name,
+                barcode: product.barcode,
+                product_id: product.id,
+                price: 0,
+                quantity: 1,
+                amount: 0,
+                tax_amount: 0,
+                amount_total: 0
+            }
+            setInvoiceItems([Obj, ...invoiceItems]);
+        }
         setSelectedProductId(0);
     }
     const onProductChange = (e, index) => {
@@ -100,7 +115,14 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
         }
     }
 
-    const removeInvoiceItem = (index) => {
+    const removeInvoiceItem = async (index) => {
+        const invoice_item = invoiceItems.find((item, i) => i == index);
+        if (invoice_item) {
+            if (invoice_item.id) {
+                const res = await deleteService(`clients_invoices_items`, invoice_item.id,"Invoice item");
+                console.log(res);
+            }
+        }
         const items = invoiceItems.filter((item, i) => i != index);
         setInvoiceItems(items);
     }
@@ -116,15 +138,15 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
             const res = await addService('clients_invoices', { invoice: data, invoice_items: invoiceItems });
             ToastDone("Client added successfully", id, res);
         }
-        setTimeout(() => {
-            router.push('/dashboard/clients/invoices');
-        }, 1500);
+        // setTimeout(() => {
+        //     router.push('/dashboard/clients/invoices');
+        // }, 1500);
     }
 
     return (
         <div className="flex flex-col mr-4">
             <Toast />
-            <div className="search-box mb-3">
+            <div className="search-box mb-1">
                 <div className="search-header">Invoice Info</div>
                 <div className="p-4 w-full">
                     <div className='w-full flex flex-wrap justify-between'>
@@ -156,11 +178,17 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                                 value={data.client_id}
                                 onChange={(e) => handleOnChange(e)}
                                 placeholder=" " >
+                                <option value="0">Select client</option>
                                 {clients.map(c => <option key={c.id} value={c.id}>{c.full_name}</option>)}
                             </select>
                         </div>
 
                     </div>
+                </div>
+            </div>
+            <div className="search-box mb-1">
+                <div className="search-header">Products</div>
+                <div className="p-4 w-full">
                     <div className='w-full flex flex-wrap justify-between'>
                         <div className="relative z-0 mb-6 w-full md:w-[55%]  group">
                             <label className={classes.label}>Barcode</label>
@@ -208,13 +236,13 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                                         {invoiceItems.length - index}
                                     </td>
                                     <td className={classes.td + 'md'}>
-                                        <input type="text" className={classes.input + ' rounded-none bg-gray-100'} name="barcode" value={products.find((p, i) => p.id == product.product_id).barcode} readOnly />
+                                        <input type="text" className={classes.input + ' rounded-none bg-gray-100'} name="barcode" value={products.find((p, i) => p.id == product.product_id)?.barcode} readOnly />
                                     </td>
                                     <td className={classes.td + 'lg'}>
                                         <input type="text" className={classes.input + ' rounded-none'} name="name" value={product.name} onChange={(e) => onProductChange(e, index)} />
                                     </td>
                                     <td className={classes.td + 'xs'}>
-                                        <input type="text" className={classes.input + ' rounded-none bg-gray-100'} name="unit" value={products.find((p, i) => p.id == product.product_id).unit_name} readOnly />
+                                        <input type="text" className={classes.input + ' rounded-none bg-gray-100'} name="unit" value={products.find((p, i) => p.id == product.product_id)?.unit_name} readOnly />
                                     </td>
                                     <td className={classes.td + 'xs'}>
                                         <input type="number" className={classes.input + '  text-center rounded-none'} name="quantity" value={product.quantity} onChange={(e) => onProductChange(e, index)} />
@@ -272,7 +300,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                             readOnly
                             placeholder=" " />
                     </div>
-                    
+
                 </div>
                 <div className="relative z-0 mb-6 w-full  group">
                     <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Notes</label>

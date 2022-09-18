@@ -21,15 +21,9 @@ function index({ unitsData, userData }) {
     const permission = JSON.parse(userData.data.permissions).units;
 
     const columns = [
+
         {
-            name: "#",
-            cell: (row, index) => index + 1,
-            ignoreRowClick: true,
-            allowOverflow: true,
-            button: true,
-        },
-        {
-            name: "Actions",
+            name:"#",
             cell: row => <div className="flex items-center gap-2">
                 {can(permission, 'delete') && < button onClick={() => deleteUnit(row.id)}>
                     {<icons.Remove />}
@@ -49,11 +43,6 @@ function index({ unitsData, userData }) {
             selector: row => row.name,
             sortable: true,
 
-        },
-        {
-            name: 'Unit symbol',
-            selector: row => row.symbol,
-            sortable: true,
         }];
     const [unit, setUnit] = useState(null);
     const { units, setUnits } = useMainStore(state => state);
@@ -96,9 +85,7 @@ function index({ unitsData, userData }) {
                 {showUnit && <Unit unit={unit} />}
                 <SearchUnit allUnits={unitsData} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
-                    <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-                        Units list
-                    </div>
+                    
                     <CustomDataTable data={units} columns={columns} />
                 </div>
             </div>

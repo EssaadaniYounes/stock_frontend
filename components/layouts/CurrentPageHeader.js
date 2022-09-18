@@ -17,7 +17,7 @@ function CurrentPageHeader({ icon: Icon, title, component: Component = null, sho
                 </div>
 
             </div>
-            <div className='flex items-center gap-x-2 '>
+            <div className='flex items-center gap-x-2 mr-5 '>
                 {Component && <Component />}
                 {
                     showBack && <button onClick={() => router.back()} className='flex gap-x-2 button-back'>

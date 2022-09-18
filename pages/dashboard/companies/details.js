@@ -35,7 +35,7 @@ function update({ company, companyPermissions }) {
                 <Box title="Company info" items={company_info} icon={icons.Info} />
                 <Box title="Contact" items={contact_data} icon={icons.Contact} />
                 <Box title="Bank information" items={bank_data} icon={icons.Info} />
-                <div className="h-[220px]">
+                {company.logo && <div className="h-[220px]">
                     <Box title="Logo" icon={icons.Image}>
                         <div className='p-2'>
                             <div className="relative rounded-md overflow-hidden shad h-[160px] max-h-[180px]">
@@ -47,7 +47,7 @@ function update({ company, companyPermissions }) {
                             </div>
                         </div>
                     </Box>
-                </div>
+                </div>}
             </div>
         </>
     )

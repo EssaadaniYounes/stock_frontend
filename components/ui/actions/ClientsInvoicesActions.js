@@ -7,9 +7,9 @@ function ClientsInvoicesActions() {
     return (
         <div className='flex items-center'>
             <LinkButton
-                href='/dashboard/clients/invoices/add'
+                href='/dashboard/invoices/add'
                 icon={<icons.Add />}
-                className='button-add mt-2' title='add' />
+                className='button-add mt-2 ' title='add' />
         </div>
     )
 }
