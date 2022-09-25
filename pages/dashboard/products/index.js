@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can';
 import { Toast } from '../../../components/parts'
 import calStockQty from '../../../utils/calc-qty-stock'
+import Tabs from '../../../components/parts/Tabs'
 function index({ productsData, userData }) {
 
     const permission = JSON.parse(userData.data.permissions).products;
@@ -61,10 +62,10 @@ function index({ productsData, userData }) {
             name: 'Quantity in Stock',
             //suppliers_invoices_qty + clients_returns_qty - clients_invoices_qty - suppliers_returns_qty
             selector: row => calStockQty(row.quantity_initial,
-                                        row.clients_invoices_qty,
-                                        row.suppliers_invoices_qty,
-                                        row.clients_returns_qty,
-                                        row.suppliers_returns_qty),
+                row.clients_invoices_qty,
+                row.suppliers_invoices_qty,
+                row.clients_returns_qty,
+                row.suppliers_returns_qty),
             sortable: true,
 
         }

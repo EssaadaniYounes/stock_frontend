@@ -57,7 +57,7 @@ function SharedHeader() {
             </div>
             <div className="flex items-center gap-x-3">
                 <DropDown />
-                {currentUser.data.name && <div onClick={() => setShowLogout(!showLogout)} className="flex items-center gap-x-2 font-semibold cursor-pointer duration-150 hover:text-gray-300 text-white uppercase">
+                {currentUser?.data?.name && <div onClick={() => setShowLogout(!showLogout)} className="flex items-center gap-x-2 font-semibold cursor-pointer duration-150 hover:text-gray-300 text-white uppercase">
                     <p>{<icons.UserProfile />}</p>
                     <p>{currentUser.data.name}</p>
                     {<icons.ArrowDown />}

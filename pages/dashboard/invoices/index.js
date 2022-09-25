@@ -89,7 +89,7 @@ function index({ invoicesData, userData, clients }) {
     return (
         <>
             <CurrentPageHeader icon={icons.Invoices} title="Clients invoices" showBack={false} component={ClientsInvoicesActions} />
-            <div className='px-4'>
+            <div className='content'>
                 <Toast />
                 <SearchClientsInvoices allInvoices={invoicesData} />
                 <div className='w-full h-full rounded-md overflow-hidden mt-4'>

@@ -13,7 +13,7 @@ const classes = {
     label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
     input: 'block py-2.5 px-0 w-full text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
 }
-function Unit({ unit = null, callBack }) {
+function Unit({ unit = null, callBack, setState = null }) {
     const [data, setData] = useState(unit ? unit : {
         name: ''
     })
@@ -22,7 +22,7 @@ function Unit({ unit = null, callBack }) {
     const ref = useRef();
 
 
-    useOnClickOutside(ref, () => { setShowUnit(false) });
+    useOnClickOutside(ref, () => { setShowUnit(false), setState && setState(null) });
 
     const handleOnSubmit = async () => {
         const id = toast.loading('Please wait...')
@@ -37,11 +37,12 @@ function Unit({ unit = null, callBack }) {
         else {
             const res = await updateService('units', unit.id, data);
             const newUnits = units.map(u => {
-                if (u.id == unit.id) { return { name: data.name} }
+                if (u.id == unit.id) { return { name: data.name } }
                 return u;
             });
             ToastDone("Unit updated successfully", id, res);
             setUnits(newUnits);
+            setState && setState(null)
         }
         setShowUnit(false);
     }

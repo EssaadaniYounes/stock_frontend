@@ -27,7 +27,7 @@
   @apply w-full h-8 flex items-center justify-start gap-x-2 text-gray-900 font-semibold bg-slate-200 p-2;
 }
 .search-body {
-  @apply  w-full px-6 mt-2 flex justify-between flex-wrap gap-x-2;
+  @apply w-full px-6 mt-2 flex justify-between flex-wrap gap-x-2;
 }
 .search-body > div {
   @apply relative z-0 mb-6 w-full sm:w-auto;
@@ -71,4 +71,52 @@
 }
 .max-lg {
   max-width: 110px;
+}
+
+.pos-table {
+  border: none;
+}
+
+.pos-table thead tr th,
+.pos-table tbody tr td {
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.pos-table thead tr th {
+  background-color: #ddd;
+}
+.sub-total th  {
+  background-color: #eee;
+  border: 1px solid #ccc;
+}
+.pos-table thead tr th {
+  border-top: 1px solid #ccc;
+  padding: 5px 3px;
+  line-height: 2;
+  text-align: center;
+}
+
+.pos-table tbody tr td:last-child,
+.pos-table thead tr th:last-child {
+  border-right: 1px solid #ccc;
+}
+.pos-table tbody tr td {
+  padding: 0;
+}
+.pos-table tbody tr td input {
+  border: none;
+  outline: none;
+}
+.post-table-action svg {
+  margin: 0 auto;
+}
+.invoice-totals input {
+  font-weight: 600;
+}
+
+.input {
+  @apply bg-white border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+}
+.label {
+  @apply block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300;
 }

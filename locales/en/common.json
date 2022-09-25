@@ -39,6 +39,8 @@
         "products": "Products",
         "invoices": "Invoices",
         "roles": "Roles",
+        "cities": "Cities",
+        "files_clients": "Clients ballance",
         "users": "Users"
     },
     "models": {

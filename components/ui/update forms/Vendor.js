@@ -15,11 +15,12 @@ import { Toast } from '../../parts';
 import useTranslation from 'next-translate/useTranslation';
 function Vendor({ vendor = null, callBack }) {
     const { t } = useTranslation();
+    const { cities } = useMainStore(state => state);
     const [data, setData] = useState(vendor ? vendor : {
         full_name: '',
         street: '',
         zip_code: '',
-        city: '',
+        city_id: '',
         address: '',
         tel: '',
         email: '',
@@ -104,12 +105,14 @@ function Vendor({ vendor = null, callBack }) {
                     <label className={classes.label}>{t('common:info.zip_code')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
-                    <input type="text"
-                        className={classes.input}
-                        name='city'
-                        value={data.city}
+                    <select className={classes.input}
+                        name='city_id'
+                        value={data.city_id}
                         onChange={(e) => handleOnChange(e)}
-                        placeholder=" " />
+                        placeholder=" ">
+                        <option value="0">Select City</option>
+                        {cities.map((c) => <option value={c.id} key={c.id}>{c.name}</option>)}
+                    </select>
                     <label className={classes.label}>{t('common:info.city')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">

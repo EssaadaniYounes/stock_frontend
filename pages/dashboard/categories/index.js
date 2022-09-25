@@ -80,7 +80,7 @@ function index({ categoriesData, userData }) {
             <CurrentPageHeader icon={icons.Categories} title="Categories" showBack={false} component={CategoryActions} />
             <div className='content'>
                 <Toast />
-                {showCategory && <Category category={category} />}
+                {showCategory && <Category category={category} setState={setCategory} />}
                 <SearchCategory allCategories={categoriesData} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
                     <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >

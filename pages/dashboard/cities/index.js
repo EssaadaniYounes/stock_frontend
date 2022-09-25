@@ -1,10 +1,8 @@
-
-
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { CurrentPageHeader } from '../../../components/layouts'
 import CustomDataTable from '../../../components/parts/CustomDataTable'
-import { Unit, SearchCategory, UnitActions, SearchUnit } from '../../../components/ui'
+import { Category, CategoryActions, City, CityActions, SearchCategory, SearchCity } from '../../../components/ui'
 import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import autoLogin, { deleteService } from '../../../services'
@@ -15,17 +13,17 @@ import { useAuthStore } from '../../../store/authStore'
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
 import { can } from '../../../utils/can'
 import { Toast } from '../../../components/parts'
-function index({ unitsData, userData }) {
-    const { setUser } = useAuthStore(state => state);
+function index({ citiesData, userData }) {
+    const { user, setUser } = useAuthStore(state => state);
 
-    const permission = JSON.parse(userData.data.permissions).units;
+    const permission = JSON.parse(userData.data.permissions).cities;
 
     const columns = [
 
         {
-            name:"#",
+            name: "#",
             cell: row => <div className="flex items-center gap-2">
-                {can(permission, 'delete') && < button onClick={() => deleteUnit(row.id)}>
+                {can(permission, 'delete') && < button onClick={() => deleteCity(row.id)}>
                     {<icons.Remove />}
                 </button>
                 }
@@ -39,26 +37,25 @@ function index({ unitsData, userData }) {
             button: true,
         },
         {
-            name: 'Unit name',
+            name: 'City name',
             selector: row => row.name,
             sortable: true,
 
-        }];
-    const [unit, setUnit] = useState(null);
-    const { units, setUnits } = useMainStore(state => state);
-    const { showUnit, setShowUnit } = useSharedVariableStore(state => state);
+        }
+    ];
+    const [city, setCity] = useState(null);
+    const { cities, setCities } = useMainStore(state => state);
+    const { showCity, setShowCity } = useSharedVariableStore(state => state);
 
     useEffect(() => {
-        if (unitsData && userData) {
-            setUnits(unitsData);
-            setUser(userData);
-        }
+        setCities(citiesData);
+        setUser(userData);
     }, []);
 
-    const deleteUnit = async (id) => {
-        const res = await deleteService('units', id);
+    const deleteCity = async (id) => {
+        const res = await deleteService('cities', id, 'city');
         if (res.success) {
-            setUnits(units.filter(unit => unit.id !== id));
+            setCities(cities.filter(c => c.id !== id));
             toast.success(res.message, {
                 position: "top-right",
                 autoClose: 1500,
@@ -72,21 +69,19 @@ function index({ unitsData, userData }) {
     };
 
     const handleOnUpdateClick = (id) => {
-        setUnit(units.find(u => u.id == id));
-        setShowUnit(true);
+        setCity(cities.find(c => c.id == id));
+        setShowCity(true);
     }
 
     return (
         <>
-            <CurrentPageHeader icon={icons.Unit} title="Units" showBack={false} component={UnitActions} />
-
-            <div className='px-4'>
+            <CurrentPageHeader icon={icons.City} title="Cities" showBack={false} component={CityActions} />
+            <div className='content'>
                 <Toast />
-                {showUnit && <Unit unit={unit} setState={setUnit} />}
-                <SearchUnit allUnits={unitsData} />
+                {showCity && <City city={city} setState={setCity} />}
+                <SearchCity allCities={citiesData} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
-                    
-                    <CustomDataTable data={units} columns={columns} />
+                    <CustomDataTable data={cities} columns={columns} />
                 </div>
             </div>
         </>
@@ -94,13 +89,13 @@ function index({ unitsData, userData }) {
 }
 
 export async function getServerSideProps(ctx) {
-    const response = await fetch('units', {
+    const { data: citiesData } = await fetch('cities', {
         token: ctx.req.cookies.token
     })
     const loginResponse = await autoLogin(ctx);
     return {
         props: {
-            unitsData: response.data,
+            citiesData,
             userData: loginResponse.dataUser
         }
     }

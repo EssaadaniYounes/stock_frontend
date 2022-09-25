@@ -19,10 +19,22 @@ const items = [
                 link: '/dashboard/vendors'
             },
             {
+                key: 'cities',
+                title: 'Cities',
+                icon: <icons.City />,
+                link: '/dashboard/cities'
+            },
+            {
                 key: 'companies',
                 title: 'Company',
                 icon: <icons.Company />,
                 link: '/dashboard/companies/details'
+            },
+            {
+                key: 'files_clients',
+                title: 'Clients ballance',
+                icon: <icons.Company />,
+                link: '/dashboard/clients/clients_ballance'
             }
         ]
     },
