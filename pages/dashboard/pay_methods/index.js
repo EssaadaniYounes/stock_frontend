@@ -1,0 +1,105 @@
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
+import { CurrentPageHeader } from '../../../components/layouts'
+import CustomDataTable from '../../../components/parts/CustomDataTable'
+import { City, CityActions, PayMethod, PayMethodActions, SearchCity, SearchPayMethod } from '../../../components/ui'
+import icons from '../../../data/iconsComponents'
+import { fetch } from '../../../lib/fetch'
+import autoLogin, { deleteService } from '../../../services'
+import { useMainStore } from '../../../store/MainStore'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useAuthStore } from '../../../store/authStore'
+import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
+import { can } from '../../../utils/can'
+import { Toast } from '../../../components/parts'
+import useTranslation from 'next-translate/useTranslation'
+function index({ payMethodsData, userData }) {
+    const { setUser } = useAuthStore(state => state);
+    const { t } = useTranslation();
+    const permission = JSON.parse(userData.data.permissions).pay_methods;
+
+    const columns = [
+
+        {
+            name: "#",
+            cell: row => <div className="flex items-center gap-2">
+                {can(permission, 'delete') && < button onClick={() => deletePayMethod(row.id)}>
+                    {<icons.Remove />}
+                </button>
+                }
+                {can(permission, 'update') && < button onClick={() => handleOnUpdateClick(row.id)}>
+                    <a>{<icons.Update />}</a>
+                </button >
+                }
+            </div >,
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+        },
+        {
+            name: t('common:info.name'),
+            selector: row => row.name,
+            sortable: true,
+
+        }
+    ];
+    const [payMethod, setPayMethod] = useState(null);
+    const { payMethods, setPayMethods } = useMainStore(state => state);
+    const { showPayMethod, setShowPayMethod } = useSharedVariableStore(state => state);
+
+    useEffect(() => {
+        setPayMethods(payMethodsData);
+        setUser(userData);
+    }, []);
+
+    const deletePayMethod = async (id) => {
+        const res = await deleteService('pay_methods', id, 'Method');
+        if (res.success) {
+            setPayMethods(payMethods.filter(c => c.id !== id));
+            toast.success(res.message, {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    };
+
+    const handleOnUpdateClick = (id) => {
+        setPayMethod(payMethods.find(c => c.id == id));
+        setShowPayMethod(true);
+    }
+
+    return (
+        <>
+            <CurrentPageHeader icon={icons.PayMethod} title={t('common:pages.pay_methods')} showBack={false} component={PayMethodActions} />
+            <div className='content'>
+                <Toast />
+                {showPayMethod && <PayMethod payMethod={payMethod} setState={setPayMethod} />}
+                <SearchPayMethod allPayMethods={payMethodsData} />
+                <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
+                    <CustomDataTable data={payMethods} columns={columns} />
+                </div>
+            </div>
+        </>
+    )
+}
+
+export async function getServerSideProps(ctx) {
+    const { data: payMethodsData } = await fetch('pay_methods', {
+        token: ctx.req.cookies.token
+    })
+    const loginResponse = await autoLogin(ctx);
+    return {
+        props: {
+            payMethodsData,
+            userData: loginResponse.dataUser
+        }
+    }
+}
+
+export default index

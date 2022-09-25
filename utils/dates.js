@@ -21,7 +21,7 @@ export function itemsInMonth(items, invoices) {
         }
     }
     Object.keys(months).map((key) => months[key] = itemsInDays(months[key]));
-    
+
     Object.keys(months).map((key) => {
         Object.keys(months[key]).map(dayKey => {
             months[key][dayKey].map((item, i) => {
@@ -69,12 +69,13 @@ export function itemsInDays(items) {
     return days;
 }
 
-export function getDate(date) {
+export function getDate(date, yearFirst = false) {
     var dateObj = new Date(date);
 
     var month = dateObj.getUTCMonth() + 1; //months from 1-12
     month = month < 10 ? '0' + month : month;
     var day = String(dateObj.getDate()).padStart(2, '0');
     var year = dateObj.getUTCFullYear();
-    return day + "/" + month + "/" + year;
+    if (!yearFirst) return day + "/" + month + "/" + year;
+    return year + "-" + month + "-" + day;
 }

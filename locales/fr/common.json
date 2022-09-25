@@ -82,7 +82,8 @@
         "roles": "Rôles",
         "cities": "Villes",
         "clients_balance": "Solde Clients",
-        "users": "Utilisateurs"
+        "users": "Utilisateurs",
+        "pay_methods": "Méthodes de paiement"
     },
     "models": {
         "home": "Accueil",
@@ -98,7 +99,8 @@
         "role": "Rôle",
         "city": "Ville",
         "client_balance": "Solde client",
-        "user": "Utilisateur"
+        "user": "Utilisateur",
+        "pay_method": "Méthode de paiement"
     },
     "actions": {
         "read": "Lire",
@@ -112,6 +114,7 @@
         "save": "Enregistrer",
         "select": "Sélectionner",
         "filter_by_city": "Filtrer par ville"
+        
     },
     "general": {
         "list": "Liste",

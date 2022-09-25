@@ -16,9 +16,10 @@ import { useRouter } from 'next/router';
 import getToday from '../../../utils/get-today';
 import currency from '../../../utils/format-money';
 import useTranslation from 'next-translate/useTranslation';
+import { getDate } from '../../../utils/dates';
 function Invoice({ invoice = null, invoiceProducts = null }) {
     const { t } = useTranslation();
-    const { products, clients, clientsInvoices, config } = useMainStore(state => state);
+    const { products, clients, clientsInvoices, config, payMethods } = useMainStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(invoice ? invoice : {
         client_id: 0,
@@ -203,10 +204,10 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
     }
 
     return (
-        <div className="flex flex-col mr-4">
+        <div className="flex flex-col ltr:mr-2 rtl:ml-3">
             <Toast />
             <div className="search-box mb-1">
-                <div className="search-header">{ t('common:info.invoice_info') }</div>
+                <div className="search-header">{t('common:info.invoice_info')}</div>
                 <div className="p-1 px-2 w-full">
                     <div className='w-full flex flex-wrap justify-between'>
                         <div className="relative z-0 mb-1 w-full md:w-[32%]  group">
@@ -224,7 +225,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                             <input type="date"
                                 name='invoice_date'
                                 className={classes.input}
-                                value={data.invoice_date}
+                                value={getDate(data.invoice_date,true)}
                                 onChange={(e) => handleOnChange(e)}
                                 placeholder=" " />
                         </div>
@@ -272,7 +273,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                         <thead className="text-[10px] md:text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 sticky top-0 dark:text-gray-400">
                             <tr>
                                 <th className={'max-xss border-l-0'}>#</th>
-                                <th className={'max-md'}>{ t('common:info.barcode')}</th>
+                                <th className={'max-md'}>{t('common:info.barcode')}</th>
                                 <th className={'max-lg'}>{t('common:info.name')}</th>
                                 <th className={'max-xs'}>{t('common:models.unit')}</th>
                                 <th className={'max-xs'}>{t('common:info.qte')}</th>
@@ -376,10 +377,8 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                 <div className="relative mt-2 z-0 mb-2 w-full flex flex-wrap gap-x-4  group">
                     <div className='relative flex-1 min-w-[120px]'>
                         <label className={classes.label}>{t('common:info.payment_method')}</label>
-                        <select className={classes.input} value={data.method_id}>
-                            <option value="1">Credit</option>
-                            <option value="2">Cash</option>
-                            <option value="3">Card</option>
+                        <select className={classes.input} name="method_id" value={data.method_id} onChange={e => handleOnChange(e)}>
+                            {payMethods.map(method => <option value={method.id} key={method.id}>{method.name}</option>)}
                         </select>
                     </div>
                     <div className='relative flex-1 min-w-[120px]'>

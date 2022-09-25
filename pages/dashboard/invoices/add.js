@@ -6,14 +6,15 @@ import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import { useMainStore } from '../../../store/MainStore'
 
-function add({ clients, products, invoices, config }) {
-  const { setClients, setProducts, setClientsInvoices, setConfig } = useMainStore(state => state);
+function add({ clients, products, invoices, config, payMethodsData }) {
+  const { setClients, setProducts, setClientsInvoices, setConfig,setPayMethods } = useMainStore(state => state);
   const { t } = useTranslation();
   useEffect(() => {
     setClients(clients);
     setProducts(products);
-    setClientsInvoices(invoices)
+    setClientsInvoices(invoices);
     setConfig(config);
+    setPayMethods(payMethodsData);
   }, []);
 
   return (
@@ -40,6 +41,9 @@ export async function getServerSideProps(ctx) {
   const { data: config } = await fetch('config', {
     token: ctx.req.cookies.token
   })
+  const { data: payMethodsData } = await fetch('pay_methods', {
+    token: ctx.req.cookies.token
+  })
 
 
   return {
@@ -47,7 +51,8 @@ export async function getServerSideProps(ctx) {
       clients,
       products,
       invoices,
-      config
+      config,
+      payMethodsData
     }
   }
 

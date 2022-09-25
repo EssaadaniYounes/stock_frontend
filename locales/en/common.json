@@ -82,7 +82,8 @@
         "roles": "Roles",
         "cities": "Cities",
         "clients_balance": "Clients balance",
-        "users": "Users"
+        "users": "Users",
+        "pay_methods":"Pay methods"
     },
     "models": {
         "home": "Home",
@@ -98,7 +99,8 @@
         "role": "Role",
         "city": "City",
         "client_balance": "Client balance",
-        "user": "User"
+        "user": "User",
+        "pay_method": "Pay method"
     },
     "actions": {
         "read": "Read",

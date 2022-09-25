@@ -70,7 +70,7 @@
         "dashboard": "لوحة المعلومات",
         "home": "الصفحة الرئيسية",
         "stock": "المخزون",
-        "configuration": "التكوين",
+        "configuration": "الاعدادات",
         "clients": "العملاء",
         "vendors": "الموردين",
         "companies": "الشركة",
@@ -82,7 +82,8 @@
         "roles": "الأدوار",
         "cities": "المدن",
         "clients_balance": "رصيد العملاء",
-        "users": "المستخدمون"
+        "users": "المستخدمون",
+        "pay_methods": "طرق الدفع"
     },
     "models": {
         "home": "الصفحة الرئيسية",
@@ -98,7 +99,8 @@
         "role": "الدور",
         "city": "المدينة",
         "client_balance": "رصيد العميل",
-        "user": "المستخدم"
+        "user": "المستخدم",
+        "pay_method": "طريقة الدفع"
     },
     "actions": {
         "read": "قراءة",

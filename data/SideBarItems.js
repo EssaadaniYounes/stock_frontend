@@ -71,7 +71,7 @@ const items = [
         icon: <icons.Invoice />,
         subItems: [
             {
-                key: 'invoices',
+                key: 'clients_invoices',
                 title: 'Clients invoices',
                 icon: <icons.Invoices />,
                 link: '/dashboard/invoices'
@@ -95,6 +95,12 @@ const items = [
                 title: 'Roles',
                 icon: <icons.Key />,
                 link: '/dashboard/roles'
+            },
+            {
+                key: 'pay_methods',
+                title: 'Pay methods',
+                icon: <icons.PayMethod />,
+                link: '/dashboard/pay_methods'
             },
         ]
     },

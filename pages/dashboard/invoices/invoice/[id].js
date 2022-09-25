@@ -2,17 +2,18 @@ import useTranslation from 'next-translate/useTranslation';
 import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '../../../../components/layouts'
 import { Invoice } from '../../../../components/ui'
-import icons from '../../../../data/iconsComponents';
 import { fetch } from '../../../../lib/fetch';
 import { useMainStore } from '../../../../store/MainStore';
 
-function edit({ invoice = null, invoiceProducts = null, clients, products, config }) {
+function edit({ invoice = null, invoiceProducts = null, clients, products, config, payMethodsData }) {
+  console.log(invoice)
   const { t } = useTranslation();
-  const { setClients, setProducts, setConfig } = useMainStore(state => state);
+  const { setClients, setProducts, setConfig, setPayMethods } = useMainStore(state => state);
   useEffect(() => {
     setClients(clients);
     setProducts(products);
     setConfig(config);
+    setPayMethods(payMethodsData);
   }, []);
 
   return (
@@ -44,13 +45,17 @@ export async function getServerSideProps(ctx) {
   const { data: config } = await fetch('config', {
     token: ctx.req.cookies.token
   })
+  const { data: payMethodsData } = await fetch('pay_methods', {
+    token: ctx.req.cookies.token
+  })
   return {
     props: {
       invoice,
       invoiceProducts,
       clients,
       products,
-      config
+      config,
+      payMethodsData
     }
   }
 }

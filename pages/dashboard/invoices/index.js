@@ -14,7 +14,7 @@ import { Toast } from '../../../components/parts'
 import useTranslation from 'next-translate/useTranslation'
 
 function index({ invoicesData, userData, clients }) {
-    const permission = JSON.parse(userData.data.permissions).invoices;
+    const permission = JSON.parse(userData.data.permissions).clients_invoices;
     const { t } = useTranslation();
     const columns = [
 
