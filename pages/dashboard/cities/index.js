@@ -13,9 +13,10 @@ import { useAuthStore } from '../../../store/authStore'
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
 import { can } from '../../../utils/can'
 import { Toast } from '../../../components/parts'
+import useTranslation from 'next-translate/useTranslation'
 function index({ citiesData, userData }) {
     const { user, setUser } = useAuthStore(state => state);
-
+    const { t } = useTranslation();
     const permission = JSON.parse(userData.data.permissions).cities;
 
     const columns = [
@@ -37,7 +38,7 @@ function index({ citiesData, userData }) {
             button: true,
         },
         {
-            name: 'City name',
+            name: t('common:pages.cities'),
             selector: row => row.name,
             sortable: true,
 
@@ -75,7 +76,7 @@ function index({ citiesData, userData }) {
 
     return (
         <>
-            <CurrentPageHeader icon={icons.City} title="Cities" showBack={false} component={CityActions} />
+            <CurrentPageHeader icon={icons.City} title={ t('common:pages.cities') } showBack={false} component={CityActions} />
             <div className='content'>
                 <Toast />
                 {showCity && <City city={city} setState={setCity} />}

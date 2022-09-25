@@ -13,13 +13,14 @@ import { useAuthStore } from '../../../store/authStore'
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
 import { can } from '../../../utils/can'
 import { Toast } from '../../../components/parts'
+import useTranslation from 'next-translate/useTranslation'
 function index({ categoriesData, userData }) {
-    const { user, setUser } = useAuthStore(state => state);
-
+    const { setUser } = useAuthStore(state => state);
+    const { t } = useTranslation();
     const permission = JSON.parse(userData.data.permissions).categories;
 
     const columns = [
-       
+
         {
             name: "#",
             cell: row => <div className="flex items-center gap-2">
@@ -37,7 +38,7 @@ function index({ categoriesData, userData }) {
             button: true,
         },
         {
-            name: 'Category name',
+            name: t('common:models.category'),
             selector: row => row.name,
             sortable: true,
 
@@ -77,15 +78,13 @@ function index({ categoriesData, userData }) {
 
     return (
         <>
-            <CurrentPageHeader icon={icons.Categories} title="Categories" showBack={false} component={CategoryActions} />
+            <CurrentPageHeader icon={icons.Categories} title={t('common:pages.categories')} showBack={false} component={CategoryActions} />
             <div className='content'>
                 <Toast />
                 {showCategory && <Category category={category} setState={setCategory} />}
                 <SearchCategory allCategories={categoriesData} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
-                    <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-                        Categories list
-                    </div>
+                    
                     <CustomDataTable data={categories} columns={columns} />
                 </div>
             </div>

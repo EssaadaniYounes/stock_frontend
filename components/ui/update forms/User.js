@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import icons from '../../../data/iconsComponents';
 import { addService, updateService } from '../../../services';
 const classes = {
-    label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
+    label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] ltr:peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
     input: 'block py-2.5 px-0 w-full text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
 }
 import { toast } from 'react-toastify';
@@ -12,7 +12,9 @@ import { useRouter } from 'next/router';
 import { Toast } from '../../parts';
 import { useMainStore } from '../../../store/MainStore';
 import { useAuthStore } from '../../../store/authStore';
+import useTranslation from 'next-translate/useTranslation';
 function User({ targetUser = null }) {
+    const {t}= useTranslation();
     const { user } = useAuthStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(targetUser ? targetUser : {
@@ -56,7 +58,7 @@ function User({ targetUser = null }) {
                         value={data.name}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Name</label>
+                    <label className={classes.label}>{t('common:info.name')}</label>
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -65,7 +67,7 @@ function User({ targetUser = null }) {
                         value={data.email}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Email</label>
+                    <label className={classes.label}>{t('common:info.email')}</label>
                 </div>
                 {!targetUser && <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <input type="text"
@@ -74,14 +76,14 @@ function User({ targetUser = null }) {
                         value={data.password}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                    <label className={classes.label}>Password</label>
+                    <label className={classes.label}>{t('common:info.password')}</label>
                 </div>}
                 <div className="relative z-0 mb-6 w-full md:w-[49%] group">
                     <select className={classes.input} name="role_id" value={data.role_id} onChange={(e) => handleOnChange(e)}>
-                        <option value="0" disabled>Select a role</option>
+                        <option value="0" disabled>{t('common:actions.select') + ' ' + t('common:models.role')}</option>
                         {roles.map(role => <option value={role.id} key={role.id}>{role.role_name}</option>)}
                     </select>
-                    <label className={classes.label}>Role name</label>
+                    <label className={classes.label}>{t('common:info.role_name')}</label>
                 </div>
 
             </div>

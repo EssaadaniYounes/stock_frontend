@@ -3,8 +3,9 @@ import { fetch } from '../../../lib/fetch'
 import Tabs from '../../../components/parts/Tabs'
 import { CurrentPageHeader } from '../../../components/layouts';
 import icons from '../../../data/iconsComponents';
-import { Form } from '../../../components/parts';
+import useTranslation from 'next-translate/useTranslation';
 function files({ cities, clientsData }) {
+    const { t } = useTranslation();
     const [selectedCityId, setSelectedCityId] = useState(0);
     const [clients, setClients] = useState([]);
     const getClients = (e) => {
@@ -15,13 +16,13 @@ function files({ cities, clientsData }) {
     }
     return (
         <>
-            <CurrentPageHeader icon={icons.Clients} title={'fiche clients'} />
+            <CurrentPageHeader icon={icons.Clients} title={t('common:pages.clients_balance')} />
 
             <div className="">
                 <div className='p-3 shadow-md bg-gray-100 flex items-center'>
-                    <label className="label mr-2 ">Filter clients by city : </label>
+                    <label className="label mr-2 ">{t('common:actions.filter_by_city')} : </label>
                     <select className="input flex-1 rounded-md" value={selectedCityId} onChange={(e) => { getClients(e) }}>
-                        <option value="0">Select City</option>
+                        <option value="0">{t('common:actions.select')+' '+t('common:models.city') }</option>
                         {cities.map(c => <option value={c.id} key={c.id}>{c.name}</option>)}
                     </select>
                 </div>

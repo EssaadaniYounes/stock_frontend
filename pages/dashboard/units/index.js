@@ -15,15 +15,16 @@ import { useAuthStore } from '../../../store/authStore'
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
 import { can } from '../../../utils/can'
 import { Toast } from '../../../components/parts'
+import useTranslation from 'next-translate/useTranslation'
 function index({ unitsData, userData }) {
     const { setUser } = useAuthStore(state => state);
-
+    const { t } = useTranslation();
     const permission = JSON.parse(userData.data.permissions).units;
 
     const columns = [
 
         {
-            name:"#",
+            name: "#",
             cell: row => <div className="flex items-center gap-2">
                 {can(permission, 'delete') && < button onClick={() => deleteUnit(row.id)}>
                     {<icons.Remove />}
@@ -39,7 +40,7 @@ function index({ unitsData, userData }) {
             button: true,
         },
         {
-            name: 'Unit name',
+            name: t('common:models.unit'),
             selector: row => row.name,
             sortable: true,
 
@@ -78,14 +79,14 @@ function index({ unitsData, userData }) {
 
     return (
         <>
-            <CurrentPageHeader icon={icons.Unit} title="Units" showBack={false} component={UnitActions} />
+            <CurrentPageHeader icon={icons.Unit} title={t('common:pages.units')} showBack={false} component={UnitActions} />
 
             <div className='px-4'>
                 <Toast />
                 {showUnit && <Unit unit={unit} setState={setUnit} />}
                 <SearchUnit allUnits={unitsData} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
-                    
+
                     <CustomDataTable data={units} columns={columns} />
                 </div>
             </div>

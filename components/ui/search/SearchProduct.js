@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation';
 import React, { useEffect, useRef, useState } from 'react'
 import useFocus from '../../../hooks/useAutoFocus'
 import useSearch from '../../../hooks/useSearch';
@@ -8,6 +9,7 @@ const classes = {
     input: 'block py-2.5 px-0 w-[200px] text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
 }
 function SearchProduct({ allProducts }) {
+    const { t } = useTranslation();
     const { setProducts } = useMainStore(state => state);
     const [searchItems, setSearchItems] = useState({
         barcode: '',
@@ -45,7 +47,7 @@ function SearchProduct({ allProducts }) {
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
                         className={classes.input} />
-                    <label htmlFor="" className={classes.label}>Barcode</label>
+                    <label htmlFor="" className={classes.label}>{t('common:info.barcode')}</label>
                 </div>
                 <div className="relative z-0 mb-6 group">
                     <input type="text"
@@ -54,7 +56,7 @@ function SearchProduct({ allProducts }) {
                         placeholder=' '
                         ref={ref}
                         className={classes.input} />
-                    <label htmlFor="" className={classes.label}>Product name</label>
+                    <label htmlFor="" className={classes.label}>{ t('common:models.product') }</label>
                 </div>
                 <div className="relative z-0 mb-6 group">
                     <input type="text"
@@ -62,7 +64,7 @@ function SearchProduct({ allProducts }) {
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
                         className={classes.input} />
-                    <label htmlFor="" className={classes.label}>Vendor name</label>
+                    <label htmlFor="" className={classes.label}>{t('common:models.vendor')}</label>
                 </div>
                 <div className="relative z-0 mb-6 group">
                     <input type="text"
@@ -70,7 +72,7 @@ function SearchProduct({ allProducts }) {
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
                         className={classes.input} />
-                    <label htmlFor="" className={classes.label}>Category name</label>
+                    <label htmlFor="" className={classes.label}>{t('common:models.category')}</label>
                 </div>
                 <div className="relative z-0 mb-6 group">
                     <input type="text"
@@ -78,7 +80,7 @@ function SearchProduct({ allProducts }) {
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
                         className={classes.input} />
-                    <label htmlFor="" className={classes.label}>Unit</label>
+                    <label htmlFor="" className={classes.label}>{t('common:models.unit')}</label>
                 </div>
             </div>
         </div>

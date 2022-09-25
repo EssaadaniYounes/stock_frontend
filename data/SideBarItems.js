@@ -31,8 +31,8 @@ const items = [
                 link: '/dashboard/companies/details'
             },
             {
-                key: 'files_clients',
-                title: 'Clients ballance',
+                key: 'clients_balance',
+                title: 'Clients balance',
                 icon: <icons.Company />,
                 link: '/dashboard/clients/clients_ballance'
             }

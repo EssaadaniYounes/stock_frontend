@@ -14,8 +14,10 @@ import { useMainStore } from '../../../store/MainStore';
 import { Toast } from '../../parts';
 import { useRouter } from 'next/router';
 import getToday from '../../../utils/get-today';
-import currency, { isNumber, val } from '../../../utils/format-money';
+import currency from '../../../utils/format-money';
+import useTranslation from 'next-translate/useTranslation';
 function Invoice({ invoice = null, invoiceProducts = null }) {
+    const { t } = useTranslation();
     const { products, clients, clientsInvoices, config } = useMainStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(invoice ? invoice : {
@@ -204,11 +206,11 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
         <div className="flex flex-col mr-4">
             <Toast />
             <div className="search-box mb-1">
-                <div className="search-header">Invoice Info</div>
+                <div className="search-header">{ t('common:info.invoice_info') }</div>
                 <div className="p-1 px-2 w-full">
                     <div className='w-full flex flex-wrap justify-between'>
                         <div className="relative z-0 mb-1 w-full md:w-[32%]  group">
-                            <label className={classes.label}>Invoice number</label>
+                            <label className={classes.label}>{t('common:info.invoice_num')}</label>
                             <input type="text"
                                 name='invoice_num'
                                 readOnly
@@ -218,7 +220,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                                 placeholder=" " />
                         </div>
                         <div className="relative z-0 mb-1 w-full md:w-[32%]  group">
-                            <label className={classes.label}>Date</label>
+                            <label className={classes.label}>{t('common:info.date')}</label>
                             <input type="date"
                                 name='invoice_date'
                                 className={classes.input}
@@ -227,7 +229,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                                 placeholder=" " />
                         </div>
                         <div className="relative z-0 mb-1 w-full md:w-[32%]  group">
-                            <label className={classes.label}>Client</label>
+                            <label className={classes.label}>{t('common:models.client')}</label>
                             <select
                                 name='client_id'
                                 readOnly
@@ -235,7 +237,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                                 value={data.client_id}
                                 onChange={(e) => handleOnChange(e)}
                                 placeholder=" " >
-                                <option value="0">Select client</option>
+                                <option value="0">{t('common:actions.select') + ' ' + t('common:models.client')}</option>
                                 {clients.map(c => <option key={c.id} value={c.id}>{c.full_name}</option>)}
                             </select>
                         </div>
@@ -245,7 +247,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
             </div>
             <div className=" search-box  ">
                 <div className="search-header">
-                    Invoice items
+                    {t('common:info.invoice_items')}
                 </div>
                 <div className="w-full overflow-auto relative h-[250px]">
                     <div className="p-1 w-full">
@@ -255,12 +257,12 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                                     name='barcode'
                                     className={classes.input}
                                     onKeyDown={(e) => handleBarcodeSearch(e)}
-                                    placeholder="Barcode" />
+                                    placeholder={t('common:info.barcode')} />
                             </div>
 
                             <div className="relative z-0 mb-2 w-full md:w-[44%]  group">
                                 <select className={classes.input} name='id' value={selectedProductId} onChange={(e) => handleSelectionChange(e)}>
-                                    <option value='0' disabled >Select a product</option>
+                                    <option value='0' disabled >{t('common:actions.select') + ' ' + t('common:models.product')}</option>
                                     {products.map((p, index) => <option key={index} value={p.id}>{p.barcode + ' / ' + p.name}</option>)}
                                 </select>
                             </div>
@@ -270,15 +272,15 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                         <thead className="text-[10px] md:text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 sticky top-0 dark:text-gray-400">
                             <tr>
                                 <th className={'max-xss border-l-0'}>#</th>
-                                <th className={'max-md'}>Barcode</th>
-                                <th className={'max-lg'}>Name</th>
-                                <th className={'max-xs'}>Unit</th>
-                                <th className={'max-xs'}>Quantity</th>
-                                <th className={'max-xs'}>Price</th>
-                                <th className={'max-xs'}>Amount</th>
-                                <th className={'max-xs'}>Discount</th>
-                                <th className={'max-xs'}>Tax amount</th>
-                                <th className={'max-xs'}>Amount total</th>
+                                <th className={'max-md'}>{ t('common:info.barcode')}</th>
+                                <th className={'max-lg'}>{t('common:info.name')}</th>
+                                <th className={'max-xs'}>{t('common:models.unit')}</th>
+                                <th className={'max-xs'}>{t('common:info.qte')}</th>
+                                <th className={'max-xs'}>{t('common:info.price')}</th>
+                                <th className={'max-xs'}>{t('common:info.amount')}</th>
+                                <th className={'max-xs'}>{t('common:info.discount')}</th>
+                                <th className={'max-xs'}>{t('common:info.tax_amount')}</th>
+                                <th className={'max-xs'}>{t('common:info.amount_total')}</th>
                                 <th className={'max-xss border-r-0'}></th>
                             </tr>
                         </thead>
@@ -299,7 +301,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                                     </td>
                                     <td className={'xs'}>
                                         <input type="text" className={classes.input + '  text-center rounded-none'}
-                                            
+
                                             name="quantity" value={product.quantity} onChange={(e) => onProductChange(e, index)} />
                                     </td>
                                     <td className={'xs'}>
@@ -332,7 +334,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
 
                 <div className="relative mt-2 z-0 mb-2 w-full flex flex-wrap gap-x-4  group">
                     <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>Total amount</label>
+                        <label className={classes.label}>{t('common:info.total_amount')}</label>
                         <input type="text"
                             name='total_amount'
                             className={classes.input + ' bg-gray-100 text-center'}
@@ -341,7 +343,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                             placeholder=" " />
                     </div>
                     <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>Total discount</label>
+                        <label className={classes.label}>{t('common:info.total_discount')}</label>
                         <input type="text"
                             name='total_discount'
                             className={classes.input + ' text-center bg-gray-100'}
@@ -361,7 +363,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                             placeholder=" " />
                     </div>
                     <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>Total with tax</label>
+                        <label className={classes.label}>{t('common:info.total_with_tax')}</label>
                         <input type="text"
                             name='total_with_tax'
                             className={classes.input + ' bg-gray-100 text-center'}
@@ -373,7 +375,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                 </div>
                 <div className="relative mt-2 z-0 mb-2 w-full flex flex-wrap gap-x-4  group">
                     <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>Payment method</label>
+                        <label className={classes.label}>{t('common:info.payment_method')}</label>
                         <select className={classes.input} value={data.method_id}>
                             <option value="1">Credit</option>
                             <option value="2">Cash</option>
@@ -381,7 +383,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                         </select>
                     </div>
                     <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>Paid amount</label>
+                        <label className={classes.label}>{t('common:info.paid_amount')}</label>
                         <input type="text"
                             name='paid_amount'
                             className={classes.input + ' text-center'}
@@ -391,7 +393,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                     </div>
 
                     <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>Rest credit</label>
+                        <label className={classes.label}>{t('common:info.rest_credit')}</label>
                         <input type="text"
                             name='rest_amount'
                             className={classes.input + ' bg-gray-100 text-center'}
@@ -402,14 +404,14 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
 
                 </div>
                 <div className="relative z-0 mb-2 w-full group">
-                    <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Notes</label>
+                    <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">{t('common:info.notes')}</label>
                     <textarea id="message" rows="2" value={data.notes} className={classes.textarea} name="notes" onChange={e => handleOnChange(e)} placeholder="Notes"></textarea>
                 </div>
 
             </div>
             <button onClick={() => handleOnSubmit()} className={`${!invoice ? 'button-save' : 'yellow-button'} mt-2 flex items-center mx-auto`}>
                 {<icons.Save />}
-                <div className='ml-1'>Save</div>
+                <div className='ml-1'>{t('common:actions.save')}</div>
             </button>
         </div >
     )

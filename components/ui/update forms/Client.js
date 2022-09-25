@@ -102,7 +102,7 @@ function Client({ client = null }) {
                         value={data.city_id}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" ">
-                        <option value="0">Select City</option>
+                        <option value="0">{t('common:actions.select') +' '+ t('common:info.city') }</option>
                         {cities.map((c) => <option value={c.id} key={c.id}>{c.name}</option>)}
                     </select>
                     <label className={classes.label}>{t('common:info.city')}</label>

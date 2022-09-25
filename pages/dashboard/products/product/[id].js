@@ -1,12 +1,13 @@
+import useTranslation from 'next-translate/useTranslation'
 import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '../../../../components/layouts'
 import { Form } from '../../../../components/parts'
 import { Product } from '../../../../components/ui'
-import icons from '../../../../data/iconsComponents'
 import { fetch } from '../../../../lib/fetch'
 import { useMainStore } from '../../../../store/MainStore'
 
 function edit({ product, categories, vendors }) {
+    const { t } = useTranslation();
     const { setCategories, setVendors } = useMainStore(state => state);
     useEffect(() => {
         setCategories(categories);
@@ -14,7 +15,7 @@ function edit({ product, categories, vendors }) {
     }, []);
     return (
         <>
-            <CurrentPageHeader title="Update product" />
+            <CurrentPageHeader title={t('common:actions.update') + ' ' + t('common:models.product')} />
 
             <Form>
                 <Product product={product} />

@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation';
 import React, { useEffect, useRef, useState } from 'react'
 import useFocus from '../../../hooks/useAutoFocus'
 import useSearch from '../../../hooks/useSearch';
@@ -8,6 +9,7 @@ const classes = {
     input: 'block w-full py-2.5 px-0 text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
 }
 function SearchRole({ allRoles }) {
+    const {t}= useTranslation();
     const { setRoles } = useMainStore(state => state);
     const [searchItems, setSearchItems] = useState({
         role_name: ''
@@ -39,7 +41,7 @@ function SearchRole({ allRoles }) {
                         placeholder=' '
                         ref={ref}
                         className={classes.input} />
-                    <label htmlFor="" className={classes.label}>Role name</label>
+                    <label htmlFor="" className={classes.label}>{t('common:info.name')}</label>
                 </div>
             </div>
         </div>

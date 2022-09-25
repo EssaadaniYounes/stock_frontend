@@ -1,6 +1,6 @@
+import useTranslation from 'next-translate/useTranslation'
 import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '../../../components/layouts'
-import { Form } from '../../../components/parts'
 import { Invoice } from '../../../components/ui'
 import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
@@ -8,7 +8,7 @@ import { useMainStore } from '../../../store/MainStore'
 
 function add({ clients, products, invoices, config }) {
   const { setClients, setProducts, setClientsInvoices, setConfig } = useMainStore(state => state);
-
+  const { t } = useTranslation();
   useEffect(() => {
     setClients(clients);
     setProducts(products);
@@ -18,7 +18,7 @@ function add({ clients, products, invoices, config }) {
 
   return (
     <>
-      <CurrentPageHeader icon={icons.AddClient} title="Add invoice" />
+      <CurrentPageHeader icon={icons.AddClient} title={t('common:actions.add') + ' ' + t('common:models.invoice')} />
 
       <div className="w-full mt-4 px-4 mx-auto">
         <Invoice />

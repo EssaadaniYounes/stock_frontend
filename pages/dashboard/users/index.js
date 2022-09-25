@@ -11,9 +11,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can'
 import { Toast } from '../../../components/parts'
+import useTranslation from 'next-translate/useTranslation'
 
 function index({ usersData, userData }) {
     const permission = JSON.parse(userData.data.permissions).users;
+    const { t } = useTranslation();
     const columns = [
 
         {
@@ -33,17 +35,17 @@ function index({ usersData, userData }) {
             button: true,
         },
         {
-            name: 'name',
+            name: t('common:info.name'),
             selector: row => row.name,
             sortable: true,
         },
         {
-            name: 'email',
+            name: t('common:info.email'),
             selector: row => row.email,
             sortable: true,
         },
         {
-            name: 'role name',
+            name: t('common:info.role_name'),
             selector: row => row.role_name,
             sortable: true,
         }
@@ -72,14 +74,12 @@ function index({ usersData, userData }) {
     };
     return (
         <div>
-            <CurrentPageHeader icon={icons.Users} title="Users" showBack={false} component={UserActions} />
+            <CurrentPageHeader icon={icons.Users} title={t('common:pages.users')} showBack={false} component={UserActions} />
             <div className='content'>
                 <Toast />
                 <SearchUser allUsers={usersData.filter(u => u.id != userData.id)} />
                 <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
-                    <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-                        Users list
-                    </div>
+                    
                     <CustomDataTable data={users} columns={columns} />
                 </div>
             </div>

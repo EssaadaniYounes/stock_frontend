@@ -11,9 +11,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can'
 import { Toast } from '../../../components/parts'
+import useTranslation from 'next-translate/useTranslation'
 
 function index({ invoicesData, userData, clients }) {
     const permission = JSON.parse(userData.data.permissions).invoices;
+    const { t } = useTranslation();
     const columns = [
 
         {
@@ -34,33 +36,28 @@ function index({ invoicesData, userData, clients }) {
             button: true,
         },
         {
-            name: 'Invoice number',
+            name: t('common:info.invoice_num'),
             selector: row => row.invoice_num,
             sortable: true,
 
         },
         {
-            name: 'Date',
+            name: t('common:info.date'),
             selector: row => row.invoice_date,
             sortable: true,
 
         },
         {
-            name: 'Client',
+            name: t('common:models.client'),
             selector: row => row.client_name,
             sortable: true,
 
         },
         {
-            name: 'Amount',
-            selector: row => row.total,
+            name: t('common:info.amount'),
+            selector: row => row.total_amount,
             sortable: true,
 
-        },
-        {
-            name: 'Notes',
-            selector: row => row.notes,
-            sortable: true,
         }
     ];
 
@@ -88,14 +85,12 @@ function index({ invoicesData, userData, clients }) {
     };
     return (
         <>
-            <CurrentPageHeader icon={icons.Invoices} title="Clients invoices" showBack={false} component={ClientsInvoicesActions} />
+            <CurrentPageHeader icon={icons.Invoices} title={t('common:pages.clients_invoices')} showBack={false} component={ClientsInvoicesActions} />
             <div className='content'>
                 <Toast />
                 <SearchClientsInvoices allInvoices={invoicesData} />
                 <div className='w-full h-full rounded-md overflow-hidden mt-4'>
-                    <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-                        Invoices list
-                    </div>
+                    
                     <CustomDataTable data={clientsInvoices} columns={columns} />
                 </div>
             </div>

@@ -11,13 +11,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import ToastDone from '../../../utils/toast-update';
 import { useRouter } from 'next/router';
 import { Toast } from '../../parts';
+import useTranslation from 'next-translate/useTranslation';
 function Company({ company = null }) {
     const router = useRouter();
+    const { t } = useTranslation();
     const [data, setData] = useState(company ? company : {
         company_name: ' ',
         tel: ' ',
         mobile: ' ',
-        tax_number: ' ',
+        tax_number: 20,
         manager: ' ',
         fax: ' ',
         email: ' ',
@@ -54,9 +56,9 @@ function Company({ company = null }) {
             const res = await addService('companies', { ...data, logo: logo_name });
             ToastDone("Company added successfully", id, res);
         }
-        // setTimeout(() => {
-        //     router.push('/dashboard/clients');
-        // }, 1500);
+        setTimeout(() => {
+            router.push('/dashboard/details');
+        }, 1500);
     }
 
     return (
@@ -64,7 +66,7 @@ function Company({ company = null }) {
             <Toast />
             <div className='w-full flex flex-wrap gap-x-2'>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Company name</label>
+                    <label className={classes.label}>{ t('common:info.company_name') }</label>
                     <input type="text"
                         name='company_name'
                         className={classes.input}
@@ -73,7 +75,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Tel</label>
+                    <label className={classes.label}>{t('common:info.tel')}</label>
                     <input type="text"
                         name='tel'
                         className={classes.input}
@@ -82,7 +84,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Mobile</label>
+                    <label className={classes.label}>{t('common:info.mobile')}</label>
                     <input type="text"
                         name='mobile'
                         className={classes.input}
@@ -90,17 +92,17 @@ function Company({ company = null }) {
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
                 </div>
-                <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Tax number</label>
+                {/* <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
+                    <label className={classes.label}>{t('common:info.tax_number')}</label>
                     <input type="text"
                         name='tax_number'
                         className={classes.input}
                         value={data.tax_number}
                         onChange={(e) => handleOnChange(e)}
                         placeholder=" " />
-                </div>
+                </div> */}
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Manager</label>
+                    <label className={classes.label}>{t('common:info.manager')}</label>
                     <input type="text"
                         name='manager'
                         className={classes.input}
@@ -109,7 +111,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Fax</label>
+                    <label className={classes.label}>{t('common:info.fax')}</label>
                     <input type="text"
                         name='fax'
                         className={classes.input}
@@ -118,7 +120,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Email</label>
+                    <label className={classes.label}>{t('common:info.email')}</label>
                     <input type="text"
                         name='email'
                         className={classes.input}
@@ -127,7 +129,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Website</label>
+                    <label className={classes.label}>{t('common:info.website')}</label>
                     <input type="text"
                         name='website'
                         className={classes.input}
@@ -136,7 +138,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Zip code</label>
+                    <label className={classes.label}>{t('common:info.zip_code')}</label>
                     <input type="text"
                         name='zip_code'
                         className={classes.input}
@@ -145,7 +147,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>City</label>
+                    <label className={classes.label}>{t('common:info.city')}</label>
                     <input type="text"
                         name='city'
                         className={classes.input}
@@ -154,7 +156,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Address</label>
+                    <label className={classes.label}>{t('common:info.address')}</label>
                     <input type="text"
                         name='address'
                         className={classes.input}
@@ -163,7 +165,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Bank name</label>
+                    <label className={classes.label}>{t('common:info.bank_name')}</label>
                     <input type="text"
                         name='bank_name'
                         className={classes.input}
@@ -172,7 +174,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Bank account</label>
+                    <label className={classes.label}>{t('common:info.bank_account')}</label>
                     <input type="text"
                         name='bank_account'
                         className={classes.input}
@@ -181,7 +183,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Bank swift code</label>
+                    <label className={classes.label}>{t('common:info.bank_swift_code')}</label>
                     <input type="text"
                         name='bank_swift_code'
                         className={classes.input}
@@ -190,7 +192,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>Bank iban</label>
+                    <label className={classes.label}>{t('common:info.bank_iban')}</label>
                     <input type="text"
                         name='bank_iban'
                         className={classes.input}
@@ -199,7 +201,7 @@ function Company({ company = null }) {
                         placeholder=" " />
                 </div>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>logo</label>
+                    <label className={classes.label}>{t('common:info.logo')}</label>
                     <input type="file"
                         name='logo'
                         className={classes.input + ' h-[42px]'}
@@ -209,7 +211,7 @@ function Company({ company = null }) {
             </div>
             <button onClick={() => handleOnSubmit()} className={`${!company ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
                 {<icons.Save />}
-                <div className='ml-1'>Save</div>
+                <div className='ml-1'>{t('common:actions.save')}</div>
             </button>
         </div>
     )

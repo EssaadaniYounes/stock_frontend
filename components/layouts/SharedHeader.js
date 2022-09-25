@@ -40,14 +40,14 @@ function SharedHeader() {
 
 
     return (
-        <div className='w-full relative h-14 bg-[#343d4a] flex justify-between  px-8 items-center'>
-            <div className='flex gap-x-6 '>
-                <div className='text-white uppercase text-2xl font-semibold'>Stock App</div>
+        <div className='w-full relative h-14 bg-[#343d4a] flex justify-between md:px-8 px-2 items-center'>
+            <div className='flex md:gap-x-6 gap-x-2  items-center '>
+                <div className='text-white uppercase text-lg md:text-2xl font-semibold'>Stock App</div>
                 <div>
                     {/* Show Toggle icon if we are logged in */}
                     {router.pathname != '/login' &&
                         <div className='bg-white shadow-md p-2 rounded-full cursor-pointer' onClick={() => handleToggleSideBar()}>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="md:h-6 h-4 md:w-6 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                         </div>

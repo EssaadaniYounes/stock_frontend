@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation'
 import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '../../../components/layouts'
 import { Form } from '../../../components/parts'
@@ -8,6 +9,7 @@ import { useMainStore } from '../../../store/MainStore'
 
 
 function add({ rolesData }) {
+    const { t } = useTranslation();
     const { setRoles } = useMainStore(state => state);
     useEffect(() => {
         setRoles(rolesData)
@@ -15,7 +17,7 @@ function add({ rolesData }) {
     return (
         <>
 
-            <CurrentPageHeader icon={icons.AddUser} title="Add user" />
+            <CurrentPageHeader icon={icons.AddUser} title={t('common:actions.add') + ' ' + t('common:models.user')} />
 
             <Form>
                 <User />

@@ -1,3 +1,4 @@
+import useTranslation from "next-translate/useTranslation";
 import React, { useEffect, useRef, useState } from "react";
 import { Loader } from ".";
 import { fetch } from '../../lib/fetch'
@@ -6,6 +7,7 @@ import calcTotalAmount, { calcLastMonthAmount } from "../../utils/calc";
 import { getDate, itemsInMonth } from "../../utils/dates";
 import currency from '../../utils/format-money'
 const Tabs = ({ items }) => {
+    const { t } = useTranslation();
     const [openTab, setOpenTab] = useState(items[0].id);
     const { user } = useAuthStore(state => state);
     const [clients, setClients] = useState([]);
@@ -16,7 +18,7 @@ const Tabs = ({ items }) => {
     let paidAmount = 0;
     useEffect(() => {
         fetchInvoice(selectedClientId);
-    }, []);
+    }, [items]);
     useEffect(() => {
         setClients(items.slice(0, 2));
         setHiddenClients(items.slice(2, items.length));
@@ -72,8 +74,9 @@ const Tabs = ({ items }) => {
                         )
                         )}
                         {hiddenClients.length > 0 &&
-                            <li>
-                                <select className="input" onChange={(e) => { replaceClients(e.target.value, selectedClientId), fetchInvoice(e.target.value), e.target.value = 0 }}>
+                            <li className="mx-3">
+                                <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    onChange={(e) => { replaceClients(e.target.value, selectedClientId), fetchInvoice(e.target.value), e.target.value = 0 }}>
                                     <option value="0" disabled>Other clients</option>
                                     {hiddenClients.map(client => <option key={client.id} value={client.id}>{client.full_name}</option>)}
                                 </select>
@@ -82,20 +85,20 @@ const Tabs = ({ items }) => {
                     </ul>
                     {isFetching && <Loader />}
                     {!isFetching &&
-                        <table className="pos-table w-full text-center">
+                        <table className="pos-table w-full text-center" dir="ltr">
                             <caption className="text-center py-3 bg-gray-200 font-semibold">{items.find(i => i.id == selectedClientId)?.full_name}</caption>
                             <thead>
                                 <tr>
-                                    <th id="pp">Date</th>
-                                    <th>Designation</th>
-                                    <th>Qte</th>
-                                    <th>Price</th>
-                                    <th>Amount</th>
-                                    <th>S.amount</th>
-                                    <th>N° Bl</th>
-                                    <th>Paid</th>
-                                    <th>Method</th>
-                                    <th>Dus</th>
+                                    <th>{t('common:info.date')}</th>
+                                    <th>{t('common:info.designation')}</th>
+                                    <th>{t('common:info.qte')}</th>
+                                    <th>{t('common:info.price')}</th>
+                                    <th>{t('common:info.amount')}</th>
+                                    <th width="8%">{t('common:info.s_amount')}</th>
+                                    <th>{t('common:info.n_bl')}</th>
+                                    <th>{t('common:info.paid')}</th>
+                                    <th>{t('common:info.method')}</th>
+                                    <th>{t('common:info.dus')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,7 +137,7 @@ const Tabs = ({ items }) => {
                                                     index == 0
                                                         ? <td rowSpan={invoiceItems[key][dayKey].length}>
                                                             {currency(
-                                                                calcLastMonthAmount(invoiceItems, invoiceItem,paidAmount)
+                                                                calcLastMonthAmount(invoiceItems, invoiceItem, paidAmount)
                                                             )}
                                                         </td>
                                                         : false

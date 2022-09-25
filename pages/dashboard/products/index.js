@@ -12,11 +12,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can';
 import { Toast } from '../../../components/parts'
 import calStockQty from '../../../utils/calc-qty-stock'
-import Tabs from '../../../components/parts/Tabs'
+import useTranslation from 'next-translate/useTranslation'
 function index({ productsData, userData }) {
 
     const permission = JSON.parse(userData.data.permissions).products;
-
+    const { t } = useTranslation();
     const columns = [
 
         {
@@ -34,32 +34,32 @@ function index({ productsData, userData }) {
             button: true,
         },
         {
-            name: 'Barcode',
+            name: t('common:info.barcode'),
             selector: row => row.barcode,
             sortable: true,
 
         },
         {
-            name: 'Name',
+            name: t('common:models.product'),
             selector: row => row.name,
             sortable: true,
 
         },
         {
-            name: 'Vendor',
+            name: t('common:models.vendor'),
             selector: row => row.vendor_name,
             sortable: true,
 
         },
         {
-            name: 'Category',
+            name: t('common:models.category'),
             selector: row => row.category_name,
             sortable: true,
 
         },
 
         {
-            name: 'Quantity in Stock',
+            name: t('common:info.qty_stock'),
             //suppliers_invoices_qty + clients_returns_qty - clients_invoices_qty - suppliers_returns_qty
             selector: row => calStockQty(row.quantity_initial,
                 row.clients_invoices_qty,
@@ -96,7 +96,7 @@ function index({ productsData, userData }) {
 
     return (
         <>
-            <CurrentPageHeader icon={icons.Product} title="Products" showBack={false} component={ProductActions} />
+            <CurrentPageHeader icon={icons.Product} title={t('common:pages.products')} showBack={false} component={ProductActions} />
 
             <div className='relative px-4'>
                 <Toast />

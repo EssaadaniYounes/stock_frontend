@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation';
 import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '../../../../components/layouts'
 import { Invoice } from '../../../../components/ui'
@@ -6,7 +7,7 @@ import { fetch } from '../../../../lib/fetch';
 import { useMainStore } from '../../../../store/MainStore';
 
 function edit({ invoice = null, invoiceProducts = null, clients, products, config }) {
-
+  const { t } = useTranslation();
   const { setClients, setProducts, setConfig } = useMainStore(state => state);
   useEffect(() => {
     setClients(clients);
@@ -16,7 +17,7 @@ function edit({ invoice = null, invoiceProducts = null, clients, products, confi
 
   return (
     <>
-      <CurrentPageHeader icon={icons.AddClient} title="Add invoice" />
+      <CurrentPageHeader title={t('common:actions.update') + ' ' + t('common:models.invoice')} />
 
       <div className="w-full mt-4 px-4 mx-auto">
         <Invoice invoice={invoice} invoiceProducts={invoiceProducts} />

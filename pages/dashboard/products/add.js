@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation'
 import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '../../../components/layouts'
 import { Form } from '../../../components/parts'
@@ -7,7 +8,7 @@ import { fetch } from '../../../lib/fetch'
 import { useMainStore } from '../../../store/MainStore'
 
 function add({ categories, vendors, units }) {
-
+    const { t } = useTranslation();
     const { setCategories, setVendors, setUnits } = useMainStore(state => state);
     useEffect(() => {
         setCategories(categories);
@@ -17,7 +18,7 @@ function add({ categories, vendors, units }) {
 
     return (
         <div className=''>
-            <CurrentPageHeader icon={icons.AddItem} title="Add product" />
+            <CurrentPageHeader icon={icons.AddItem} title={t('common:actions.add') + ' ' + t('common:models.product')} />
 
             <Form>
                 <Product items={{ vendors, categories, units }} />

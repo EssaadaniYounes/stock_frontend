@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation'
 import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '../../../components/layouts'
 import { Form } from '../../../components/parts'
@@ -8,12 +9,13 @@ import { useMainStore } from '../../../store/MainStore'
 
 function add({ citiesData }) {
     const { setCities } = useMainStore(state => state);
+    const { t } = useTranslation();
     useEffect(() => {
         setCities(citiesData);
     }, []);
     return (
         <>
-            <CurrentPageHeader icon={icons.AddClient} title="Add Vendor" />
+            <CurrentPageHeader icon={icons.AddClient} title={t('common:actions.add') +' '+t('common:models.vendor')} />
 
             <Form>
                 <Vendor />

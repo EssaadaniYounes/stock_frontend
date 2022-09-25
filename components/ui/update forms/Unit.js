@@ -8,6 +8,7 @@ import { useMainStore } from '../../../store/MainStore';
 import ToastDone from '../../../utils/toast-update'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useTranslation from 'next-translate/useTranslation'
 
 const classes = {
     label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
@@ -17,6 +18,7 @@ function Unit({ unit = null, callBack, setState = null }) {
     const [data, setData] = useState(unit ? unit : {
         name: ''
     })
+    const { t } = useTranslation();
     const { units, setUnits } = useMainStore(state => state);
     const { setShowUnit } = useSharedVariableStore(state => state);
     const ref = useRef();
@@ -51,7 +53,7 @@ function Unit({ unit = null, callBack, setState = null }) {
         <div className='w-full h-[calc(100vh-110px)] bg-gray-100 bg-opacity-40 backdrop-blur-sm  absolute top-[50px] z-10 flex items-center justify-center'>
             <Form>
                 <div ref={ref} className="w-[300px] p-4">
-                    <p className='mb-4 font-semibold underline text-gray-700'>{!unit ? 'Add' : 'Update'} Unit</p>
+                    <p className='mb-4 font-semibold underline text-gray-700'>{!unit ? t('common:actions.add') : t('common:actions.update')} {t('common:models.unit')}</p>
                     <div className="relative z-0 mb-6 w-full  group">
                         <input type="text"
                             name='name'
@@ -59,7 +61,7 @@ function Unit({ unit = null, callBack, setState = null }) {
                             value={data.name}
                             onChange={(e) => setData({ ...data, name: e.target.value })}
                             placeholder=" " />
-                        <label className={classes.label}>Unit name</label>
+                        <label className={classes.label}> {t('common:models.unit')}</label>
                     </div>
                     {/* <div className="relative z-0 mb-6 w-full  group">
                         <input type="text"
@@ -72,7 +74,7 @@ function Unit({ unit = null, callBack, setState = null }) {
                     </div> */}
                     <button onClick={() => handleOnSubmit()} className={`${!unit ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
                         {<icons.Save />}
-                        <div className='ml-1'>Save</div>
+                        <div className='ml-1'>{t('common:actions.save')}</div>
                     </button>
                 </div>
             </Form>

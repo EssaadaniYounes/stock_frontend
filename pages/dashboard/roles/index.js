@@ -11,9 +11,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can'
 import { Toast } from '../../../components/parts'
+import useTranslation from 'next-translate/useTranslation'
 
 function index({ rolesData, userData }) {
   const permission = JSON.parse(userData.data.permissions).roles;
+  const { t } = useTranslation();
   const columns = [
     {
       name: "#",
@@ -32,7 +34,7 @@ function index({ rolesData, userData }) {
       button: true,
     },
     {
-      name: 'Role name',
+      name: t('common:info.role_name'),
       selector: row => row.role_name,
       sortable: true,
     }];
@@ -60,14 +62,12 @@ function index({ rolesData, userData }) {
   };
   return (
     <div>
-      <CurrentPageHeader icon={icons.Key} title="Roles" showBack={false} component={RoleActions} />
+      <CurrentPageHeader icon={icons.Key} title={t('common:pages.roles')} showBack={false} component={RoleActions} />
       <div className='content'>
         <Toast />
         <SearchRole allRoles={rolesData} />
         <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
-          <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-            Roles list
-          </div>
+          
           <CustomDataTable data={roles} columns={columns} />
         </div>
       </div>
