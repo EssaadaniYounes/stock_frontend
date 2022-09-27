@@ -19,9 +19,9 @@ function index({ usersData, userData }) {
     const columns = [
 
         {
-            name:"#",
+            name: "#",
             cell: row => <div className="flex items-center gap-x-2">
-                {can(permission, 'delete') && <button onClick={() => deleteUser(row.id)}>
+                {can(permission, 'delete') && row.id != userData.data.id && <button onClick={() => deleteUser(row.id)}>
                     {<icons.Remove />}
                 </button>}
                 {can(permission, 'update') && < Link href={`/dashboard/users/user/${row.id}`}>
@@ -77,9 +77,9 @@ function index({ usersData, userData }) {
             <CurrentPageHeader icon={icons.Users} title={t('common:pages.users')} showBack={false} component={UserActions} />
             <div className='content'>
                 <Toast />
-                <SearchUser allUsers={usersData.filter(u => u.id != userData.id)} />
+                <SearchUser allUsers={usersData} />
                 <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
-                    
+
                     <CustomDataTable data={users} columns={columns} />
                 </div>
             </div>
@@ -92,7 +92,6 @@ export async function getServerSideProps(ctx) {
         token: ctx.req.cookies.token
     })
     const { dataUser: userData } = await autoLogin(ctx);
-    usersData = usersData.filter(user => user.id != userData.data.id);
     return {
         props: {
             usersData,

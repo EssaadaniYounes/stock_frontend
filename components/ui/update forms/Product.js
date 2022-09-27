@@ -26,6 +26,8 @@ function Product({ items, product = null }) {
         unit_id: 0,
         name: '',
         quantity_initial: '',
+        sell_price: 0,
+        buy_price: 0,
     });
     const ref = useRef();
     const { showCategory, setShowCategory, showVendor, setShowVendor } = useSharedVariableStore(state => state);
@@ -147,6 +149,24 @@ function Product({ items, product = null }) {
                             }
                         </select>
                         <label className={classes.label}>{t('common:models.unit')}</label>
+                    </div>
+                    <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
+                        <input type="number"
+                            name='sell_price'
+                            className={classes.input}
+                            value={data.sell_price}
+                            onChange={(e) => handleOnChange(e)}
+                            placeholder=" " />
+                        <label className={classes.label}>{t('common:info.sell_price')}</label>
+                    </div>
+                    <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
+                        <input type="number"
+                            name='buy_price'
+                            className={classes.input}
+                            value={data.buy_price}
+                            onChange={(e) => handleOnChange(e)}
+                            placeholder=" " />
+                        <label className={classes.label}>{t('common:info.buy_price')}</label>
                     </div>
                 </div>
                 <button onClick={() => handleOnSubmit()} className={`${!product ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>

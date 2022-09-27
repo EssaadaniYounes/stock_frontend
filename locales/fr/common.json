@@ -64,7 +64,9 @@
         "date_invoice": "Date de la facture",
         "invoice_info": "Informations sur la facture",
         "invoice_items": "Articles de la facture",
-        "role_name": "Nom du rôle"
+        "role_name": "Nom du rôle",
+        "sell_price": "prix de vente",
+        "buy_price": "prix d'achat"
     },
     "pages": {
         "dashboard": "Tableau de bord",
@@ -78,6 +80,7 @@
         "units": "Unités",
         "products": "Produits",
         "invoices": "Factures",
+        "purchases": "Achats",
         "clients_invoices": "Factures Clients",
         "roles": "Rôles",
         "cities": "Villes",
@@ -95,7 +98,7 @@
         "category": "Catégorie",
         "unit": "Unité",
         "product": "Produit",
-        "invoice": "Facture",
+        "invoice": "Ventes",
         "role": "Rôle",
         "city": "Ville",
         "client_balance": "Solde client",
@@ -113,8 +116,8 @@
         "delete": "Supprimer",
         "save": "Enregistrer",
         "select": "Sélectionner",
-        "filter_by_city": "Filtrer par ville"
-        
+        "filter_by_city": "Filtrer par ville",
+        "select_all": "sélectionner tout"
     },
     "general": {
         "list": "Liste",

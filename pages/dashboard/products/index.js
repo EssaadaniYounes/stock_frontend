@@ -46,18 +46,17 @@ function index({ productsData, userData }) {
 
         },
         {
-            name: t('common:models.vendor'),
-            selector: row => row.vendor_name,
-            sortable: true,
-
-        },
-        {
             name: t('common:models.category'),
             selector: row => row.category_name,
             sortable: true,
 
         },
+        {
+            name: t('common:models.unit'),
+            selector: row => row.unit_name,
+            sortable: true,
 
+        },
         {
             name: t('common:info.qty_stock'),
             //suppliers_invoices_qty + clients_returns_qty - clients_invoices_qty - suppliers_returns_qty
@@ -68,7 +67,25 @@ function index({ productsData, userData }) {
                 row.suppliers_returns_qty),
             sortable: true,
 
-        }
+        },
+        {
+            name: t('common:info.sell_price'),
+            selector: row => row.sell_price,
+            sortable: true,
+
+        },
+        {
+            name: t('common:info.buy_price'),
+            selector: row => row.buy_price,
+            sortable: true,
+
+        },
+        {
+            name: t('common:models.vendor'),
+            selector: row => row.vendor_name,
+            sortable: true,
+
+        },
     ];
     const { products, setProducts } = useMainStore(state => state);
 
@@ -102,9 +119,7 @@ function index({ productsData, userData }) {
                 <Toast />
                 <SearchProduct allProducts={productsData} />
                 <div className='w-full h-full relative rounded-md overflow-hidden mt-4'>
-                    <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-                        Products list
-                    </div>
+                    
                     <CustomDataTable data={products} columns={columns} />
                 </div>
             </div>

@@ -29,14 +29,14 @@ function SearchCity({ allCities }) {
         <div className='search-box'>
             <SearchHeader />
             <div className='search-body'>
-                <div className="relative z-0 mb-6 group">
-                    <label htmlFor="" className='label'>{t('common:info.name')}</label>
+                <div className="relative z-0 mb-6 w-full flex-1 group">
                     <input type="text"
                         name="name"
                         ref={ref}
                         onChange={e => handleOnChange(e)}
                         placeholder=' '
-                        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' />
+                        className={classes.input} />
+                    <label htmlFor="" className={classes.label}>{t('common:info.name')}</label>
                 </div>
 
             </div>

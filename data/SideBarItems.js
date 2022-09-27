@@ -33,7 +33,7 @@ const items = [
             {
                 key: 'clients_balance',
                 title: 'Clients balance',
-                icon: <icons.Company />,
+                icon: <icons.Money />,
                 link: '/dashboard/clients/clients_ballance'
             }
         ]
@@ -67,7 +67,7 @@ const items = [
     {
         id: 3,
         key:'invoices',
-        title: 'Invoices',
+        title: 'Sales',
         icon: <icons.Invoice />,
         subItems: [
             {
@@ -80,6 +80,20 @@ const items = [
     },
     {
         id: 4,
+        key: 'purchases',
+        title: 'Purchases',
+        icon: <icons.Settings />,
+        subItems: [
+            {
+                key: 'supplier_invoice',
+                title: 'Supplier invoice',
+                icon: <icons.Invoices />,
+                link: '/dashboard/users'
+            }
+        ]
+    },
+    {
+        id: 5,
         key: 'configuration',
         title: 'Configuration',
         icon: <icons.Settings />,

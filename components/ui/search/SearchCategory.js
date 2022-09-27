@@ -29,7 +29,7 @@ function SearchCategory({ allCategories }) {
         <div className='search-box'>
             <SearchHeader />
             <div className='search-body'>
-                <div className="relative z-0 mb-6 group">
+                <div className="relative z-0 w-full mb-6 group">
                     <input type="text"
                         name="name"
                         ref={ref}

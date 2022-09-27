@@ -64,7 +64,9 @@
         "date_invoice": "تاريخ الفاتورة",
         "invoice_info": "معلومات الفاتورة",
         "invoice_items": "عناصر الفاتورة",
-        "role_name": "اسم الدور"
+        "role_name": "اسم الدور",
+        "sell_price": "سعر البيع",
+        "buy_price": "سعر الشراء"
     },
     "pages": {
         "dashboard": "لوحة المعلومات",
@@ -77,7 +79,8 @@
         "categories": "الفئات",
         "units": "الوحدات",
         "products": "المنتجات",
-        "invoices": "الفواتير",
+        "invoices": "المبيعات",
+        "purchases": "المشتريات",
         "clients_invoices": "فواتير العميل",
         "roles": "الأدوار",
         "cities": "المدن",
@@ -113,7 +116,8 @@
         "delete": "حذف",
         "save": "حفظ",
         "select": "تحديد",
-        "filter_by_city": "تصفية حسب المدينة"
+        "filter_by_city": "تصفية حسب المدينة",
+        "select_all": "اختر الكل"
     },
     "general": {
         "list": "لائحة",

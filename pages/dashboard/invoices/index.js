@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can'
 import { Toast } from '../../../components/parts'
 import useTranslation from 'next-translate/useTranslation'
+import currency from '../../../utils/format-money'
 
 function index({ invoicesData, userData, clients }) {
     const permission = JSON.parse(userData.data.permissions).clients_invoices;
@@ -55,7 +56,7 @@ function index({ invoicesData, userData, clients }) {
         },
         {
             name: t('common:info.amount'),
-            selector: row => row.total_amount,
+            selector: row => currency(row.total_amount),
             sortable: true,
 
         }

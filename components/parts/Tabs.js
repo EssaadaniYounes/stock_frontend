@@ -15,6 +15,7 @@ const Tabs = ({ items }) => {
     const [isFetching, setIsFetching] = useState(false);
     const [invoiceItems, setInvoiceItems] = useState(null);
     const [selectedClientId, setSelectedClientId] = useState(items[0].id);
+    const [lastYear, setLastYear] = useState({ year: '2021', dus: 200 });
     let paidAmount = 0;
     useEffect(() => {
         fetchInvoice(selectedClientId);
@@ -102,6 +103,10 @@ const Tabs = ({ items }) => {
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td colSpan="9">LE RESTE DE {lastYear.year} :</td>
+                                    <td>{lastYear.dus}</td>
+                                </tr>
                                 {invoiceItems && Object.keys(invoiceItems).map((key, i) =>
                                     Object.keys(invoiceItems[key]).map((dayKey, j) =>
                                         invoiceItems[key][dayKey].map((invoiceItem, index) => {
@@ -138,6 +143,7 @@ const Tabs = ({ items }) => {
                                                         ? <td rowSpan={invoiceItems[key][dayKey].length}>
                                                             {currency(
                                                                 calcLastMonthAmount(invoiceItems, invoiceItem, paidAmount)
+                                                                + lastYear.dus
                                                             )}
                                                         </td>
                                                         : false

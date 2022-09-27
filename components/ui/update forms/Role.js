@@ -20,6 +20,10 @@ function Role({ role = null }) {
         : { role_name: '', permissions: {} }
     )
     const router = useRouter();
+    const handleSelectAll = (e) => {
+        if (e.target.checked) return setRole({ ...data, permissions: roles });
+        return setRole({ ...data, permissions: {} });
+    }
     const handleCheckBox = (e, permission) => {
         if (e.target.checked) {
             const per = data.permissions;
@@ -67,6 +71,10 @@ function Role({ role = null }) {
                     onChange={(e) => setRole({ ...data, role_name: e.target.value })}
                     placeholder=" " />
                 <label className={classes.label}>{t('common:info.name')}</label>
+            </div>
+            <div className="flex items-center justify-end gap-x-2 mb-4 ltr:pr-[10px]">
+                <input type="checkbox" id="all" className="w-6 h-6" checked={data.permissions == roles} onChange={(e) => handleSelectAll(e)} />
+                <label htmlFor="all" className='cursor-pointer pb-1 mx-2 text-[18px] capitalize'>{ t('common:actions.select_all') }</label>
             </div>
             {
                 Object.keys(roles).map(r => {

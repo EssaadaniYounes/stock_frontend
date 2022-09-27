@@ -64,7 +64,9 @@
         "date_invoice": "Date invoice",
         "invoice_info": "Invoice info",
         "invoice_items": "Invoice items",
-        "role_name": "Role name"
+        "role_name": "Role name",
+        "sell_price":"Sell price",
+        "buy_price":"Buy price"
     },
     "pages": {
         "dashboard": "Dashboard",
@@ -77,7 +79,8 @@
         "categories": "Categories",
         "units": "Units",
         "products": "Products",
-        "invoices": "Invoices",
+        "invoices": "Sales",
+        "purchases": "Purchases",
         "clients_invoices": "Client Invoices",
         "roles": "Roles",
         "cities": "Cities",
@@ -113,7 +116,8 @@
         "delete": "Delete",
         "save": "Save",
         "select": "Select",
-        "filter_by_city": "Filter by city"
+        "filter_by_city": "Filter by city",
+        "select_all": "Select all"
     },
     "general": {
         "list": "List",

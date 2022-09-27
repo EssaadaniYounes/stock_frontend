@@ -2,14 +2,17 @@ import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import setLanguage from 'next-translate/setLanguage'
 import icons from '../../data/iconsComponents'
+import useTranslation from 'next-translate/useTranslation';
 
 export default function DropDown() {
+    const { lang } = useTranslation();
     return (
         <div className="text-right z-[1000]">
             <Menu as="div" className="relative inline-block text-left">
                 <div>
-                    <Menu.Button className="inline-flex justify-center rounded-md bg-black bg-opacity-50 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                    <Menu.Button className="inline-flex justify-center gap-x-2 rounded-md bg-black bg-opacity-50 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                         {<icons.Language />}
+                        <span className="uppercase">{lang}</span>
                         {<icons.ArrowDown />}
                     </Menu.Button>
                 </div>
