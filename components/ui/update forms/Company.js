@@ -12,8 +12,10 @@ import ToastDone from '../../../utils/toast-update';
 import { useRouter } from 'next/router';
 import { Toast } from '../../parts';
 import useTranslation from 'next-translate/useTranslation';
+import { useAuthStore } from '../../../store/authStore';
 function Company({ company = null }) {
     const router = useRouter();
+    const { user, setUser } = useAuthStore(state => state)
     const { t } = useTranslation();
     const [data, setData] = useState(company ? company : {
         company_name: ' ',
@@ -34,7 +36,7 @@ function Company({ company = null }) {
         logo: ' ',
         init_user_id: ' ',
     });
-
+    const [image, setImage] = useState(null);
     const handleOnChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     }
@@ -47,17 +49,19 @@ function Company({ company = null }) {
     const handleOnSubmit = async () => {
 
         const id = toast.loading("Please wait...")
-        const logo_name = await uploadImage(data.logo);
+
+        const logo_name = image ? await uploadImage(image) : data.logo;
         if (company) {
             const res = await updateService('companies', company.id, { ...data, logo: logo_name });
             ToastDone("Company updated successfully", id, res);
+            setUser({ ...user, data: { ...data, company_name: data.company_name } });
         }
         else {
             const res = await addService('companies', { ...data, logo: logo_name });
             ToastDone("Company added successfully", id, res);
         }
         setTimeout(() => {
-            router.push('/dashboard/details');
+            router.push('/dashboard/companies/details');
         }, 1500);
     }
 
@@ -66,7 +70,7 @@ function Company({ company = null }) {
             <Toast />
             <div className='w-full flex flex-wrap gap-x-2'>
                 <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
-                    <label className={classes.label}>{ t('common:info.company_name') }</label>
+                    <label className={classes.label}>{t('common:info.company_name')}</label>
                     <input type="text"
                         name='company_name'
                         className={classes.input}
@@ -204,8 +208,9 @@ function Company({ company = null }) {
                     <label className={classes.label}>{t('common:info.logo')}</label>
                     <input type="file"
                         name='logo'
+
                         className={classes.input + ' h-[42px]'}
-                        onChange={(e) => { setData({ ...data, logo: e.target.files }); }}
+                        onChange={(e) => { setImage(e.target.files) }}
                         placeholder=" " />
                 </div>
             </div>

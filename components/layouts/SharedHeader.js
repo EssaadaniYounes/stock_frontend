@@ -19,16 +19,12 @@ function SharedHeader() {
             name: null
         }
     })
-    const [company, setCompany] = useState(null);
-
     const [showLogout, setShowLogout] = useState(false);
     const { showSideBar, setShowSideBar } = useSharedVariableStore(state => state);
 
     useEffect(() => {
         setCurrentUser(user);
-
-        //setCompany(user?.data?.company_name);
-    }, []);
+    }, [router.pathname, user]);
 
     const handleToggleSideBar = () => {
         setShowSideBar(!showSideBar);
@@ -39,6 +35,7 @@ function SharedHeader() {
         if (cookiesDeleted) {
             setUser(null);
             setShowSideBar(false)
+            setShowLogout(false);
             router.push('/auth/login');
         }
     }
@@ -58,7 +55,7 @@ function SharedHeader() {
                         </div>
                     }
                 </div>
-                {company && <p>{company}</p>}
+                {currentUser?.data && <p className="uppercase text-white font-semibold">{currentUser?.data?.company_name}</p>}
             </div>
             <div className="flex items-center gap-x-3">
                 <DropDown />

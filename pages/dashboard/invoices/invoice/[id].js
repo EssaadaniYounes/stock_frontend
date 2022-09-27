@@ -6,7 +6,6 @@ import { fetch } from '../../../../lib/fetch';
 import { useMainStore } from '../../../../store/MainStore';
 
 function edit({ invoice = null, invoiceProducts = null, clients, products, config, payMethodsData }) {
-  console.log(invoice)
   const { t } = useTranslation();
   const { setClients, setProducts, setConfig, setPayMethods } = useMainStore(state => state);
   useEffect(() => {

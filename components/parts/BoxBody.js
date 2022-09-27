@@ -6,7 +6,6 @@ function BoxBody({ items }) {
     return (
         <div className="px-2 py-3">
             {Object.keys(items).map(key => {
-                console.log(key)
                 return (
                     <div className="flex items-center gap-x-4 mt-1" key={key}>
                         <h1 className="font-semibold text-gray-700">{t(`common:info.${key}`)} :</h1>

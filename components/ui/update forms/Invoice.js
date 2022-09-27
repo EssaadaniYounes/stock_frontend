@@ -130,7 +130,6 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
             }
             return p;
         })
-        console.log(calcedItems);
         setInvoiceItems(calcedItems);
     }
     const onProductChange = (e, index) => {
@@ -150,9 +149,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                     }
 
                     const discount = name == "discount" ? value : p.discount;
-                    console.log(discount);
                     let amountAfterDiscount = amount - discount;
-                    console.log(amountAfterDiscount);
                     const taxAmount = amountAfterDiscount * (parseInt(config.default_tax) / 100);
                     const amountTotal = amountAfterDiscount + taxAmount;
                     return { ...p, [name]: value, amount: amount, tax_amount: taxAmount, amount_total: amountTotal };
@@ -180,7 +177,6 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
         if (invoice_item) {
             if (invoice_item.id) {
                 const res = await deleteService(`clients_invoices_items`, invoice_item.id, "Invoice item");
-                console.log(res);
             }
         }
         const items = invoiceItems.filter((item, i) => i != index);
