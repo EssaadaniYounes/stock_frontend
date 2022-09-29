@@ -85,10 +85,24 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
         let index = 0;
         const invoiceItem = invoiceItems.find(item => item.product_id == product.id);
         if (invoiceItem) {
+
+            const quantity = ++invoiceItem.quantity
+            let amount = invoiceItem.price * quantity;
+            const discount = invoiceItem.discount;
+            let amountAfterDiscount = amount - discount;
+            const taxAmount = amountAfterDiscount * (parseInt(config.default_tax) / 100);
+            const amountTotal = amountAfterDiscount + taxAmount;
             const newItems = invoiceItems.map((item, i) => {
                 index = i;
                 if (item.product_id == invoiceItem.product_id) {
-                    return { ...item, quantity: ++item.quantity };
+                    return {
+                        ...item,
+                        quantity,
+                        amount,
+                        discount,
+                        tax_amount: taxAmount,
+                        amount_total: amountTotal
+                    };
                 }
                 return item;
             })
@@ -96,6 +110,11 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
             calcAmount(index);
         }
         else {
+            let amount = product.sell_price * 1;
+            let discount = 0;
+            let tax_amount = amount * (parseInt(config.default_tax) / 100);
+            const amount_total = amount + tax_amount;
+
             const Obj = {
                 name: product.name,
                 unit: product.unit_name,
@@ -103,10 +122,10 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                 product_id: product.id,
                 price: product.sell_price,
                 quantity: 1,
-                amount: 0,
-                discount: 0,
-                tax_amount: 0,
-                amount_total: 0
+                amount,
+                discount,
+                tax_amount,
+                amount_total
             }
             setInvoiceItems([Obj, ...invoiceItems]);
         }
@@ -221,7 +240,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                             <input type="date"
                                 name='invoice_date'
                                 className={classes.input}
-                                value={getDate(data.invoice_date,true)}
+                                value={getDate(data.invoice_date, true)}
                                 onChange={(e) => handleOnChange(e)}
                                 placeholder=" " />
                         </div>
