@@ -12,7 +12,7 @@ export default function DropDown() {
                 <div>
                     <Menu.Button className="inline-flex justify-center gap-x-2 rounded-md bg-black bg-opacity-50 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                         {<icons.Language />}
-                        <span className="uppercase">{lang}</span>
+                        <span className="uppercase hidden md:block">{lang}</span>
                         {<icons.ArrowDown />}
                     </Menu.Button>
                 </div>

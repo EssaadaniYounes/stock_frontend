@@ -44,7 +44,7 @@ function SharedHeader() {
     return (
         <div className='w-full relative h-14 bg-[#343d4a] flex justify-between md:px-8 px-2 items-center'>
             <div className='flex md:gap-x-6 gap-x-2  items-center '>
-                <div className='text-white uppercase text-lg md:text-2xl font-semibold'>Stock App</div>
+                <div className='text-white uppercase text-[13px] md:text-2xl font-semibold'>Stock App</div>
                 <div>
                     {/* Show Toggle icon if we are logged in */}
                     {router.pathname != '/login' &&
@@ -55,13 +55,13 @@ function SharedHeader() {
                         </div>
                     }
                 </div>
-                {currentUser?.data.name && <p className="uppercase text-white font-semibold">{currentUser?.data?.company_name}</p>}
+                {currentUser?.data.name && <p className="uppercase text-xs md:text-[16px] text-white font-semibold">{currentUser?.data?.company_name}</p>}
             </div>
             <div className="flex items-center gap-x-3">
                 <DropDown />
                 {currentUser?.data.name && <div onClick={() => setShowLogout(!showLogout)} className="flex items-center gap-x-2 font-semibold cursor-pointer duration-150 hover:text-gray-300 text-white uppercase">
                     <p>{<icons.UserProfile />}</p>
-                    <p>{currentUser?.data?.name}</p>
+                    <p className="hidden md:block">{currentUser?.data?.name}</p>
                     {<icons.ArrowDown />}
                 </div>}
             </div>
