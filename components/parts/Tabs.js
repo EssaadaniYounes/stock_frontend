@@ -86,7 +86,7 @@ const Tabs = ({ items }) => {
                     </ul>
                     {isFetching && <Loader />}
                     {!isFetching &&
-                        <table className="pos-table w-full text-center" dir="ltr">
+                        <table className="pos-table w-full text-center mb-8" dir="ltr">
                             <caption className="text-center py-3 bg-gray-200 font-semibold">{items.find(i => i.id == selectedClientId)?.full_name}</caption>
                             <thead>
                                 <tr>

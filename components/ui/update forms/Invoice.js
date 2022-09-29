@@ -101,7 +101,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                 unit: product.unit_name,
                 barcode: product.barcode,
                 product_id: product.id,
-                price: 0,
+                price: product.sell_price,
                 quantity: 1,
                 amount: 0,
                 discount: 0,
@@ -247,7 +247,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                     {t('common:info.invoice_items')}
                 </div>
                 <div className="w-full overflow-auto relative h-[250px]">
-                    <div className="p-1 w-full">
+                    <div className="p-1 w-full sticky top-0 z-[300]">
                         <div className='w-full flex flex-wrap justify-between'>
                             <div className="relative z-0 mb-2 w-full md:w-[55%]  group">
                                 <input type="text"
@@ -260,7 +260,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                             <div className="relative z-0 mb-2 w-full md:w-[44%]  group">
                                 <select className={classes.input} name='id' value={selectedProductId} onChange={(e) => handleSelectionChange(e)}>
                                     <option value='0' disabled >{t('common:actions.select') + ' ' + t('common:models.product')}</option>
-                                    {products.map((p, index) => <option key={index} value={p.id}>{p.barcode + ' / ' + p.name}</option>)}
+                                    {products.map((p, index) => <option key={index} value={p.id}>{p.name}</option>)}
                                 </select>
                             </div>
                         </div>
@@ -298,7 +298,6 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                                     </td>
                                     <td className={'xs'}>
                                         <input type="text" className={classes.input + '  text-center rounded-none'}
-
                                             name="quantity" value={product.quantity} onChange={(e) => onProductChange(e, index)} />
                                     </td>
                                     <td className={'xs'}>
