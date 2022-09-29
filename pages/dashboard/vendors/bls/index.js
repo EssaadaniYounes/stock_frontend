@@ -1,21 +1,21 @@
 import Link from 'next/link'
 import React, { useEffect } from 'react'
-import { CurrentPageHeader } from '../../../components/layouts'
-import CustomDataTable from '../../../components/parts/CustomDataTable'
-import { ClientsInvoicesActions, SearchClientsInvoices } from '../../../components/ui'
-import icons from '../../../data/iconsComponents'
-import { fetch } from '../../../lib/fetch'
-import autoLogin, { deleteService } from '../../../services'
-import { useMainStore } from '../../../store/MainStore'
+import { CurrentPageHeader } from '../../../../components/layouts'
+import CustomDataTable from '../../../../components/parts/CustomDataTable'
+import { ClientsInvoicesActions, SearchClientsInvoices, SearchVendorsInvoices, VendorsInvoicesActions } from '../../../../components/ui'
+import icons from '../../../../data/iconsComponents'
+import { fetch } from '../../../../lib/fetch'
+import autoLogin, { deleteService } from '../../../../services'
+import { useMainStore } from '../../../../store/MainStore'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { can } from '../../../utils/can'
-import { Toast } from '../../../components/parts'
+import { can } from '../../../../utils/can'
+import { Toast } from '../../../../components/parts'
 import useTranslation from 'next-translate/useTranslation'
-import currency from '../../../utils/format-money'
+import currency from '../../../../utils/format-money'
 
-function index({ invoicesData, userData, clients }) {
-    const permission = JSON.parse(userData.data.permissions).clients_invoices;
+function index({ vendorsInvoicesData, vendorsData, userData }) {
+    const permission = JSON.parse(userData.data.permissions).suppliers_invoices;
     const { t } = useTranslation();
     const columns = [
 
@@ -25,11 +25,8 @@ function index({ invoicesData, userData, clients }) {
                 {can(permission, 'delete') && <button onClick={() => deleteInvoice(row.id)}>
                     {<icons.Remove />}
                 </button>}
-                {can(permission, 'update') && < Link href={`/dashboard/invoices/invoice/${row.id}`}>
+                {can(permission, 'update') && <Link href={`/dashboard/vendors/bls/bl/${row.id}`}>
                     <a>{<icons.Update />}</a>
-                </Link>}
-                {can(permission, 'read') && < Link href={`/dashboard/invoices/invoice/products/${row.id}`}>
-                    {<icons.Print />}
                 </Link>}
             </div >,
             ignoreRowClick: true,
@@ -49,8 +46,8 @@ function index({ invoicesData, userData, clients }) {
 
         },
         {
-            name: t('common:models.client'),
-            selector: row => row.client_name,
+            name: t('common:models.vendor'),
+            selector: row => row.vendor_name,
             sortable: true,
 
         },
@@ -58,25 +55,23 @@ function index({ invoicesData, userData, clients }) {
             name: t('common:info.amount'),
             selector: row => currency(row.total_amount),
             sortable: true,
-
         },
         {
             name: t('common:models.user'),
             selector: row => row.user,
             sortable: true,
-
         }
     ];
 
-    const { clientsInvoices, setClientsInvoices, setClients } = useMainStore(state => state);
+    const { vendorsInvoices, setVendorsInvoices, setVendors } = useMainStore(state => state);
 
     useEffect(() => {
-        setClientsInvoices(invoicesData);
-        setClients(clients)
+        setVendorsInvoices(vendorsInvoicesData);
+        setVendors(vendorsData)
     }, []);
 
     const deleteInvoice = async (id) => {
-        const res = await deleteService('clients_invoices', id, 'Invoice');
+        const res = await deleteService('vendor_invoices', id, 'Invoice');
         if (res.success) {
             setClientsInvoices(clientsInvoices.filter(i => i.id !== id));
             toast.success(res.message, {
@@ -92,13 +87,12 @@ function index({ invoicesData, userData, clients }) {
     };
     return (
         <>
-            <CurrentPageHeader icon={icons.Invoices} title={t('common:pages.clients_invoices')} showBack={false} component={ClientsInvoicesActions} />
+            <CurrentPageHeader icon={icons.Invoices} title={t('common:pages.suppliers_invoices')} showBack={false} component={VendorsInvoicesActions} />
             <div className='content'>
                 <Toast />
-                <SearchClientsInvoices allInvoices={invoicesData} />
+                <SearchVendorsInvoices allInvoices={vendorsInvoicesData} />
                 <div className='w-full h-full rounded-md overflow-hidden mt-4'>
-
-                    <CustomDataTable data={clientsInvoices} columns={columns} />
+                    <CustomDataTable data={vendorsInvoices} columns={columns} />
                 </div>
             </div>
         </>
@@ -106,19 +100,19 @@ function index({ invoicesData, userData, clients }) {
 }
 
 export async function getServerSideProps(ctx) {
-    const response = await fetch('clients_invoices', {
+    const { data: vendorsInvoicesData } = await fetch('vendors_invoices', {
         token: ctx.req.cookies.token
     })
-    const clientsResponse = await fetch('clients', {
+    const { data: vendorsData } = await fetch('vendors', {
         token: ctx.req.cookies.token
     })
 
-    const loginResponse = await autoLogin(ctx);
+    const { dataUser: userData } = await autoLogin(ctx);
     return {
         props: {
-            invoicesData: response.data,
-            userData: loginResponse.dataUser,
-            clients: clientsResponse.data
+            vendorsInvoicesData,
+            vendorsData,
+            userData
         }
     }
 }

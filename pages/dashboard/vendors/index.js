@@ -18,7 +18,7 @@ function index({ vendorsData, userData }) {
     const columns = [
 
         {
-            name:"#",
+            name: "#",
             cell: row => <div className="flex items-center gap-x-2">
                 {can(permission, 'delete') && <button onClick={() => deleteVendor(row.id)}>
                     {<icons.Remove />}
@@ -98,9 +98,6 @@ function index({ vendorsData, userData }) {
                 <Toast />
                 <SearchVendor allVendors={vendorsData} />
                 <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
-                    <div className='w-full h-14 font-bold text-gray-600 py-3 pl-2 ' >
-                        {t('common:general.list')} {t('common:pages.vendors')}
-                    </div>
                     <CustomDataTable data={vendors} columns={columns} />
                 </div>
             </div>

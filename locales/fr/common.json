@@ -86,7 +86,8 @@
         "cities": "Villes",
         "clients_balance": "Solde Clients",
         "users": "Utilisateurs",
-        "pay_methods": "Méthodes de paiement"
+        "pay_methods": "Méthodes de paiement",
+        "suppliers_invoices": "Fournisseurs bls"
     },
     "models": {
         "home": "Accueil",
@@ -127,6 +128,7 @@
         "wait": "S'il vous plaît, attendez...",
         "add": "ajouté avec succès",
         "update": "Mis à jour avec succés",
-        "delete": "Supprimé avec succès"
+        "delete": "Supprimé avec succès",
+        "fill_barcode": "Veuillez remplir le code-barres !!"
     }
 }

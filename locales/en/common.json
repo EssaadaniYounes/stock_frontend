@@ -65,8 +65,8 @@
         "invoice_info": "Invoice info",
         "invoice_items": "Invoice items",
         "role_name": "Role name",
-        "sell_price":"Sell price",
-        "buy_price":"Buy price"
+        "sell_price": "Sell price",
+        "buy_price": "Buy price"
     },
     "pages": {
         "dashboard": "Dashboard",
@@ -86,7 +86,8 @@
         "cities": "Cities",
         "clients_balance": "Clients balance",
         "users": "Users",
-        "pay_methods":"Pay methods"
+        "pay_methods": "Pay methods",
+        "suppliers_invoices": "Suppliers Bls"
     },
     "models": {
         "home": "Home",
@@ -127,6 +128,7 @@
         "wait": "Please wait...",
         "add": "added successfully",
         "update": "updated successfully",
-        "delete": "deleted successfully"
+        "delete": "deleted successfully",
+        "fill_barcode": "Please fill barcode!!"
     }
 }

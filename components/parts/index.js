@@ -11,3 +11,4 @@ export { default as BoxBody } from './BoxBody';
 export { default as DropDown } from './DropDown';
 export { default as SearchHeader } from './SearchHeader';
 export { default as Loader } from './Loader';
+export { default as Modal } from './Modal';

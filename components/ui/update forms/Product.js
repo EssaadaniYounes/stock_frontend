@@ -15,10 +15,10 @@ const classes = {
     label: 'absolute text-[17px] text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] ltr:peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6',
     input: 'block py-2.5 px-0 w-full text-[18px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
 }
-function Product({ items, product = null }) {
+function Product({ items, product = null, setState = null }) {
     const router = useRouter();
     const { t } = useTranslation();
-    const { categories, vendors, units } = useMainStore(state => state);
+    const { categories, vendors, units, setProducts, products } = useMainStore(state => state);
     const [data, setData] = useState(product ? product : {
         barcode: '',
         vendor_id: 0,
@@ -30,7 +30,7 @@ function Product({ items, product = null }) {
         buy_price: 0,
     });
     const ref = useRef();
-    const { showCategory, setShowCategory, showVendor, setShowVendor } = useSharedVariableStore(state => state);
+    const { showCategory, setShowCategory, showVendor, setShowVendor, setShowProduct } = useSharedVariableStore(state => state);
 
     useOnClickOutside(ref, () => { setShowVendor(false) });
 
@@ -47,8 +47,17 @@ function Product({ items, product = null }) {
         else {
             const res = await addService('products', data);
             ToastDone("Product added successfully", id, res);
+            if (setState) {
+                const category_name = categories.find(c => c.id == res.data.category_id).name
+                const unit_name = units.find(u => u.id == res.data.unit_id).name
+                setProducts([...products, res.data])
+                setState({ ...res.data, category_name, unit_name });
+                setTimeout(() => {
+                    setShowProduct(false)
+                }, 1500);
+            }
         }
-        setTimeout(() => {
+        !setState && setTimeout(() => {
             router.push('/dashboard/products');
         }, 1500);
     }
@@ -91,7 +100,7 @@ function Product({ items, product = null }) {
                                 name='vendor_id'
                                 className={classes.input}
                                 onChange={(e) => handleOnChange(e)}>
-                                <option value="0">{t('common:actions.select') + ' ' +  t('common:models.vendor') }</option>
+                                <option value="0">{t('common:actions.select') + ' ' + t('common:models.vendor')}</option>
                                 {
                                     vendors.map(vendor => {
                                         return <option value={vendor.id} key={vendor.id}>{vendor.full_name}</option>

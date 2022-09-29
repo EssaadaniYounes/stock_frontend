@@ -7,18 +7,6 @@ const items = [
         icon: <icons.DashBoard />,
         subItems: [
             {
-                key: 'clients',
-                title: 'Clients',
-                icon: <icons.Clients />,
-                link: '/dashboard/clients'
-            },
-            {
-                key: 'vendors',
-                title: 'Vendors',
-                icon: <icons.Vendor />,
-                link: '/dashboard/vendors'
-            },
-            {
                 key: 'cities',
                 title: 'Cities',
                 icon: <icons.City />,
@@ -29,12 +17,6 @@ const items = [
                 title: 'Company',
                 icon: <icons.Company />,
                 link: '/dashboard/companies/details'
-            },
-            {
-                key: 'clients_balance',
-                title: 'Clients balance',
-                icon: <icons.Money />,
-                link: '/dashboard/clients/clients_ballance'
             }
         ]
     },
@@ -71,10 +53,22 @@ const items = [
         icon: <icons.Invoice />,
         subItems: [
             {
+                key: 'clients',
+                title: 'Clients',
+                icon: <icons.Clients />,
+                link: '/dashboard/clients'
+            },
+            {
                 key: 'clients_invoices',
                 title: 'Clients invoices',
                 icon: <icons.Invoices />,
                 link: '/dashboard/invoices'
+            },
+            {
+                key: 'clients_balance',
+                title: 'Clients balance',
+                icon: <icons.Money />,
+                link: '/dashboard/clients/clients_ballance'
             }
         ]
     },
@@ -85,10 +79,16 @@ const items = [
         icon: <icons.Settings />,
         subItems: [
             {
-                key: 'supplier_invoice',
+                key: 'vendors',
+                title: 'Vendors',
+                icon: <icons.Vendor />,
+                link: '/dashboard/vendors'
+            },
+            {
+                key: 'suppliers_invoices',
                 title: 'Supplier invoice',
                 icon: <icons.Invoices />,
-                link: '/dashboard/users'
+                link: '/dashboard/vendors/bls/'
             }
         ]
     },

@@ -55,7 +55,7 @@ function SharedHeader() {
                         </div>
                     }
                 </div>
-                {currentUser?.data && <p className="uppercase text-white font-semibold">{currentUser?.data?.company_name}</p>}
+                {currentUser?.data.name && <p className="uppercase text-white font-semibold">{currentUser?.data?.company_name}</p>}
             </div>
             <div className="flex items-center gap-x-3">
                 <DropDown />

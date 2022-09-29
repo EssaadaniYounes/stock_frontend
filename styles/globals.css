@@ -19,7 +19,9 @@
 .yellow-button {
   @apply focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-xl px-5 py-2.5  mb-2 dark:focus:ring-yellow-900;
 }
-
+.hovered-button {
+  @apply min-w-[40px] min-h-[50px] text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 flex items-center justify-center duration-200 cursor-pointer
+}
 .search-box {
   @apply w-full flex flex-col items-center min-h-[80px] mx-auto mt-2 border border-slate-200 rounded-md overflow-hidden;
 }

@@ -8,6 +8,7 @@ export const useMainStore = create(set => ({
     products: [],
     units: [],
     clientsInvoices: [],
+    vendorsInvoices: [],
     roles: [],
     users: [],
     config: {},
@@ -23,6 +24,7 @@ export const useMainStore = create(set => ({
     setUsers: (value) => set(state => ({ users: value })),
     setConfig: (value) => set(state => ({ config: value })),
     setCities: (value) => set(state => ({ cities: value })),
-    setPayMethods: (value) => set(state => ({ payMethods: value }))
+    setPayMethods: (value) => set(state => ({ payMethods: value })),
+    setVendorsInvoices: (value) => set(state => ({ vendorsInvoices: value }))
 }))
 

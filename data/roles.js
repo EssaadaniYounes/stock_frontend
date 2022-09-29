@@ -10,6 +10,7 @@ const roles = {
     invoices: ['create', 'read', 'update', 'delete','print'],
     companies: ['create', 'read', 'update', 'delete'],
     cities: ['create', 'read', 'update', 'delete'],
+    clients_balance: ['create', 'read', 'update', 'delete'],
     pay_methods: ['create', 'read', 'update', 'delete']
 }
 export default roles
