@@ -26,12 +26,12 @@ function add({ rolesData }) {
     )
 }
 export async function getServerSideProps(ctx) {
-    const { data: rolesData } = await fetch('roles', {
+    const { data } = await fetch('users/items/related_items', {
         token: ctx.req.cookies.token
     })
     return {
         props: {
-            rolesData
+            rolesData: data.roles
         }
     }
 }

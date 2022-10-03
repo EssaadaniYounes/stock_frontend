@@ -6,12 +6,14 @@ import { Product } from '../../../../components/ui'
 import { fetch } from '../../../../lib/fetch'
 import { useMainStore } from '../../../../store/MainStore'
 
-function edit({ product, categories, vendors }) {
+function edit({ product, categories, vendors, units, cities }) {
     const { t } = useTranslation();
-    const { setCategories, setVendors } = useMainStore(state => state);
+    const { setCategories, setVendors, setUnits, setCities } = useMainStore(state => state);
     useEffect(() => {
         setCategories(categories);
         setVendors(vendors);
+        setUnits(units);
+        setCities(cities);
     }, []);
     return (
         <>
@@ -27,22 +29,21 @@ function edit({ product, categories, vendors }) {
 
 export async function getServerSideProps(ctx) {
     const { id } = ctx.params;
-    const productResponse = await fetch(`products/${id}`, {
+    const { data: product } = await fetch(`products/${id}`, {
         token: ctx.req.cookies.token
     })
 
-    const categoriesRes = await fetch('categories', {
+    const { data } = await fetch('products/items/related_items', {
         token: ctx.req.cookies.token
-    });
-    const vendorsRes = await fetch('vendors', {
-        token: ctx.req.cookies.token
-    });
+    })
 
     return {
         props: {
-            categories: categoriesRes.data,
-            vendors: vendorsRes.data,
-            product: productResponse.data
+            categories: data.categories,
+            vendors: data.vendors,
+            units: data.units,
+            cities: data.cities,
+            product
         }
     }
 

@@ -4,6 +4,8 @@ import React from 'react'
 import image from '../../public/logo.jpeg'
 import { CurrentPageHeader } from '../../components/layouts'
 import icons from '../../data/iconsComponents'
+import getCookie from '../../utils/get-cookie'
+import { fetch } from '../../lib/fetch'
 function index() {
     const { t } = useTranslation()
     return (

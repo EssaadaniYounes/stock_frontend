@@ -20,7 +20,7 @@
   @apply focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-xl px-5 py-2.5  mb-2 dark:focus:ring-yellow-900;
 }
 .hovered-button {
-  @apply min-w-[40px] min-h-[50px] text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 flex items-center justify-center duration-200 cursor-pointer
+  @apply min-w-[40px] min-h-[50px] text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 flex items-center justify-center duration-200 cursor-pointer;
 }
 .search-box {
   @apply w-full flex flex-col items-center min-h-[80px] mx-auto mt-2 border border-slate-200 rounded-md overflow-hidden;
@@ -40,10 +40,15 @@
 .content {
   padding: 0 8px;
 }
-.input-rounded{
-  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+.input-rounded {
+  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
 }
-
+.two-items-container {
+  @apply flex-1 flex gap-2 flex-col md:flex-row mb-3;
+}
+.input-container {
+  @apply min-w-[130px] flex-1;
+}
 .icon {
   width: 20px;
   height: 20px;
@@ -90,7 +95,7 @@
 .pos-table thead tr th {
   background-color: #ddd;
 }
-.sub-total th  {
+.sub-total th {
   background-color: #eee;
   border: 1px solid #ccc;
 }

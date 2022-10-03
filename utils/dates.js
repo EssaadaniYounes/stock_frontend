@@ -47,13 +47,11 @@ export function itemsInMonth(items, invoices) {
 
 export function itemsInDays(items) {
     const days = {
-
     };
     for (let i = 0; i <= 30; i++) {
         days[i + 1] = [];
     }
     for (let i = 0; i < items.length; i++) {
-
         for (let j = 0; j <= 30; j++) {
             if ((j + 1) == items[i].day) {
                 days[j + 1].push(items[i]);

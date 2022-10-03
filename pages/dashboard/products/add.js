@@ -1,5 +1,6 @@
 import useTranslation from 'next-translate/useTranslation'
 import React, { useEffect } from 'react'
+import Select from 'react-select'
 import { CurrentPageHeader } from '../../../components/layouts'
 import { Form } from '../../../components/parts'
 import { Product } from '../../../components/ui'
@@ -7,13 +8,14 @@ import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import { useMainStore } from '../../../store/MainStore'
 
-function add({ categories, vendors, units }) {
+function add({ categories, vendors, units, cities }) {
     const { t } = useTranslation();
-    const { setCategories, setVendors, setUnits } = useMainStore(state => state);
+    const { setCategories, setVendors, setUnits, setCities } = useMainStore(state => state);
     useEffect(() => {
         setCategories(categories);
         setVendors(vendors);
         setUnits(units);
+        setCities(cities);
     }, []);
 
     return (
@@ -23,27 +25,24 @@ function add({ categories, vendors, units }) {
             <Form>
                 <Product items={{ vendors, categories, units }} />
             </Form>
+
         </div>
     )
 }
 
 
 export async function getServerSideProps(ctx) {
-    const categoriesRes = await fetch('categories', {
-        token: ctx.req.cookies.token
-    });
-    const vendorsRes = await fetch('vendors', {
-        token: ctx.req.cookies.token
-    });
-    const unitsRes = await fetch('units', {
-        token: ctx.req.cookies.token
-    });
 
+    const { data } = await fetch('products/items/related_items', {
+        token: ctx.req.cookies.token
+    })
+    console.log(data);
     return {
         props: {
-            categories: categoriesRes.data,
-            vendors: vendorsRes.data,
-            units: unitsRes.data
+            categories: data.categories,
+            vendors: data.vendors,
+            units: data.units,
+            cities: data.cities
         }
     }
 

@@ -7,10 +7,10 @@ import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import { useMainStore } from '../../../store/MainStore'
 
-function add({ citiesData }) {
+function add({ cities }) {
     const { setCities } = useMainStore(state => state);
     useEffect(() => {
-        setCities(citiesData);
+        setCities(cities);
     }, []);
     const { t } = useTranslation()
     return (
@@ -27,12 +27,12 @@ function add({ citiesData }) {
     )
 }
 export async function getServerSideProps(ctx) {
-    const { data: citiesData } = await fetch('cities', {
+    const { data } = await fetch('clients/items/related_items', {
         token: ctx.req.cookies.token
     })
     return {
         props: {
-            citiesData
+            cities: data.cities
         }
     }
 }

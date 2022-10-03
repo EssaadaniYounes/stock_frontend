@@ -7,6 +7,7 @@ import calcTotalAmount, { calcLastMonthAmount } from "../../utils/calc";
 import { getDate, itemsInMonth } from "../../utils/dates";
 import currency from '../../utils/format-money'
 const Tabs = ({ items }) => {
+
     const { t } = useTranslation();
     const [openTab, setOpenTab] = useState(items[0].id);
     const { user } = useAuthStore(state => state);

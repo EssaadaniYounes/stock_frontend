@@ -30,7 +30,7 @@ function Unit({ unit = null, callBack, setState = null }) {
         const id = toast.loading('Please wait...')
         if (!unit) {
             const res = await addService('units', data);
-            setUnits([...units, res.data]);
+            !callBack ? setUnits([...units, res.data]) : setUnits([{ value: res.data.id, label: res.data.name }, ...units]);
             if (callBack) {
                 callBack(res.data.id);
             }
@@ -54,14 +54,14 @@ function Unit({ unit = null, callBack, setState = null }) {
             <Form>
                 <div ref={ref} className="w-[300px] p-4">
                     <p className='mb-4 font-semibold underline text-gray-700'>{!unit ? t('common:actions.add') : t('common:actions.update')} {t('common:models.unit')}</p>
-                    <div className="relative z-0 mb-6 w-full  group">
+                    <div className="input-container mb-2">
+                        <label className='label'> {t('common:models.unit')}</label>
                         <input type="text"
                             name='name'
-                            className={classes.input}
+                            className='input-rounded'
                             value={data.name}
                             onChange={(e) => setData({ ...data, name: e.target.value })}
                             placeholder=" " />
-                        <label className={classes.label}> {t('common:models.unit')}</label>
                     </div>
                     {/* <div className="relative z-0 mb-6 w-full  group">
                         <input type="text"

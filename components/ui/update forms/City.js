@@ -30,7 +30,7 @@ function City({ city = null, callBack, setState = null }) {
         const id = toast.loading('Please wait...')
         if (!city) {
             const res = await addService('cities', data);
-            setCities([...cities, res.data]);
+            !callBack ? setCities([...cities, res.data]) : setCities([{ value: res.data.id, label: res.data.name }, ...cities]);
             if (callBack) {
                 callBack(res.data.id);
             }
@@ -56,14 +56,14 @@ function City({ city = null, callBack, setState = null }) {
             <Form>
                 <div ref={ref} className="w-[300px] p-4">
                     <p className='mb-4 font-semibold underline text-gray-700'>{!city ? t('common:actions.add') : t('common:actions.update')} {t('common:info.city')}</p>
-                    <div className="relative z-0 mb-6 w-full  group">
+                    <div className="input-container mb-2">
+                        <label className='label'>{t('common:info.city')}</label>
                         <input type="text"
                             name='full_name'
-                            className={classes.input}
+                            className='input-rounded'
                             value={data.name}
                             onChange={(e) => setData({ ...data, name: e.target.value })}
                             placeholder=" " />
-                        <label className={classes.label}>{t('common:info.city')}</label>
                     </div>
                     <button onClick={() => handleOnSubmit()} className={`${!city ? 'button-save' : 'yellow-button'} max-w-[120px] flex items-center mx-auto`}>
                         {<icons.Save />}
