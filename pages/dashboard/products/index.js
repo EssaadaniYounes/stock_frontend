@@ -13,6 +13,7 @@ import { can } from '../../../utils/can';
 import { Toast } from '../../../components/parts'
 import calStockQty from '../../../utils/calc-qty-stock'
 import useTranslation from 'next-translate/useTranslation'
+import currency from '../../../utils/format-money'
 function index({ productsData, userData }) {
 
     const permission = JSON.parse(userData.data.permissions).products;
@@ -70,13 +71,13 @@ function index({ productsData, userData }) {
         },
         {
             name: t('common:info.sell_price'),
-            selector: row => row.sell_price,
+            selector: row => currency(row.sell_price),
             sortable: true,
 
         },
         {
             name: t('common:info.buy_price'),
-            selector: row => row.buy_price,
+            selector: row => currency(row.buy_price),
             sortable: true,
 
         },

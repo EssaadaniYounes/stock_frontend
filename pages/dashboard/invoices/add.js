@@ -1,13 +1,14 @@
 import useTranslation from 'next-translate/useTranslation'
 import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '../../../components/layouts'
+import { Form } from '../../../components/parts'
 import { Invoice } from '../../../components/ui'
 import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import { useMainStore } from '../../../store/MainStore'
 
 function add({ clients, products, invoices, config, payMethodsData }) {
-  const { setClients, setProducts, setClientsInvoices, setConfig,setPayMethods } = useMainStore(state => state);
+  const { setClients, setProducts, setClientsInvoices, setConfig, setPayMethods } = useMainStore(state => state);
   const { t } = useTranslation();
   useEffect(() => {
     setClients(clients);
@@ -21,38 +22,29 @@ function add({ clients, products, invoices, config, payMethodsData }) {
     <>
       <CurrentPageHeader icon={icons.AddClient} title={t('common:actions.add') + ' ' + t('common:models.invoice')} />
 
-      <div className="w-full mt-4 px-4 mx-auto">
+      <div className="w-[calc(100%-10px)] my-2 mx-auto">
         <Invoice />
-
       </div>
     </>
   )
 }
 export async function getServerSideProps(ctx) {
-  const { data: clients } = await fetch('clients', {
-    token: ctx.req.cookies.token
-  });
-  const { data: products } = await fetch('products', {
-    token: ctx.req.cookies.token
-  });
+
   const { data: invoices } = await fetch('clients_invoices', {
     token: ctx.req.cookies.token
   })
-  const { data: config } = await fetch('config', {
-    token: ctx.req.cookies.token
-  })
-  const { data: payMethodsData } = await fetch('pay_methods', {
+  const { data } = await fetch('clients_invoices/items/related_items', {
     token: ctx.req.cookies.token
   })
 
 
   return {
     props: {
-      clients,
-      products,
+      clients: data.clients,
+      products: data.products,
       invoices,
-      config,
-      payMethodsData
+      config: data.config,
+      payMethodsData: data.payMethods
     }
   }
 

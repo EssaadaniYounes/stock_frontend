@@ -42,7 +42,7 @@ function SharedHeader() {
 
 
     return (
-        <div className='w-full relative h-14 bg-[#343d4a] flex justify-between md:px-8 px-2 items-center'>
+        <div className='w-full fixed top-0 z-[40] h-14 bg-[#343d4a] flex justify-between md:px-8 px-2 items-center'>
             <div className='flex md:gap-x-6 gap-x-2  items-center '>
                 <div className='text-white uppercase text-[13px] md:text-2xl font-semibold'>Stock App</div>
                 <div>

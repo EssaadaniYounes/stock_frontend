@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { fetch } from '../../lib/fetch';
 import { useAuthStore } from '../../store/authStore';
 import setCookie from '../../utils/set-cookies';
 import useTranslation from 'next-translate/useTranslation';
+import useFocus from '../../hooks/useAutoFocus';
 function Login() {
     const router = useRouter();
     const { t } = useTranslation()
@@ -14,7 +15,8 @@ function Login() {
     const [error, setError] = useState(null);
 
     const { setUser, user } = useAuthStore(state => state);
-
+    const focusRef = useRef();
+    useFocus(focusRef)
     const handleChange = (e) => {
         setData({
             ...data,
@@ -49,15 +51,16 @@ function Login() {
                     </div>
                     <div className='px-2 py-4 flex flex-col items-center'>
                         <div className='relative mb-6 w-[285px] group'>
-                            <input type="text"
+                            <input type="email"
                                 name='email'
+                                ref={focusRef}
                                 className='block py-2.5 px-0 w-full text-[18px] text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                                 value={data.email}
                                 onChange={(e) => handleChange(e)}
-                                placeholder={t('common:info.email')} />
+                                placeholder={t('common:info.email')} required />
                         </div>
                         <div className='relative mb-6 w-[285px] group'>
-                            <input type="text"
+                            <input type="password"
                                 name='password'
                                 className='block py-2.5 px-0 w-full text-[18px] text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                                 value={data.password}

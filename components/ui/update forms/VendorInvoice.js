@@ -1,31 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react'
 import icons from '../../../data/iconsComponents';
 import { addService, deleteService, updateService } from '../../../services';
-const classes = {
-    label: 'block mb-1 text-xs font-medium text-gray-900 dark:text-gray-300',
-    input: 'bg-white border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
-    textarea: 'block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-
-}
 import { Product } from '../'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ToastDone from '../../../utils/toast-update';
 import { useMainStore } from '../../../store/MainStore';
-import { Modal, Toast } from '../../parts';
+import { FormHeader, FormItemsContainer, Modal, RequestLoader, Toast } from '../../parts';
 import { useRouter } from 'next/router';
 import getToday from '../../../utils/get-today';
 import currency from '../../../utils/format-money';
 import useTranslation from 'next-translate/useTranslation';
 import { getDate } from '../../../utils/dates';
-import { useSharedVariableStore } from '../../../store/sharedVariablesStore';
+import useFocus from '../../../hooks/useAutoFocus';
+import CreatableSelect from 'react-select/creatable';
+import Select from 'react-select';
+import useDefaultPayMethod from '../../../hooks/use-default-pay-method';
 function VendorInvoice({ invoice = null, invoiceProducts = null }) {
     const { t } = useTranslation();
-    const { products, vendors, vendorsInvoices, config, payMethods } = useMainStore(state => state);
+    const { products, vendors, setProducts, config, payMethods, categories, units } = useMainStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(invoice ? invoice : {
         vendor_id: 0,
-        invoice_num: 1,
+        invoice_num: '',
         notes: '',
         invoice_date: getToday(),
         total_discount: 0,
@@ -34,31 +31,26 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
         total_with_tax: 0,
         paid_amount: 0,
         rest_amount: 0,
-        method_id: 1,
+        method_id: 0,
         created_by: ''
     });
     const [invoiceItems, setInvoiceItems] = useState(invoiceProducts ? invoiceProducts : []);
-    const { showProduct, setShowProduct } = useSharedVariableStore(state => state)
     const [selectedProduct, setSelectedProduct] = useState({
         barcode: '',
         name: '',
-        category_name: '',
-        unit_name: '',
+        category_id: '',
+        unit_id: '',
         qty: '',
-        buy_price: ''
+        buy_price: '',
+        sell_price: ''
     });
+    const [isLoading, setIsLoading] = useState(false);
     const ref = useRef();
-    //get invoice num
-    useEffect(() => {
-        if (invoice) {
-            setData({ ...data, invoice_num: invoice.invoice_num })
-        }
-        else {
-            const lastInvoice = vendorsInvoices[vendorsInvoices.length - 1];
-            lastInvoice && setData({ ...data, invoice_num: +lastInvoice.invoice_num + 1 })
-            setData({ ...data, vendor_id: vendors[0]?.id })
-        }
-    }, [vendorsInvoices, vendors]);
+    const focusRef = useRef();
+    const qtyRef = useRef();
+    const productRef = useRef();
+    useFocus(focusRef)
+
     //update total_amount value
     useEffect(() => {
         const totalAmount = invoiceItems.reduce((prev, current) => prev + current.amount, 0);
@@ -75,6 +67,20 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
             rest_amount: restAmount
         }));
     }, [invoiceItems, data.total_discount]);
+    //set default pay method
+    useDefaultPayMethod(data, setData);
+
+    const resetProduct = () => {
+        setSelectedProduct({
+            barcode: '',
+            name: '',
+            category_id: '',
+            unit_id: '',
+            qty: '',
+            buy_price: '',
+            sell_price: ''
+        })
+    }
 
     const handleOnChange = (e) => {
         let restAmount = data.rest_amount;
@@ -96,6 +102,7 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
                 const amountTotal = amountValue + taxAmount;
                 totalAmount += amountValue;
                 setData({ ...data, total_amount: amountTotal });
+                console.log(p.quantity);
                 return {
                     ...p,
                     amount: amountValue,
@@ -112,29 +119,30 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
         const name = e.target.name;
         setSelectedProduct({ ...selectedProduct, [name]: value });
     }
-    const onAddProduct = () => {
+    const onAddProduct = async () => {
         if (selectedProduct.barcode == "") {
             alert(t('common:toast.fill_barcode'));
             ref.current.focus();
             return;
         }
-        const product = invoiceItems.find(p => p.product_id == selectedProduct.id);
-        if (product) {
+        const isInInvoice = invoiceItems.find(iI => iI.product_id == selectedProduct.id);
+        let qty = 1;
+        if (isInInvoice) {
             let index = 0;
-
-            const quantity = ++product.quantity
-            let amount = product.price * quantity;
-            const discount = product.discount;
+            qty = +selectedProduct.qty + +isInInvoice.quantity;
+            let amount = isInInvoice.price * qty;
+            const discount = isInInvoice.discount;
             let amountAfterDiscount = amount - discount;
             const taxAmount = amountAfterDiscount * (parseInt(config.default_tax) / 100);
             const amountTotal = amountAfterDiscount + taxAmount;
 
             const newItems = invoiceItems.map((item, i) => {
                 index = i;
-                if (item.product_id == product.product_id) {
+                if (item.product_id == isInInvoice.product_id) {
+                    console.log("IS the same")
                     return {
                         ...item,
-                        quantity,
+                        quantity: qty,
                         amount,
                         discount,
                         tax_amount: taxAmount,
@@ -143,22 +151,44 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
                 }
                 return item;
             })
-            setInvoiceItems(newItems);
-            calcAmount(index);
+            setInvoiceItems(v => newItems);
+
+            //calcAmount(index);
         }
         else {
-            let amount = selectedProduct.buy_price * 1;
+
+            const isInProducts = products.find(p => p.id == selectedProduct.id);
+            let productId = selectedProduct.id;
+            if (!isInProducts) {
+                console.log("sending")
+                const { barcode, name, qty: quantity_initial, unit_id, category_id, sell_price, buy_price } = selectedProduct;
+                const p = {
+                    barcode,
+                    name,
+                    quantity_initial,
+                    unit_id,
+                    category_id,
+                    sell_price,
+                    buy_price,
+                    vendor_id: data.vendor_id,
+                }
+                const res = await addService('products', p);
+                productId = res.data.id;
+                setProducts([...products, res.data]);
+            }
+            qty = selectedProduct.qty;
+            let amount = selectedProduct.sell_price * qty;
             let discount = 0;
             let tax_amount = amount * (parseInt(config.default_tax) / 100);
             const amount_total = amount + tax_amount;
 
             const Obj = {
                 name: selectedProduct.name,
-                unit: selectedProduct.unit_name,
+                unit: selectedProduct.unit_id,
                 barcode: selectedProduct.barcode,
-                product_id: selectedProduct.id,
-                price: selectedProduct.buy_price,
-                quantity: 1,
+                product_id: productId,
+                price: selectedProduct.sell_price,
+                quantity: selectedProduct.qty,
                 amount,
                 discount,
                 tax_amount,
@@ -166,7 +196,7 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
             }
             setInvoiceItems([Obj, ...invoiceItems]);
         }
-        ref.current.focus();
+        resetProduct();
 
     }
     const onItemChange = (e, index) => {
@@ -186,7 +216,6 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
                     }
 
                     const discount = name == "discount" ? value : p.discount;
-                    console.log(amount)
                     let amountAfterDiscount = amount - discount;
                     const taxAmount = amountAfterDiscount * (parseInt(config.default_tax) / 100);
                     const amountTotal = amountAfterDiscount + taxAmount;
@@ -203,11 +232,20 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
             const product = products.find(p => p.barcode == e.target.value);
             if (product) {
                 product.qty = 1;
+                qtyRef.current.focus();
                 return setSelectedProduct(product);
-                //return handleSelectionChange(e);
             }
+            setSelectedProduct({
+                barcode: selectedProduct.barcode,
+                name: '',
+                category_id: '',
+                unit_id: '',
+                qty: '',
+                buy_price: '',
+                sell_price: ''
+            })
             alert("There's no product with this barcode!");
-            setShowProduct(true);
+            productRef.current.focus();
         }
     }
 
@@ -222,8 +260,7 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
         setInvoiceItems(items);
     }
     const handleOnSubmit = async () => {
-        // console.log(invoiceItems);
-        // return;
+        setIsLoading(true);
         const id = toast.loading("Please wait...")
         if (invoice) {
             const res = await updateService('vendors_invoices', invoice.id, { invoice: data, invoice_items: invoiceItems });
@@ -235,268 +272,281 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
             console.log(res);
             ToastDone("Invoice added successfully", id, res);
         }
+        setIsLoading(false);
         setTimeout(() => {
             router.push('/dashboard/vendors/bls');
         }, 1500);
     }
 
     return (
-        <div className={`flex flex-col ltr:mr-2 rtl:ml-3 `}>
+        <div className={`flex flex-col ltr:mr-2 rtl:ml-3 shadow-md mb-2 rounded-b-md `}>
             <Toast />
-            {showProduct && <Modal><Product setState={setSelectedProduct} /></Modal>}
-            <div className="search-box mb-1">
-                <div className="search-header">{t('common:info.invoice_info')}</div>
-                <div className="p-1 px-2 w-full">
-                    <div className='w-full flex flex-wrap justify-between'>
-                        <div className="relative z-0 mb-1 w-full md:w-[32%]  group">
-                            <label className={classes.label}>{t('common:info.invoice_num')}</label>
-                            <input type="text"
-                                name='invoice_num'
-                                className={classes.input}
-                                value={data.invoice_num}
-                                onChange={(e) => handleOnChange(e)}
-                                placeholder=" " />
-                        </div>
-                        <div className="relative z-0 mb-1 w-full md:w-[32%]  group">
-                            <label className={classes.label}>{t('common:info.date')}</label>
-                            <input type="date"
-                                name='invoice_date'
-                                className={classes.input}
-                                value={getDate(data.invoice_date, true)}
-                                onChange={(e) => handleOnChange(e)}
-                                placeholder=" " />
-                        </div>
-                        <div className="relative z-0 mb-1 w-full md:w-[32%]  group">
-                            <label className={classes.label}>{t('common:models.vendor')}</label>
-                            <select
-                                name='vendor_id'
-                                readOnly
-                                className={classes.input}
-                                value={data.vendor_id}
-                                onChange={(e) => handleOnChange(e)}
-                                placeholder=" " >
-                                <option value="0">{t('common:actions.select') + ' ' + t('common:models.vendor')}</option>
-                                {vendors.map(v => <option key={v.id} value={v.id}>{v.full_name}</option>)}
-                            </select>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div className="search-box">
-                <div className="search-header">
-                    {t('common:info.invoice_items')}
-                </div>
-                <div className="flex flex-wrap flex-col md:flex-row gap-y-2 justify-center items-center w-full my-1 min-h-[80px] px-2 gap-x-2 ">
-                    <div className="flex flex-wrap flex-col flex-1 gap-y-2 w-full">
-                        <div className="flex flex-wrap gap-2">
-                            <div className="flex-1 min-w-[100px] ">
-                                <label className={classes.label}>{t('common:info.barcode')}</label>
-                                <input type="text"
-                                    name='barcode'
-                                    ref={ref}
-                                    value={selectedProduct.barcode}
-                                    className={classes.input}
-                                    onChange={e => onProductChange(e)}
-                                    onKeyDown={(e) => handleBarcodeSearch(e)}
-                                    placeholder={t('common:info.barcode')} />
-                            </div>
-                            <div className="flex-[2] min-w-[100px] ">
-                                <label className={classes.label}>{t('common:models.product')}</label>
-                                <input type="text"
-                                    name='name'
-                                    onChange={e => onProductChange(e)}
-                                    value={selectedProduct.name}
-                                    className={classes.input}
-                                    placeholder={t('common:models.product')} />
-                            </div>
-                            <div className="flex-1 min-w-[100px] ">
-                                <label className={classes.label}>{t('common:models.category')}</label>
-                                <input type="text"
-                                    name='category_name'
-                                    onChange={e => onProductChange(e)}
-                                    value={selectedProduct.category_name}
-                                    className={classes.input}
-                                    placeholder={t('common:models.category')} />
+            {isLoading && <RequestLoader />}
+            <FormItemsContainer>
+                <FormHeader title={t('common:models.supplier_bl')} isEdit={invoice} />
+                <div className="form-content">
+                    <div className='flex flex-col gap-y-1'>
+                        <div className='search-box ' style={{ overflow: 'visible' }}>
+                            <div className='search-header'>{t('common:info.invoice_info')}</div>
+                            <div className="search-body">
+                                <div className="input-container">
+                                    <label className='label'>{t('common:info.invoice_num')}</label>
+                                    <input type="text"
+                                        name='invoice_num'
+                                        className='input-rounded'
+                                        ref={focusRef}
+                                        value={data.invoice_num}
+                                        onChange={(e) => handleOnChange(e)}
+                                        placeholder=" " />
+                                </div>
+                                <div className="input-container">
+                                    <label className='label'>{t('common:info.date')}</label>
+                                    <input type="date"
+                                        name='invoice_date'
+                                        className='input-rounded'
+                                        value={getDate(data.invoice_date, true)}
+                                        onChange={(e) => handleOnChange(e)}
+                                        placeholder=" " />
+                                </div>
+                                <div className="input-container z-[500]">
+                                    <label className='label'>{t('common:models.vendor')}</label>
+                                    <Select options={vendors}
+                                        maxMenuHeight={200}
+                                        value={vendors.find(v => v.value == data.vendor_id) || vendors[0]}
+                                        onChange={v => setData({ ...data, vendor_id: v.value })}
+                                    />
+                                </div>
                             </div>
                         </div>
-                        <div className="flex flex-wrap gap-2">
-                            <div className="flex-1 min-w-[100px] ">
-                                <label className={classes.label}>{t('common:models.unit')}</label>
-                                <input type="text"
-                                    name='unit_name'
-                                    onChange={e => onProductChange(e)}
-                                    value={selectedProduct.unit_name}
-                                    className={classes.input}
-                                    placeholder={t('common:models.unit')} />
+                        <div className="search-box" style={{ overflow: 'visible' }}>
+                            <div className="search-header">
+                                {t('common:info.invoice_items')}
                             </div>
-                            <div className="flex-1 min-w-[100px] ">
-                                <label className={classes.label}>{t('common:info.qte')}</label>
-                                <input type="text"
-                                    name='qty'
-                                    value={selectedProduct.qty || 1}
-                                    onChange={e => onProductChange(e)}
-                                    className={classes.input}
-                                    placeholder={t('common:info.qte')} />
+                            <div className="flex flex-wrap flex-col md:flex-row gap-y-2 justify-center items-center w-full my-1 min-h-[80px] px-2 gap-x-2 ">
+                                <div className="flex flex-wrap flex-col flex-1 gap-y-2 w-full">
+                                    <div className="flex flex-wrap gap-2 items-center">
+                                        <div className="flex-1 min-w-[100px] ">
+                                            <label className='label'>{t('common:info.barcode')}</label>
+                                            <input type="text"
+                                                name='barcode'
+                                                ref={ref}
+                                                value={selectedProduct.barcode}
+                                                className='input-rounded'
+                                                onChange={e => onProductChange(e)}
+                                                onKeyDown={(e) => handleBarcodeSearch(e)}
+                                                placeholder={t('common:info.barcode')} />
+                                        </div>
+                                        <div className="flex-[2] min-w-[100px] ">
+                                            <label className='label'>{t('common:models.product')}</label>
+                                            <input type="text"
+                                                name='name'
+                                                ref={productRef}
+                                                onChange={e => onProductChange(e)}
+                                                value={selectedProduct.name}
+                                                className='input-rounded'
+                                                placeholder={t('common:models.product')} />
+                                        </div>
+                                        <div className="flex-1 min-w-[100px] ">
+                                            <label className='label'>{t('common:models.category')}</label>
+
+                                            <CreatableSelect options={categories}
+                                                value={categories.find(v => v.value == selectedProduct.category_id) || categories[0]}
+                                                onChange={v => setSelectedProduct({ ...selectedProduct, category_id: v.value })} />
+                                        </div>
+
+                                    </div>
+                                    <div className="flex flex-wrap gap-2 items-center">
+                                        <div className="flex-1 min-w-[100px] ">
+                                            <label className='label'>{t('common:models.unit')}</label>
+                                            <CreatableSelect options={units}
+                                                value={units.find(v => v.value == selectedProduct.unit_id) || units[0]}
+                                                onChange={v => setSelectedProduct({ ...selectedProduct, unit_id: v.value })} />
+                                        </div>
+                                        <div className="flex-1 min-w-[100px] ">
+                                            <label className='label'>{t('common:info.qte')}</label>
+                                            <input type="text"
+                                                name='qty'
+                                                ref={qtyRef}
+                                                value={selectedProduct.qty}
+                                                onChange={e => onProductChange(e)}
+                                                className='input-rounded'
+                                                placeholder={t('common:info.qte')} />
+                                        </div>
+                                        <div className="flex-1 min-w-[100px] ">
+                                            <label className='label'>{t('common:info.buy_price')}</label>
+                                            <input type="text"
+                                                name='buy_price'
+                                                onChange={e => onProductChange(e)}
+                                                value={selectedProduct.buy_price}
+                                                className='input-rounded'
+                                                placeholder={t('common:info.buy_price')} />
+                                        </div>
+                                        <div className="flex-1 min-w-[100px] ">
+                                            <label className='label'>{t('common:info.sell_price')}</label>
+                                            <input type="text"
+                                                name='sell_price'
+                                                onChange={e => onProductChange(e)}
+                                                value={selectedProduct.sell_price}
+                                                className='input-rounded'
+                                                placeholder={t('common:info.sell_price')} />
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-y-1">
+                                    <div className="hovered-blue-button" onClick={() => onAddProduct()}>
+                                        {<icons.Add />}
+                                    </div>
+                                    <div className="hovered-yellow-button" onClick={() => resetProduct()} title="reset">
+                                        {<icons.Reload />}
+                                    </div>
+                                </div>
                             </div>
-                            <div className="flex-1 min-w-[100px] ">
-                                <label className={classes.label}>{t('common:info.buy_price')}</label>
-                                <input type="text"
-                                    name='buy_price'
-                                    onChange={e => onProductChange(e)}
-                                    value={selectedProduct.buy_price}
-                                    className={classes.input}
-                                    placeholder={t('common:info.buy_price')} />
+                            <table className="w-full text-sm text-left pos-table border-0 text-gray-500 dark:text-gray-400" style={{ 'width': "100%" }} cellSpacing={0} cellPadding={0}>
+                                <thead className="text-[10px] md:text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 sticky top-0 dark:text-gray-400">
+                                    <tr>
+                                        <th className={'max-xss border-l-0'}>#</th>
+                                        <th className={'max-md'}>{t('common:info.barcode')}</th>
+                                        <th className={'max-lg'}>{t('common:info.name')}</th>
+                                        <th className={'max-xs'}>{t('common:models.unit')}</th>
+                                        <th className={'max-xs'}>{t('common:info.qte')}</th>
+                                        <th className={'max-xs'}>{t('common:info.price')}</th>
+                                        <th className={'max-xs'}>{t('common:info.amount')}</th>
+                                        <th className={'max-xs'}>{t('common:info.discount')}</th>
+                                        <th className={'max-xs'}>{t('common:info.tax_amount')}</th>
+                                        <th className={'max-xs'}>{t('common:info.amount_total')}</th>
+                                        <th className={'max-xss border-r-0'}></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {invoiceItems.map((product, index) =>
+                                        <tr key={index} className="bg-white even:bg-gray-200">
+                                            <td className={'xss  text-center'} >
+                                                {invoiceItems.length - index}
+                                            </td>
+                                            <td className={'md'}>
+                                                <input type="text" className={'input-rounded rounded-none bg-gray-100 text-center'} name="barcode" value={products.find((p, i) => p.id == product.product_id)?.barcode} readOnly />
+                                            </td>
+                                            <td className={'lg'}>
+                                                <input type="text" className={'input-rounded rounded-none'} name="name" value={product.name} onChange={(e) => onItemChange(e, index)} />
+                                            </td>
+                                            <td className={'xs'}>
+                                                <input type="text" className={'input-rounded rounded-none bg-gray-100 text-center'} name="unit" value={products.find((p, i) => p.id == product.product_id)?.unit_name} readOnly />
+                                            </td>
+                                            <td className={'xs'}>
+                                                <input type="text" className={'input-rounded  text-center rounded-none'}
+                                                    name="quantity" value={product.quantity} onChange={(e) => onItemChange(e, index)} />
+                                            </td>
+                                            <td className={'xs'}>
+                                                <input type="text" className={'input-rounded  text-center rounded-none'} name="price" value={product.price} onChange={(e) => onItemChange(e, index)} />
+                                            </td>
+                                            <td className={'xs'}>
+                                                <input type="text" className={'input-rounded  text-right rounded-none bg-gray-100 '} name="amount" readOnly value={currency(product.amount)} />
+                                            </td>
+                                            <td className={'xs'}>
+                                                <input type="text" className={'input-rounded  text-center rounded-none'} name="discount" value={(product.discount)} onChange={(e) => onItemChange(e, index)} />
+                                            </td>
+                                            <td className={'xs'}>
+                                                <input type="text" className={'input-rounded  text-right rounded-none bg-gray-100 '} readOnly value={currency(product.tax_amount)} />
+                                            </td>
+                                            <td className={'xs'}>
+                                                <input type="text" className={'input-rounded  text-right rounded-none bg-gray-100'} readOnly value={currency(product.amount_total)} />
+                                            </td>
+
+                                            <td className={'xss post-table-action'} onClick={() => removeInvoiceItem(index)}>
+                                                {<icons.Remove />}
+                                            </td>
+                                        </tr>
+
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className='w-full flex flex-wrap justify-between invoice-totals'>
+
+                            <div className="relative mt-2 z-0 mb-2 w-full flex flex-wrap gap-x-4  group">
+                                <div className='relative flex-1 min-w-[120px]'>
+                                    <label className='label'>{t('common:info.total_amount')}</label>
+                                    <input type="text"
+                                        name='total_amount'
+                                        className={'input-rounded bg-gray-100 text-center'}
+                                        value={currency(data.total_amount)}
+                                        readOnly
+                                        placeholder=" " />
+                                </div>
+                                <div className='relative flex-1 min-w-[120px]'>
+                                    <label className='label'>{t('common:info.total_discount')}</label>
+                                    <input type="text"
+                                        name='total_discount'
+                                        className={'input-rounded text-center bg-gray-100'}
+                                        value={currency(data.total_discount)}
+                                        readOnly
+                                        // onChange={(e) => handleOnChange(e)}
+                                        placeholder=" " />
+                                </div>
+
+                                <div className='relative flex-1 min-w-[120px]'>
+                                    <label className='label'>Tax total</label>
+                                    <input type="text"
+                                        name='total_tax'
+                                        className={'input-rounded bg-gray-100 text-center'}
+                                        value={currency(data.total_tax)}
+                                        readOnly
+                                        placeholder=" " />
+                                </div>
+                                <div className='relative flex-1 min-w-[120px]'>
+                                    <label className='label'>{t('common:info.total_with_tax')}</label>
+                                    <input type="text"
+                                        name='total_with_tax'
+                                        className={'input-rounded bg-gray-100 text-center'}
+                                        value={currency(data.total_with_tax)}
+                                        readOnly
+                                        placeholder=" " />
+                                </div>
+
                             </div>
+                            <div className="relative mt-2 z-0 mb-2 w-full flex flex-wrap gap-x-4  group">
+                                <div className='relative flex-1 min-w-[120px]'>
+                                    <label className='label'>{t('common:info.payment_method')}</label>
+                                    <select className='input-rounded' name="method_id" value={data.method_id} onChange={e => handleOnChange(e)}>
+                                        {payMethods.map(method => <option value={method.value} key={method.value}>{method.label}</option>)}
+                                    </select>
+                                </div>
+                                <div className='relative flex-1 min-w-[120px]'>
+                                    <label className='label'>{t('common:info.paid_amount')}</label>
+                                    <input type="text"
+                                        name='paid_amount'
+                                        className={'input-rounded text-center'}
+                                        readOnly={data.method_id == 1}
+                                        value={data.paid_amount}
+                                        onChange={(e) => handleOnChange(e)}
+                                        placeholder=" " />
+                                </div>
+
+                                <div className='relative flex-1 min-w-[120px]'>
+                                    <label className='label'>{t('common:info.rest_credit')}</label>
+                                    <input type="text"
+                                        name='rest_amount'
+                                        className={'input-rounded bg-gray-100 text-center'}
+                                        value={currency(data.rest_amount)}
+                                        readOnly
+                                        placeholder=" " />
+                                </div>
+
+                            </div>
+                            <div className="relative z-0 mb-2 w-full group">
+                                <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">{t('common:info.notes')}</label>
+                                <textarea id="message" rows="2" value={data.notes} name="notes" onChange={e => handleOnChange(e)} placeholder="Notes"></textarea>
+                            </div>
+
                         </div>
                     </div>
-                    <div className="hovered-button" onClick={() => onAddProduct()}>
-                        {<icons.Add />}
-                    </div>
+                    <button onClick={() => handleOnSubmit()} className={`${!invoice ? 'button-save' : 'yellow-button'} mt-2 flex items-center mx-auto`}>
+                        {<icons.Save />}
+                        <div className='ml-1'>{t('common:actions.save')}</div>
+                    </button>
                 </div>
-                <table className="w-full text-sm text-left pos-table border-0 text-gray-500 dark:text-gray-400" style={{ 'width': "100%" }} cellSpacing={0} cellPadding={0}>
-                    <thead className="text-[10px] md:text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 sticky top-0 dark:text-gray-400">
-                        <tr>
-                            <th className={'max-xss border-l-0'}>#</th>
-                            <th className={'max-md'}>{t('common:info.barcode')}</th>
-                            <th className={'max-lg'}>{t('common:info.name')}</th>
-                            <th className={'max-xs'}>{t('common:models.unit')}</th>
-                            <th className={'max-xs'}>{t('common:info.qte')}</th>
-                            <th className={'max-xs'}>{t('common:info.price')}</th>
-                            <th className={'max-xs'}>{t('common:info.amount')}</th>
-                            <th className={'max-xs'}>{t('common:info.discount')}</th>
-                            <th className={'max-xs'}>{t('common:info.tax_amount')}</th>
-                            <th className={'max-xs'}>{t('common:info.amount_total')}</th>
-                            <th className={'max-xss border-r-0'}></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {invoiceItems.map((product, index) =>
-
-                            <tr key={index} className="bg-white even:bg-gray-200">
-                                <td className={'xss  text-center'} >
-                                    {invoiceItems.length - index}
-                                </td>
-                                <td className={'md'}>
-                                    <input type="text" className={classes.input + ' rounded-none bg-gray-100 text-center'} name="barcode" value={products.find((p, i) => p.id == product.product_id)?.barcode} readOnly />
-                                </td>
-                                <td className={'lg'}>
-                                    <input type="text" className={classes.input + ' rounded-none'} name="name" value={product.name} onChange={(e) => onItemChange(e, index)} />
-                                </td>
-                                <td className={'xs'}>
-                                    <input type="text" className={classes.input + ' rounded-none bg-gray-100 text-center'} name="unit" value={products.find((p, i) => p.id == product.product_id)?.unit_name} readOnly />
-                                </td>
-                                <td className={'xs'}>
-                                    <input type="text" className={classes.input + '  text-center rounded-none'}
-
-                                        name="quantity" value={product.quantity} onChange={(e) => onItemChange(e, index)} />
-                                </td>
-                                <td className={'xs'}>
-                                    <input type="text" className={classes.input + '  text-center rounded-none'} name="price" value={product.price} onChange={(e) => onItemChange(e, index)} />
-                                </td>
-                                <td className={'xs'}>
-                                    <input type="text" className={classes.input + '  text-right rounded-none bg-gray-100 '} name="amount" readOnly value={currency(product.amount)} />
-                                </td>
-                                <td className={'xs'}>
-                                    <input type="text" className={classes.input + '  text-center rounded-none'} name="discount" value={(product.discount)} onChange={(e) => onItemChange(e, index)} />
-                                </td>
-                                <td className={'xs'}>
-                                    <input type="text" className={classes.input + '  text-right rounded-none bg-gray-100 '} readOnly value={currency(product.tax_amount)} />
-                                </td>
-                                <td className={'xs'}>
-                                    <input type="text" className={classes.input + '  text-right rounded-none bg-gray-100'} readOnly value={currency(product.amount_total)} />
-                                </td>
-
-                                <td className={'xss post-table-action'} onClick={() => removeInvoiceItem(index)}>
-                                    {<icons.Remove />}
-                                </td>
-                            </tr>
-
-                        )}
-                    </tbody>
-                </table>
-            </div>
-            <div className='w-full flex flex-wrap justify-between invoice-totals'>
-
-                <div className="relative mt-2 z-0 mb-2 w-full flex flex-wrap gap-x-4  group">
-                    <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>{t('common:info.total_amount')}</label>
-                        <input type="text"
-                            name='total_amount'
-                            className={classes.input + ' bg-gray-100 text-center'}
-                            value={currency(data.total_amount)}
-                            readOnly
-                            placeholder=" " />
-                    </div>
-                    <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>{t('common:info.total_discount')}</label>
-                        <input type="text"
-                            name='total_discount'
-                            className={classes.input + ' text-center bg-gray-100'}
-                            value={currency(data.total_discount)}
-                            readOnly
-                            // onChange={(e) => handleOnChange(e)}
-                            placeholder=" " />
-                    </div>
-
-                    <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>Tax total</label>
-                        <input type="text"
-                            name='total_tax'
-                            className={classes.input + ' bg-gray-100 text-center'}
-                            value={currency(data.total_tax)}
-                            readOnly
-                            placeholder=" " />
-                    </div>
-                    <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>{t('common:info.total_with_tax')}</label>
-                        <input type="text"
-                            name='total_with_tax'
-                            className={classes.input + ' bg-gray-100 text-center'}
-                            value={currency(data.total_with_tax)}
-                            readOnly
-                            placeholder=" " />
-                    </div>
-
-                </div>
-                <div className="relative mt-2 z-0 mb-2 w-full flex flex-wrap gap-x-4  group">
-                    <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>{t('common:info.payment_method')}</label>
-                        <select className={classes.input} name="method_id" value={data.method_id} onChange={e => handleOnChange(e)}>
-                            {payMethods.map(method => <option value={method.id} key={method.id}>{method.name}</option>)}
-                        </select>
-                    </div>
-                    <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>{t('common:info.paid_amount')}</label>
-                        <input type="text"
-                            name='paid_amount'
-                            className={classes.input + ' text-center'}
-                            value={data.paid_amount}
-                            onChange={(e) => handleOnChange(e)}
-                            placeholder=" " />
-                    </div>
-
-                    <div className='relative flex-1 min-w-[120px]'>
-                        <label className={classes.label}>{t('common:info.rest_credit')}</label>
-                        <input type="text"
-                            name='rest_amount'
-                            className={classes.input + ' bg-gray-100 text-center'}
-                            value={currency(data.rest_amount)}
-                            readOnly
-                            placeholder=" " />
-                    </div>
-
-                </div>
-                <div className="relative z-0 mb-2 w-full group">
-                    <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">{t('common:info.notes')}</label>
-                    <textarea id="message" rows="2" value={data.notes} className={classes.textarea} name="notes" onChange={e => handleOnChange(e)} placeholder="Notes"></textarea>
-                </div>
-
-            </div>
-            <button onClick={() => handleOnSubmit()} className={`${!invoice ? 'button-save' : 'yellow-button'} mt-2 flex items-center mx-auto`}>
-                {<icons.Save />}
-                <div className='ml-1'>{t('common:actions.save')}</div>
-            </button>
+            </FormItemsContainer >
         </div >
     )
 }

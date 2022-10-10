@@ -22,8 +22,8 @@ const Tabs = ({ items }) => {
         fetchInvoice(selectedClientId);
     }, [items]);
     useEffect(() => {
-        setClients(items.slice(0, 2));
-        setHiddenClients(items.slice(2, items.length));
+        setClients(items.slice(0, 5));
+        setHiddenClients(items.slice(5, items.length));
         setSelectedClientId(items[0].id);
     }, [items]);
     const replaceClients = (newClientId, oldClientId) => {

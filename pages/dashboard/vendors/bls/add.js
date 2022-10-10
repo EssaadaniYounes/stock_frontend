@@ -7,12 +7,12 @@ import { fetch } from '../../../../lib/fetch'
 import { useMainStore } from '../../../../store/MainStore'
 
 function add({ vendors, products, invoices, config, payMethodsData, categories, units }) {
-  const { setVendors, setProducts, setClientsInvoices, setConfig, setPayMethods, setCategories, setUnits } = useMainStore(state => state);
+  const { setVendors, setProducts, setVendorsInvoices, setConfig, setPayMethods, setCategories, setUnits } = useMainStore(state => state);
   const { t } = useTranslation();
   useEffect(() => {
     setVendors(vendors);
     setProducts(products);
-    setClientsInvoices(invoices);
+    setVendorsInvoices(invoices);
     setConfig(config);
     setPayMethods(payMethodsData);
     setCategories(categories);
@@ -28,38 +28,23 @@ function add({ vendors, products, invoices, config, payMethodsData, categories, 
   )
 }
 export async function getServerSideProps(ctx) {
-  const { data: vendors } = await fetch('vendors', {
-    token: ctx.req.cookies.token
-  });
-  const { data: products } = await fetch('products', {
-    token: ctx.req.cookies.token
-  });
   const { data: invoices } = await fetch('vendors_invoices', {
     token: ctx.req.cookies.token
   })
-  const { data: config } = await fetch('config', {
+  
+  const { data } = await fetch('vendors_invoices/items/related_items', {
     token: ctx.req.cookies.token
   })
-  const { data: payMethodsData } = await fetch('pay_methods', {
-    token: ctx.req.cookies.token
-  })
-  const { data: categories } = await fetch('categories', {
-    token: ctx.req.cookies.token
-  });
-  const { data: units } = await fetch('units', {
-    token: ctx.req.cookies.token
-  });
-
-
+  console.log(data);  
   return {
     props: {
-      vendors,
-      products,
+      vendors:data.vendors,
+      products:data.products,
       invoices,
-      config,
-      payMethodsData,
-      categories,
-      units
+      config:data.config,
+      payMethodsData:data.payMethods,
+      categories:data.categories,
+      units:data.units
     }
   }
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { SharedHeader, SideBar } from './'
+import { SharedHeader, SideBar, Overlay } from './'
 import { useRouter } from 'next/router'
 import { useSharedVariableStore } from '../../store/sharedVariablesStore'
 import useTranslation from 'next-translate/useTranslation'
@@ -8,18 +8,13 @@ function Container(props) {
     const { lang } = useTranslation()
     const { showSideBar, setShowSideBar } = useSharedVariableStore(state => state)
     return (
-        <div dir={`${lang != "ar" ? 'ltr' : 'rtl'}`}>
+        <div dir={`${lang != "ar" ? 'ltr' : 'rtl'}`} className='flex flex-col items-start justify-start'>
 
             <SharedHeader />
-            <div className='flex overflow-hidden'>
-                {router.pathname != '/auth/login' && <SideBar />}
-                <div className={` duration-100 relative 
-                ${showSideBar
-                        ? 'min-w-[100vw]' :
-                        router.pathname != "/auth/login"
-                            ? 'w-[calc(100vw-220px)]'
-                            : 'min-w-[100vw]'
-                    }`}>
+            <div className="w-full h-screen flex  mt-14 relative">
+                {router.pathname != '/auth/login' && showSideBar && <SideBar />}
+                {showSideBar && <Overlay />}
+                <div className={`${showSideBar ? 'ltr:md:ml-[180px] rtl:md:mr-[180px]' : ''} w-full`}>
                     {props.children}
                 </div>
             </div>

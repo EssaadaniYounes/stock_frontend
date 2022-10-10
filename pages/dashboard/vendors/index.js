@@ -91,17 +91,17 @@ function index({ vendorsData, userData }) {
         }
     };
     return (
-        <>
+        <div>
             <CurrentPageHeader icon={icons.Vendor} title={t('common:pages.vendors')} showBack={false} component={VendorActions} />
 
-            <div className='px-4'>
+            <div className='px-2'>
                 <Toast />
                 <SearchVendor allVendors={vendorsData} />
                 <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
                     <CustomDataTable data={vendors} columns={columns} />
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

@@ -32,29 +32,20 @@ export async function getServerSideProps(ctx) {
   const { data: invoice } = await fetch(`clients_invoices/${id}`, {
     token: ctx.req.cookies.token
   });
-  const { data: clients } = await fetch(`clients`, {
+  const { data } = await fetch('clients_invoices/items/related_items', {
     token: ctx.req.cookies.token
-  });
-  const { data: products } = await fetch(`products`, {
-    token: ctx.req.cookies.token
-  });
+  })
   const { data: invoiceProducts } = await fetch(`clients_invoices_items/items/${id}`, {
     token: ctx.req.cookies.token
   });
-  const { data: config } = await fetch('config', {
-    token: ctx.req.cookies.token
-  })
-  const { data: payMethodsData } = await fetch('pay_methods', {
-    token: ctx.req.cookies.token
-  })
   return {
     props: {
       invoice,
       invoiceProducts,
-      clients,
-      products,
-      config,
-      payMethodsData
+      clients: data.clients,
+      products: data.products,
+      config: data.config,
+      payMethodsData: data.payMethods
     }
   }
 }

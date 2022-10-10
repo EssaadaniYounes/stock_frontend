@@ -102,6 +102,7 @@
         "invoice": "Invoice",
         "role": "Role",
         "city": "City",
+        "supplier_bl": "Supplier Bl",
         "client_balance": "Client balance",
         "user": "User",
         "pay_method": "Pay method"

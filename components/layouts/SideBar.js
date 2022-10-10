@@ -7,7 +7,7 @@ function SideBar() {
     const { showSideBar } = useSharedVariableStore(state => state)
 
     return (
-        <div className={`sticky top-0 overflow-hidden min-h-[calc(100vh-56px)] w-[220px] bg-gray-800 duration-200 transform ${showSideBar ? ' left-56 ' : ' right-0 '}`}>
+        <div className={`bg-gray-800 fixed z-[39] h-full w-[180px] overflow-y-auto top-14`}>
             <MainAccordion items={items} />
         </div>
     )

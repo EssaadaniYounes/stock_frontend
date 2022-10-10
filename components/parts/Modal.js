@@ -9,7 +9,7 @@ function Modal(props) {
     useOnClickOutside(ref, () => setShowProduct(false));
     return (
         <div  className='w-full top-0 min-h-screen left-0 bg-gray-100 bg-opacity-40 backdrop-blur-sm  absolute z-10 '>
-            <div ref={ref}>
+            <div ref={ref} className="mx-5">
                 <Form>
                     {props.children}
                 </Form>

@@ -5,7 +5,7 @@ import CustomDataTable from '../../../components/parts/CustomDataTable'
 import { City, CityActions, PayMethod, PayMethodActions, SearchCity, SearchPayMethod } from '../../../components/ui'
 import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
-import autoLogin, { deleteService } from '../../../services'
+import autoLogin, { deleteService, updateService } from '../../../services'
 import { useMainStore } from '../../../store/MainStore'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,15 +24,25 @@ function index({ payMethodsData, userData }) {
         {
             name: "#",
             cell: row => <div className="flex items-center gap-2">
-                {can(permission, 'delete') && < button onClick={() => deletePayMethod(row.id)}>
+                {can(permission, 'delete') && row.id != 1 && < button onClick={() => deletePayMethod(row.id)}>
                     {<icons.Remove />}
                 </button>
                 }
                 {can(permission, 'update') && < button onClick={() => handleOnUpdateClick(row.id)}>
                     <a>{<icons.Update />}</a>
+
                 </button >
                 }
+
             </div >,
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+        },
+        {
+            cell: row => row.is_default == 1
+                ? can(permission, 'update') && <button disabled className="text-[12px] bg-blue-300 p-2 rounded-md text-white font-semibold mt-1 capitalize cursor-not-allowed" >default</button>
+                : <button className="text-[12px] bg-yellow-600 p-2 rounded-md text-white font-semibold mt-1 capitalize duration-150 hover:bg-yellow-500" onClick={() => makeDefault(row.id)}>make default</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -41,7 +51,6 @@ function index({ payMethodsData, userData }) {
             name: t('common:info.name'),
             selector: row => row.name,
             sortable: true,
-
         }
     ];
     const [payMethod, setPayMethod] = useState(null);
@@ -52,6 +61,20 @@ function index({ payMethodsData, userData }) {
         setPayMethods(payMethodsData);
         setUser(userData);
     }, []);
+
+    const makeDefault = async (id) => {
+        const res = await updateService('pay_methods/default', id, { old_item: payMethodsData.find(p => p.is_default == 1).id });
+
+        if (res.success) {
+            const newMethods = payMethods.map(m => {
+                if (m.id != id) {
+                    return { ...m, is_default: 0 }
+                }
+                return { ...m, is_default: 1 }
+            })
+            setPayMethods(newMethods);
+        }
+    }
 
     const deletePayMethod = async (id) => {
         const res = await deleteService('pay_methods', id, 'Method');
