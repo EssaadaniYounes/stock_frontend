@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import { Form, FormHeader, FormItemsContainer, RequestLoader } from '../../parts'
 import icons from '../../../data/iconsComponents'
 import { addService, updateService } from '../../../services'
-import { useOnClickOutside } from '../../../hooks/click-outside'
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
 import { useMainStore } from '../../../store/MainStore';
 import ToastDone from '../../../utils/toast-update'
@@ -18,11 +17,9 @@ function Category({ category = null, callBack = null, setState = null }) {
     const [isLoading, setIsLoading] = useState(false);
     const { categories, setCategories } = useMainStore(state => state);
     const { setShowCategory } = useSharedVariableStore(state => state);
-    const ref = useRef();
     const focusRef = useRef();
 
     useFocus(focusRef);
-    useOnClickOutside(ref, () => { setShowCategory(false), setState && setState(null) });
 
     const handleOnSubmit = async () => {
         setIsLoading(true);
@@ -51,12 +48,12 @@ function Category({ category = null, callBack = null, setState = null }) {
     }
 
     return (
-        <div className='w-full h-[calc(100vh-110px)] bg-gray-100 bg-opacity-40 backdrop-blur-sm  absolute top-[50px] z-10 flex items-center justify-center'>
+        <div className='w-full h-[calc(100vh-110px)] inset-0 bg-gray-100 bg-opacity-40 backdrop-blur-sm  absolute top-[50px] z-10 flex items-center justify-center'>
             {isLoading && <RequestLoader />}
             <Form>
-                <div ref={ref} className="w-[300px]">
+                <div className="w-[300px]">
                     <FormItemsContainer>
-                        <FormHeader title={t('common:models.category')} isEdit={category} />
+                        <FormHeader title={t('common:models.category')} isEdit={category} closeCallBack={() => setShowCategory(false)} />
                         <div className="form-content">
                             <div className="input-container mb-2">
                                 <label className='label'>{t('common:models.category')}</label>

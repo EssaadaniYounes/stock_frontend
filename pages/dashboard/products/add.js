@@ -36,7 +36,6 @@ export async function getServerSideProps(ctx) {
     const { data } = await fetch('products/items/related_items', {
         token: ctx.req.cookies.token
     })
-    console.log(data);
     return {
         props: {
             categories: data.categories,

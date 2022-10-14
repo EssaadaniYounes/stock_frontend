@@ -100,18 +100,17 @@ function index({ vendorsInvoicesData, vendorsData, userData }) {
 }
 
 export async function getServerSideProps(ctx) {
-    const { data: vendorsInvoicesData } = await fetch('vendors_invoices', {
+    const { data } = await fetch('vendors_invoices', {
         token: ctx.req.cookies.token
     })
-    const { data: vendorsData } = await fetch('vendors', {
-        token: ctx.req.cookies.token
-    })
+
+    data.vendors.unshift({ value: 0, label: 'All' })
 
     const { dataUser: userData } = await autoLogin(ctx);
     return {
         props: {
-            vendorsInvoicesData,
-            vendorsData,
+            vendorsInvoicesData: data.bls,
+            vendorsData: data.vendors,
             userData
         }
     }

@@ -7,7 +7,6 @@ export default function calcTotalAmount(items = null, key) {
 }
 
 export function calcLastMonthAmount(items, invoiceItem, paidAmount) {
-    console.log(items);
     let dus = 0;
     const invoiceItems = [];
     Object.keys(items).map(month => {

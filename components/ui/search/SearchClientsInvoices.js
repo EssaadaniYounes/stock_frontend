@@ -4,7 +4,7 @@ import { useMainStore } from '../../../store/MainStore'
 import { SearchHeader } from '../../parts';
 import useFocus from '../../../hooks/useAutoFocus'
 import useTranslation from 'next-translate/useTranslation';
-
+import Select from 'react-select';
 function SearchClientsInvoices({ allInvoices }) {
     const { t } = useTranslation();
     const { setClientsInvoices, clients } = useMainStore(state => state);
@@ -14,8 +14,9 @@ function SearchClientsInvoices({ allInvoices }) {
         invoice_date: ''
     })
 
+    const [selectedClientId, setSelectedClientId] = useState(0);
     const callBack = (invoice) => {
-        return (invoice.client_name.toLowerCase().includes(searchItems.client_name) &&
+        return (invoice.client_name.includes(searchItems.client_name != 'All' ? searchItems.client_name : '') &&
             invoice.invoice_num.toLowerCase().includes(searchItems.invoice_num) &&
             invoice.invoice_date.toLowerCase().includes(searchItems.invoice_date))
     }
@@ -30,22 +31,17 @@ function SearchClientsInvoices({ allInvoices }) {
 
 
     return (
-        <div className='search-box'>
+        <div className='search-box pb-1' style={{ overflow: 'visible' }}>
             <SearchHeader />
-            <div className='search-body'>
-
-                <div className="relative z-0 mb-6 flex-1 group">
+            <div className="search-body">
+                <div className="input-container">
                     <label htmlFor="" className='label'>{t('common:models.client')}</label>
-                    <select type="text"
-                        name="client_name"
-                        onChange={e => handleOnChange(e)}
-                        placeholder=' '
-                        className='input-rounded' >
-                        <option value={''} >All clients</option>
-                        {clients.map((client, i) => <option key={client.id} value={client.full_name}>{client.full_name}</option>)}
-                    </select>
+                    <Select options={clients}
+                        value={clients.find(c => c.id == selectedClientId)}
+                        onChange={v => { setSearchItems({ ...searchItems, client_name: v.label }), setSelectedClientId(v.value) }}
+                    />
                 </div>
-                <div className="relative z-0 mb-6 flex-1 group">
+                <div className="input-container">
                     <label htmlFor="" className='label'>{t('common:info.invoice_num')}</label>
                     <input type="text"
                         name='invoice_num'
@@ -54,7 +50,7 @@ function SearchClientsInvoices({ allInvoices }) {
                         placeholder=' '
                         className='input-rounded' />
                 </div>
-                <div className="relative z-0 mb-6 flex-1 group">
+                <div className="input-container z-[500]">
                     <label htmlFor="" className='label'>{t('common:info.date_invoice')}</label>
                     <input type="date"
                         name="invoice_date"

@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import { Form, FormHeader, FormItemsContainer, RequestLoader } from '../../parts'
 import icons from '../../../data/iconsComponents'
 import { addService, updateService } from '../../../services'
-import { useOnClickOutside } from '../../../hooks/click-outside'
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
 import { useMainStore } from '../../../store/MainStore';
 import ToastDone from '../../../utils/toast-update'
@@ -19,11 +18,9 @@ function PayMethod({ payMethod = null, callBack, setState = null }) {
     const [isLoading, setIsLoading] = useState(false);
     const { payMethods, setPayMethods } = useMainStore(state => state);
     const { setShowPayMethod } = useSharedVariableStore(state => state);
-    const ref = useRef();
     const focusRef = useRef();
     useFocus(focusRef)
 
-    useOnClickOutside(ref, () => { setShowPayMethod(false), setState && setState(null) });
 
     const handleOnSubmit = async () => {
         setIsLoading(true);
@@ -53,12 +50,12 @@ function PayMethod({ payMethod = null, callBack, setState = null }) {
     }
 
     return (
-        <div className='w-full h-[calc(100vh-110px)] bg-gray-100 bg-opacity-40 backdrop-blur-sm  absolute top-[50px] z-10 flex items-center justify-center'>
+        <div className='w-full h-[calc(100vh-110px)] inset-0 bg-gray-100 bg-opacity-40 backdrop-blur-sm  absolute top-[50px] z-10 flex items-center justify-center'>
             {isLoading && <RequestLoader />}
             <Form>
-                <div ref={ref} className="w-[300px]">
+                <div className="w-[300px]">
                     <FormItemsContainer>
-                        <FormHeader title={t('common:models.pay_method')} isEdit={payMethod} />
+                        <FormHeader title={t('common:models.pay_method')} isEdit={payMethod} closeCallBack={() => setShowPayMethod(false)} />
                         <div className="form-content"><div className="input-container mb-2">
                             <label className='label'>{t('common:info.name')}</label>
                             <input type="text"

@@ -123,19 +123,30 @@ const Tabs = ({ items }) => {
                                                 <td>{invoiceItem.quantity}</td>
                                                 <td>{currency(invoiceItem.price)}</td>
                                                 <td>{currency(invoiceItem.amount)}</td>
-                                                {index == 0
+                                                {/* {index == 0
                                                     ? <td rowSpan={invoiceItems[key][dayKey].length}>{currency(calcTotalAmount(invoiceItems[key][dayKey], 'amount'))}</td>
                                                     : false
+                                                } */}
+                                                {invoiceItem.is_target ?
+                                                    <td className="" rowSpan={invoiceItem.length}>{currency(invoiceItem.total_amount)}</td>
+                                                    : false
                                                 }
-                                                <td>{invoiceItem.invoice_num}</td>
-                                                {index == 0
+                                                {invoiceItem.is_target ?
+                                                    <td className="" rowSpan={invoiceItem.length}>{invoiceItem.invoice_num}</td>
+                                                    : false
+                                                }
+                                                {invoiceItem.is_target ?
+                                                    <td className="" rowSpan={invoiceItem.length}>{currency(invoiceItem.paid)}</td>
+                                                    : false
+                                                }
+                                                {/* {index == 0
                                                     ? <td rowSpan={invoiceItems[key][dayKey].length}>
                                                         {currency(invoiceItem.paid_amount)}
                                                     </td>
                                                     : false
-                                                }
-                                                {index == 0
-                                                    ? <td rowSpan={invoiceItems[key][dayKey].length}>..</td>
+                                                } */}
+                                                {invoiceItem.is_target ?
+                                                    <td className="" rowSpan={invoiceItem.length}>{invoiceItem.method_name}</td>
                                                     : false
                                                 }
                                                 {

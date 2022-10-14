@@ -3,7 +3,7 @@ import icons from '../../../data/iconsComponents';
 import { addService, updateService } from '../../../services';
 import { useMainStore } from '../../../store/MainStore';
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore';
-import { Category, Vendor, Unit } from '../';
+import { can } from '../../../utils/can'
 import { useOnClickOutside } from '../../../hooks/click-outside';
 import ToastDone from '../../../utils/toast-update';
 import { toast } from 'react-toastify';
@@ -13,11 +13,15 @@ import { FormHeader, FormItemsContainer, Modal, RequestLoader, Toast } from '../
 import useTranslation from 'next-translate/useTranslation';
 import CreatableSelect from 'react-select/creatable';
 import useFocus from '../../../hooks/useAutoFocus';
+import { useAuthStore } from '../../../store/authStore';
+import Select from 'react-select';
+import selectAdd from '../../../services/selectAdd';
+import { useGetPermissions } from '../../../hooks/get-permissions';
 
 function Product({ items, product = null, setState = null }) {
     const router = useRouter();
     const { t } = useTranslation();
-    const { categories, vendors, units, setProducts, products } = useMainStore(state => state);
+    const { categories, vendors, units, setProducts, products, setCategories, setVendors, setUnits } = useMainStore(state => state);
     const [data, setData] = useState(product ? product : {
         barcode: '',
         vendor_id: 0,
@@ -28,14 +32,17 @@ function Product({ items, product = null, setState = null }) {
         sell_price: 0,
         buy_price: 0,
     });
-    const [isLoading, setIsLoading]= useState(false);
-    const { showCategory, setShowCategory, showVendor, setShowVendor, setShowProduct, setShowUnit, showUnit } = useSharedVariableStore(state => state);
+    const [isLoading, setIsLoading] = useState(false);
+    const permissions = useGetPermissions();
+
+    const { setShowVendor, setShowProduct, setShowUnit, showUnit } = useSharedVariableStore(state => state);
     const ref = useRef();
     const focusRef = useRef();
     useFocus(focusRef)
+
+
     useEffect(() => {
-        // console.log(vendors)
-        if (vendors.length > 0) {
+            if (vendors.length > 0 && data.unit_id == 0) {
             setData({
                 ...data, vendor_id: vendors[0].value,
                 category_id: categories[0].value,
@@ -50,6 +57,7 @@ function Product({ items, product = null, setState = null }) {
     }
 
     const handleOnSubmit = async () => {
+
         setIsLoading(true);
         const id = toast.loading("Please wait...")
         if (product) {
@@ -78,15 +86,7 @@ function Product({ items, product = null, setState = null }) {
 
     return (
         <div>
-            {showCategory && <div className='-ml-4'><Category callBack={(val) => setData({ ...data, category_id: val })} /></div>}
-            {showUnit && <div className='-ml-4'><Unit callBack={(val) => setData({ ...data, unit_id: val })} /></div>}
-            {showVendor &&
-                <Modal>
-                    <div ref={ref} className='bg-white shadow-md rounded-md relative'>
-                        <Vendor callBack={(val) => setData({ ...data, vendor_id: val })} />
-                    </div>
-                </Modal>
-            }
+
             {isLoading && <RequestLoader />}
             <div className="flex flex-col">
                 <Toast />
@@ -119,30 +119,58 @@ function Product({ items, product = null, setState = null }) {
                             <div className="items-container">
                                 <div className="input-container">
                                     <label className="label">{t('common:models.vendor')}</label>
-                                    <CreatableSelect options={vendors}
-                                        onCreateOption={() => setShowVendor(true)}
-                                        value={vendors.find(v => v.value == data.vendor_id) || vendors[0]}
-                                        onChange={v => setData({ ...data, vendor_id: v.value })}
-                                    />
+                                    {
+                                        Object.keys(permissions).length > 0 &&
+                                            can(permissions.vendors, 'create')
+                                            ? <CreatableSelect options={vendors}
+                                                onCreateOption={(v) => selectAdd('vendors', { full_name: v, city_id: '1' }, (id) => setData({ ...data, vendor_id: id }), vendors, setVendors)}
+                                                value={vendors.find(v => v.value == data.vendor_id) || vendors[0]}
+                                                onChange={v => setData({ ...data, vendor_id: v.value })}
+                                            />
+                                            : <Select options={vendors}
+                                                value={vendors.find(v => v.value == data.vendor_id) || vendors[0]}
+                                                onChange={v => setData({ ...data, vendor_id: v.value })}
+                                            />
+                                    }
                                 </div>
                                 <div className="input-container">
                                     <label className="label">{t('common:models.category')}</label>
-                                    <CreatableSelect options={categories}
-                                        onCreateOption={() => setShowCategory(true)}
-                                        value={categories.find(c => c.value == data.category_id) || categories[0]}
-                                        onChange={v => setData({ ...data, category_id: v.value })}
-                                    />
+
+                                    {
+                                        Object.keys(permissions).length > 0 &&
+                                            can(permissions.categories, 'create')
+                                            ? <CreatableSelect options={categories}
+                                                onCreateOption={(v) => selectAdd('categories', { name: v }, (id) => setData({ ...data, category_id: id }), categories, setCategories)}
+                                                value={categories.find(c => c.value == data.category_id) || categories[0]}
+                                                onChange={v => setData({ ...data, category_id: v.value })}
+                                            />
+                                            : <Select options={categories}
+                                                value={categories.find(c => c.value == data.category_id) || categories[0]}
+                                                onChange={v => setData({ ...data, category_id: v.value })}
+                                            />
+                                    }
+
                                 </div>
                             </div>
                             <div className="items-container">
                                 <div className="input-container">
                                     <label className="label">{t('common:models.unit')}</label>
-                                    <CreatableSelect
-                                        options={units}
-                                        onCreateOption={() => setShowUnit(true)}
-                                        value={units.find(u => u.value == data.unit_id) || units[0]}
-                                        onChange={v => setData({ ...data, unit_id: v.value })}
-                                    />
+
+                                    {
+                                        Object.keys(permissions).length > 0 &&
+                                            can(permissions.units, 'create')
+                                            ? <CreatableSelect
+                                                options={units}
+                                                onCreateOption={(v) => selectAdd('units', { name: v }, (id) => setData({ ...data, unit_id: id }), units, setUnits)}
+                                                value={units.find(u => u.value == data.unit_id) || units[0]}
+                                                onChange={v => setData({ ...data, unit_id: v.value })}
+                                            />
+                                            : <Select
+                                                options={units}
+                                                value={units.find(u => u.value == data.unit_id) || units[0]}
+                                                onChange={v => setData({ ...data, unit_id: v.value })}
+                                            />
+                                    }
                                 </div>
                                 <div className="input-container">
                                     <label className='label'>{t('common:info.qty_init')}</label>

@@ -14,13 +14,13 @@ import { getDate } from '../../../utils/dates';
 import useFocus from '../../../hooks/useAutoFocus';
 import Select from 'react-select';
 import useDefaultPayMethod from '../../../hooks/use-default-pay-method';
-function Invoice({ invoice = null, invoiceProducts = null }) {
+function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
     const { t } = useTranslation();
-    const { products, clients, clientsInvoices, config, payMethods } = useMainStore(state => state);
+    const { products, clients, clientsInvoices, setClientsInvoices, config, payMethods } = useMainStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(invoice ? invoice : {
-        client_id: 0,
-        invoice_num: 1,
+        client_id: 1,
+        invoice_num: InvoiceNum,
         notes: '',
         invoice_date: getToday(),
         total_discount: 0,
@@ -33,21 +33,11 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
         created_by: ''
     });
     const [invoiceItems, setInvoiceItems] = useState(invoiceProducts ? invoiceProducts : []);
-    const [isLoading, setIsLoading]= useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const focusRef = useRef();
     useFocus(focusRef)
     const [selectedProductId, setSelectedProductId] = useState(0);
-    //get invoice num
-    useEffect(() => {
-        if (invoice) {
-            setData({ ...data, invoice_num: invoice.invoice_num })
-        }
-        else {
-            const lastInvoice = clientsInvoices[clientsInvoices.length - 1];
-            lastInvoice && setData({ ...data, invoice_num: +lastInvoice.invoice_num + 1 })
-
-        }
-    }, [clientsInvoices]);
+    
     //update total_amount value
     useEffect(() => {
         const totalAmount = invoiceItems.reduce((prev, current) => prev + current.amount, 0);
@@ -237,7 +227,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                 <FormHeader title={t('common:models.invoice')} isEdit={invoice} />
                 <div className="form-content">
                     <div className='flex flex-col gap-y-1'>
-                        <div className='search-box ' style={{ overflow: 'visible' }}>
+                        <div className='search-box pb-2' style={{ overflow: 'visible' }}>
                             <div className='search-header'>{t('common:info.invoice_info')}</div>
                             <div className="search-body">
                                 <div className="input-container">
@@ -245,7 +235,6 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                                     <input type="text"
                                         name='invoice_num'
                                         className='input-rounded'
-                                        ref={focusRef}
                                         value={data.invoice_num}
                                         onChange={(e) => handleOnChange(e)}
                                         placeholder=" " />
@@ -255,6 +244,7 @@ function Invoice({ invoice = null, invoiceProducts = null }) {
                                     <input type="date"
                                         name='invoice_date'
                                         className='input-rounded'
+                                        ref={focusRef}
                                         value={getDate(data.invoice_date, true)}
                                         onChange={(e) => handleOnChange(e)}
                                         placeholder=" " />

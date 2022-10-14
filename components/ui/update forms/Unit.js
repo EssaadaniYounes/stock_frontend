@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import { Form, FormHeader, FormItemsContainer, RequestLoader } from '../../parts'
 import icons from '../../../data/iconsComponents'
 import { addService, updateService } from '../../../services'
-import { useOnClickOutside } from '../../../hooks/click-outside'
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
 import { useMainStore } from '../../../store/MainStore';
 import ToastDone from '../../../utils/toast-update'
@@ -18,11 +17,9 @@ function Unit({ unit = null, callBack, setState = null }) {
     const { t } = useTranslation();
     const { units, setUnits } = useMainStore(state => state);
     const { setShowUnit } = useSharedVariableStore(state => state);
-    const ref = useRef();
     const focusRef = useRef();
 
     useFocus(focusRef)
-    useOnClickOutside(ref, () => { setShowUnit(false), setState && setState(null) });
 
     const handleOnSubmit = async () => {
         setIsLoading(true);
@@ -50,12 +47,12 @@ function Unit({ unit = null, callBack, setState = null }) {
     }
 
     return (
-        <div className='w-full h-[calc(100vh-110px)] bg-gray-100 bg-opacity-40 backdrop-blur-sm  absolute top-[50px] z-10 flex items-center justify-center'>
+        <div className='w-full h-[calc(100vh-110px)] inset-0 bg-gray-100 bg-opacity-40 backdrop-blur-sm  absolute top-[50px] z-10 flex items-center justify-center'>
             {isLoading && <RequestLoader />}
             <Form>
-                <div ref={ref} className="w-[300px]">
+                <div className="w-[300px]">
                     <FormItemsContainer>
-                        <FormHeader title={t('common:models.unit')} isEdit={unit} />
+                        <FormHeader title={t('common:models.unit')} isEdit={unit} closeCallBack={() => setShowUnit(false)} />
                         <div className="form-content">
                             <div className="input-container mb-2">
                                 <label className='label'> {t('common:info.name')}</label>

@@ -40,7 +40,35 @@ export function itemsInMonth(items, invoices) {
         months[invoice.month][invoice.day][0]['paid_amount'] = paid_amount
             ? paid_amount + paidAmount
             : paidAmount;
+
     }
+    let storedItems = [];
+    Object.keys(months).map(monthKey => {
+        Object.keys(months[monthKey]).map(dayKey => {
+            const items = months[monthKey][dayKey];
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                if (storedItems.indexOf(item.invoice_num) == -1) {
+                    storedItems.push(item.invoice_num);
+                    item.is_target = true;
+                }
+            }
+        })
+    })
+    Object.keys(months).map(monthKey => {
+        Object.keys(months[monthKey]).map(dayKey => {
+            const items = months[monthKey][dayKey];
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                if (storedItems.indexOf(item.invoice_num) != -1) {
+                    const communItems = items.filter(i => i.invoice_num == item.invoice_num);
+                    item.total_amount = communItems.reduce((prev, cur) => prev + cur.amount, 0);
+                    item.paid = invoices.find(i => i.id == item.invoice_id).paid_amount;
+                    item.length = communItems.length;
+                }
+            }
+        })
+    })
     return months;
 
 }

@@ -47,7 +47,7 @@ function SharedHeader() {
                 <div className='text-white uppercase text-[13px] md:text-2xl font-semibold'>Stock App</div>
                 <div>
                     {/* Show Toggle icon if we are logged in */}
-                    {router.pathname != '/login' &&
+                    {router.pathname != '/auth/login' &&
                         <div className='bg-white shadow-md p-2 rounded-full cursor-pointer' onClick={() => handleToggleSideBar()}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="md:h-6 h-4 md:w-6 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />

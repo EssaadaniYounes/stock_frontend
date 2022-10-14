@@ -16,7 +16,7 @@ function Role({ role = null }) {
         ? { role_name: role.role_name, permissions: JSON.parse(role.permissions) }
         : { role_name: '', permissions: {} }
     )
-    const [isLoading, setIsLoading]= useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const focusRef = useRef();
     useFocus(focusRef)
@@ -92,13 +92,14 @@ function Role({ role = null }) {
                                             roles[r].map(action => {
 
                                                 return (
-                                                    <li key={action} className='flex flex-wrap '>
+                                                    <li key={r + '_' + action} className='flex flex-wrap '>
                                                         <input type='checkbox'
                                                             className="w-6 h-6"
                                                             checked={isPermissionChecked(data.permissions, r, action)}
                                                             onChange={(e) => { handleCheckBox(e, r) }}
                                                             name={action}
                                                             id={r + '_' + action} />
+                                                        
                                                         <label htmlFor={r + '_' + action} className=' cursor-pointer pb-1 mx-2 text-[18px] capitalize'>
                                                             {t(`common:actions.${action}`)}
                                                         </label>

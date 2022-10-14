@@ -35,7 +35,7 @@
   @apply w-full px-6 mt-2 flex justify-between flex-wrap gap-x-2;
 }
 .search-body > div {
-  @apply relative z-0 mb-6 w-full sm:w-auto;
+  @apply flex-1 min-w-[140px];
 }
 .search-body > div input {
   @apply w-full;

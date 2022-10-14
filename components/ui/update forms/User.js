@@ -21,7 +21,7 @@ function User({ targetUser = null }) {
         password: '',
         role_id: '0'
     });
-    const [isLoading, setIsLoading]= useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const { roles } = useMainStore(state => state)
     const focusRef = useRef();
     useFocus(focusRef)
@@ -95,6 +95,7 @@ function User({ targetUser = null }) {
                                     value={roles.find(r => r.value == data.role_id) || roles[0]}
                                     onChange={v => setData({ ...data, role_id: v.value })}
                                 />
+
                             </div>
                         </div>
                     </div>

@@ -21,9 +21,9 @@ function SearchVendor({ allVendors }) {
 
     const callBack = (vendor) => {
         return (vendor.full_name.toLowerCase().includes(searchItems.full_name) &&
-            vendor.city.toLowerCase().includes(searchItems.city) &&
-            vendor.tel.toLowerCase().includes(searchItems.tel) &&
-            vendor.email.toLowerCase().includes(searchItems.email))
+            vendor?.city?.toLowerCase().includes(searchItems.city) &&
+            vendor?.tel?.toLowerCase().includes(searchItems.tel) &&
+            vendor?.email?.toLowerCase().includes(searchItems.email))
     }
 
     useSearch(callBack, setVendors, searchItems, allVendors);

@@ -10,7 +10,6 @@ function index() {
     const { t } = useTranslation()
     return (
         <div className='relative'>
-            <CurrentPageHeader icon={icons.DashBoard} title={t('common:pages.home')} />
             <div className='relative flex items-center justify-center'>
                 <Image src={image} width={500} height={350} alt='Logo' priority />
             </div>

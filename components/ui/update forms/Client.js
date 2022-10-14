@@ -4,6 +4,7 @@ import useTranslation from 'next-translate/useTranslation';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import ToastDone from '../../../utils/toast-update';
+import { can } from '../../../utils/can';
 import { FormHeader, FormItemsContainer, Modal, RequestLoader, Toast } from '../../parts';
 import { useMainStore } from '../../../store/MainStore';
 import { addService, updateService } from '../../../services';
@@ -12,11 +13,14 @@ import CreatableSelect from 'react-select/creatable';
 import { useSharedVariableStore } from '../../../store/sharedVariablesStore';
 import City from './City';
 import { useOnClickOutside } from '../../../hooks/click-outside';
+import { useGetPermissions } from '../../../hooks/get-permissions';
 import useFocus from '../../../hooks/useAutoFocus';
+import Select from 'react-select';
+import selectAdd from '../../../services/selectAdd';
 function Client({ client = null }) {
     const router = useRouter();
     const { t } = useTranslation();
-    const { cities } = useMainStore(state => state);
+    const { cities, setCities } = useMainStore(state => state);
     const [data, setData] = useState(client ? client : {
         full_name: '',
         street: '',
@@ -27,8 +31,9 @@ function Client({ client = null }) {
         email: '',
         ice: ''
     });
-    const [isLoading, setIsLoading]= useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const { setShowCity, showCity } = useSharedVariableStore(state => state)
+    const permissions = useGetPermissions();
     const ref = useRef();
     const focusRef = useRef();
 
@@ -108,12 +113,19 @@ function Client({ client = null }) {
                     <div className="items-container">
                         <div className="input-container">
                             <label className="label">{t('common:models.city')}</label>
-                            <CreatableSelect
-                                options={cities}
-                                onCreateOption={() => setShowCity(true)}
-                                value={cities.find(c => c.value == data.city_id) || cities[0]}
-                                onChange={v => setData({ ...data, city_id: v.value })}
-                            />
+                            {
+                                Object.keys(permissions).length > 0 &&
+                                    can(permissions.cities, 'create') ?
+                                    <CreatableSelect
+                                        options={cities}
+                                        onCreateOption={(v) => selectAdd('cities', { name: v }, (id) => setData({ ...data, city_id: id }), cities, setCities)}
+                                        value={cities.find(c => c.value == data.city_id) || cities[0]}
+                                        onChange={v => setData({ ...data, city_id: v.value })}
+                                    /> :
+                                    <Select options={cities}
+                                        value={cities.find(c => c.value == data.city_id) || cities[0]}
+                                        onChange={v => setData({ ...data, city_id: v.value })} />
+                            }
                         </div>
                         <div className="input-container">
                             <label className='label'>{t('common:info.zip_code')}</label>

@@ -13,9 +13,13 @@ import useTranslation from 'next-translate/useTranslation';
 import { City } from '../';
 import { useOnClickOutside } from '../../../hooks/click-outside';
 import useFocus from '../../../hooks/useAutoFocus';
+import { useGetPermissions } from '../../../hooks/get-permissions';
+import { can } from '../../../utils/can';
+import Select from 'react-select';
+import selectAdd from '../../../services/selectAdd';
 function Vendor({ vendor = null, callBack }) {
     const { t } = useTranslation();
-    const { cities } = useMainStore(state => state);
+    const { cities, setCities, vendors, setVendors } = useMainStore(state => state);
     const [data, setData] = useState(vendor ? vendor : {
         full_name: '',
         street: '',
@@ -27,13 +31,13 @@ function Vendor({ vendor = null, callBack }) {
         ice: ''
     });
     const [isLoading, setIsLoading] = useState(false);
+    const permissions = useGetPermissions();
     const router = useRouter();
     const ref = useRef();
     const focusRef = useRef();
 
     useFocus(focusRef)
     useOnClickOutside(ref, () => setShowVendor(false))
-    const { vendors, setVendors } = useMainStore(state => state);
     const { setShowVendor, setShowCity, showCity } = useSharedVariableStore(state => state);
     const handleOnChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
@@ -117,12 +121,21 @@ function Vendor({ vendor = null, callBack }) {
                         <div className="items-container">
                             <div className="input-container">
                                 <label className="label">{t('common:models.city')}</label>
-                                <CreatableSelect
-                                    options={cities}
-                                    onCreateOption={() => setShowCity(true)}
-                                    value={cities.find(c => c.value == data.city_id) || cities[0]}
-                                    onChange={v => setData({ ...data, city_id: v.value })}
-                                />
+                                {
+                                    Object.keys(permissions).length > 0 &&
+                                        can(permissions.cities, 'create')
+                                        ? <CreatableSelect
+                                            options={cities}
+                                            onCreateOption={(v) => selectAdd('cities', { name: v }, (id) => setData({ ...data, city_id: id }), cities, setCities)}
+                                            value={cities.find(c => c.value == data.city_id) || cities[0]}
+                                            onChange={v => setData({ ...data, city_id: v.value })}
+                                        />
+                                        : <Select
+                                            options={cities}
+                                            value={cities.find(c => c.value == data.city_id) || cities[0]}
+                                            onChange={v => setData({ ...data, city_id: v.value })}
+                                        />
+                                }
                             </div>
                             <div className="input-container">
                                 <label className='label'>{t('common:info.zip_code')}</label>

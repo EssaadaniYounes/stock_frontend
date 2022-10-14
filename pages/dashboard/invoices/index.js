@@ -106,19 +106,19 @@ function index({ invoicesData, userData, clients }) {
 }
 
 export async function getServerSideProps(ctx) {
-    const response = await fetch('clients_invoices', {
+    const { data: invoices } = await fetch('clients_invoices', {
         token: ctx.req.cookies.token
     })
-    const clientsResponse = await fetch('clients', {
+    const { data } = await fetch('clients_invoices/items/related_items', {
         token: ctx.req.cookies.token
     })
-
+    data.clients.unshift({ value: 0, label: 'All' })
     const loginResponse = await autoLogin(ctx);
     return {
         props: {
-            invoicesData: response.data,
+            invoicesData: invoices,
             userData: loginResponse.dataUser,
-            clients: clientsResponse.data
+            clients: data.clients
         }
     }
 }

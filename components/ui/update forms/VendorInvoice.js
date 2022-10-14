@@ -21,7 +21,7 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
     const { products, vendors, setProducts, config, payMethods, categories, units } = useMainStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(invoice ? invoice : {
-        vendor_id: 0,
+        vendor_id: 1,
         invoice_num: '',
         notes: '',
         invoice_date: getToday(),
@@ -102,7 +102,6 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
                 const amountTotal = amountValue + taxAmount;
                 totalAmount += amountValue;
                 setData({ ...data, total_amount: amountTotal });
-                console.log(p.quantity);
                 return {
                     ...p,
                     amount: amountValue,
@@ -139,7 +138,6 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
             const newItems = invoiceItems.map((item, i) => {
                 index = i;
                 if (item.product_id == isInInvoice.product_id) {
-                    console.log("IS the same")
                     return {
                         ...item,
                         quantity: qty,
@@ -160,7 +158,6 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
             const isInProducts = products.find(p => p.id == selectedProduct.id);
             let productId = selectedProduct.id;
             if (!isInProducts) {
-                console.log("sending")
                 const { barcode, name, qty: quantity_initial, unit_id, category_id, sell_price, buy_price } = selectedProduct;
                 const p = {
                     barcode,
@@ -269,7 +266,6 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
         }
         else {
             const res = await addService('vendors_invoices', { invoice: data, invoice_items: invoiceItems });
-            console.log(res);
             ToastDone("Invoice added successfully", id, res);
         }
         setIsLoading(false);
@@ -286,7 +282,7 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
                 <FormHeader title={t('common:models.supplier_bl')} isEdit={invoice} />
                 <div className="form-content">
                     <div className='flex flex-col gap-y-1'>
-                        <div className='search-box ' style={{ overflow: 'visible' }}>
+                        <div className='search-box pb-1' style={{ overflow: 'visible' }}>
                             <div className='search-header'>{t('common:info.invoice_info')}</div>
                             <div className="search-body">
                                 <div className="input-container">

@@ -7,7 +7,7 @@ import icons from '../../../data/iconsComponents'
 import { fetch } from '../../../lib/fetch'
 import { useMainStore } from '../../../store/MainStore'
 
-function add({ clients, products, invoices, config, payMethodsData }) {
+function add({ clients, products, invoices, config, payMethodsData, InvoiceNum }) {
   const { setClients, setProducts, setClientsInvoices, setConfig, setPayMethods } = useMainStore(state => state);
   const { t } = useTranslation();
   useEffect(() => {
@@ -23,7 +23,7 @@ function add({ clients, products, invoices, config, payMethodsData }) {
       <CurrentPageHeader icon={icons.AddClient} title={t('common:actions.add') + ' ' + t('common:models.invoice')} />
 
       <div className="w-[calc(100%-10px)] my-2 mx-auto">
-        <Invoice />
+        <Invoice InvoiceNum={InvoiceNum} />
       </div>
     </>
   )
@@ -37,9 +37,9 @@ export async function getServerSideProps(ctx) {
     token: ctx.req.cookies.token
   })
 
-
   return {
     props: {
+      InvoiceNum: +invoices[invoices.length - 1].invoice_num + 1,
       clients: data.clients,
       products: data.products,
       invoices,
