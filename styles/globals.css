@@ -25,6 +25,9 @@
 .hovered-yellow-button {
   @apply min-w-[40px]  text-yellow-700 hover:text-white border border-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-[24px] dark:border-yellow-500 dark:text-yellow-500 dark:hover:text-white dark:hover:bg-yellow-600 dark:focus:ring-yellow-800 flex items-center justify-center duration-200 cursor-pointer;
 }
+.print-button {
+  @apply bg-white;
+}
 .search-box {
   @apply w-full flex flex-col items-center min-h-[80px] mx-auto mt-2 border border-slate-200 rounded-md overflow-hidden;
 }
@@ -142,4 +145,10 @@ input[readonly] {
 }
 .label {
   @apply block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300;
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
 }

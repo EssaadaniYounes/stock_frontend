@@ -66,7 +66,11 @@
         "invoice_items": "عناصر الفاتورة",
         "role_name": "اسم الدور",
         "sell_price": "سعر البيع",
-        "buy_price": "سعر الشراء"
+        "buy_price": "سعر الشراء",
+        "no_data": "لا توجد بيانات",
+        "vat": "الرقم الضريبي ",
+        "cr": "السجل التجاري",
+        "tax_invoice": "فاتورة ضريبية"
     },
     "pages": {
         "dashboard": "لوحة المعلومات",
@@ -118,7 +122,9 @@
         "save": "حفظ",
         "select": "تحديد",
         "filter_by_city": "تصفية حسب المدينة",
-        "select_all": "اختر الكل"
+        "select_all": "اختر الكل",
+        "print_a4": "طباعة A4",
+        "preview_thermal": "معاينة طباعة حرارية"
     },
     "general": {
         "list": "لائحة",

@@ -22,7 +22,7 @@ const items = [
     },
     {
         id: 2,
-        key:'stock',
+        key: 'stock',
         title: 'Stock',
         icon: <icons.Stock />,
         subItems: [
@@ -48,7 +48,7 @@ const items = [
     },
     {
         id: 3,
-        key:'invoices',
+        key: 'invoices',
         title: 'Sales',
         icon: <icons.Invoice />,
         subItems: [
@@ -115,6 +115,12 @@ const items = [
                 title: 'Pay methods',
                 icon: <icons.PayMethod />,
                 link: '/dashboard/pay_methods'
+            },
+            {
+                key: 'report_types',
+                title: 'Report types',
+                icon: <icons.PayMethod />,
+                link: '/dashboard/report_types'
             },
         ]
     },

@@ -14,6 +14,7 @@ export const useMainStore = create(set => ({
     config: {},
     cities: [],
     payMethods: [],
+    reportTypes: [],
     setClients: (value) => set(state => ({ clients: value })),
     setVendors: (value) => set(state => ({ vendors: value })),
     setCategories: (value) => set(state => ({ categories: value })),
@@ -25,6 +26,7 @@ export const useMainStore = create(set => ({
     setConfig: (value) => set(state => ({ config: value })),
     setCities: (value) => set(state => ({ cities: value })),
     setPayMethods: (value) => set(state => ({ payMethods: value })),
-    setVendorsInvoices: (value) => set(state => ({ vendorsInvoices: value }))
+    setVendorsInvoices: (value) => set(state => ({ vendorsInvoices: value })),
+    setReportTypes: (value) => set(state => ({ reportTypes: value }))
 }))
 

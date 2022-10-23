@@ -55,8 +55,8 @@ function Client({ client = null }) {
             const res = await addService('clients', data);
             ToastDone(t('common:toast.add'), id, res);
         }
-        setIsLoading(false);
         setTimeout(() => {
+            setIsLoading(false);
             router.push('/dashboard/clients');
         }, 1500);
     }

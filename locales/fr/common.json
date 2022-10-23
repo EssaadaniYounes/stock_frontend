@@ -66,7 +66,8 @@
         "invoice_items": "Articles",
         "role_name": "Rôle",
         "sell_price": "Prix de Vente",
-        "buy_price": "Prix d'Achat"
+        "buy_price": "Prix d'Achat",
+        "no_data": "No données available"
     },
     "pages": {
         "dashboard": "Tableau de bord",

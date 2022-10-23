@@ -49,7 +49,7 @@ function User({ targetUser = null }) {
             router.push('/dashboard/users');
         }, 1500);
     }
-
+    console.log(roles)
     return (
         <div className="flex flex-col">
             {isLoading && <RequestLoader />}
@@ -91,11 +91,13 @@ function User({ targetUser = null }) {
                             </div>}
                             <div className="input-container">
                                 <label className="label">{t('common:models.role')}</label>
-                                <Select options={roles}
+                                {/* <Select options={roles}
                                     value={roles.find(r => r.value == data.role_id) || roles[0]}
                                     onChange={v => setData({ ...data, role_id: v.value })}
-                                />
-
+                                /> */}
+                                <select name="role_id" className="input-rounded" value={data.role_id} onChange={e => handleOnChange(e)}>
+                                    {roles.map(role => <option key={role.id} value={role.id}>{role.role_name}</option>)}
+                                </select>
                             </div>
                         </div>
                     </div>

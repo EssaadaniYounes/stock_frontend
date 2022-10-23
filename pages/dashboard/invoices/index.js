@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CurrentPageHeader } from '../../../components/layouts'
 import CustomDataTable from '../../../components/parts/CustomDataTable'
 import { ClientsInvoicesActions, SearchClientsInvoices } from '../../../components/ui'
@@ -10,12 +10,16 @@ import { useMainStore } from '../../../store/MainStore'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '../../../utils/can'
-import { Toast } from '../../../components/parts'
+import { Loader, RequestLoader, Toast } from '../../../components/parts'
 import useTranslation from 'next-translate/useTranslation'
 import currency from '../../../utils/format-money'
+import { ClientInvoiceReport, ClientInvoiceReportThermal } from '../../../components/ui'
+import getCookie from '../../../utils/get-cookie'
 
-function index({ invoicesData, userData, clients }) {
+function index({ invoicesData, userData, clients, reportTypes }) {
     const permission = JSON.parse(userData.data.permissions).clients_invoices;
+    const [showPreviewType, setShowPreviewType] = useState(false);
+    const [reportData, setReportData] = useState(null);
     const { t } = useTranslation();
     const columns = [
 
@@ -25,16 +29,30 @@ function index({ invoicesData, userData, clients }) {
                 {can(permission, 'delete') && <button onClick={() => deleteInvoice(row.id)}>
                     {<icons.Remove />}
                 </button>}
+
                 {can(permission, 'update') && < Link href={`/dashboard/invoices/invoice/${row.id}`}>
                     <a>{<icons.Update />}</a>
                 </Link>}
-                {can(permission, 'read') && < Link href={`/dashboard/invoices/invoice/products/${row.id}`}>
-                    {<icons.Print />}
-                </Link>}
+                {
+                    can(permission, 'read') && <div className=" flex items-center">
+                        <button className="bg-gray-100 p-2 px-3 font-semibold border border-gray-600 rounded-sm" onClick={() => Print(row.id)}>{t('common:actions.print')}</button>
+                        <select className="bg-gray-50 outline-none p-2" onChange={(e) => onSelectChange(e, row.id)}>
+                            <option value="0">
+                            </option>
+                            <option value="1">
+                                {t('common:actions.print_a4')}
+                            </option>
+                            <option value="2">
+                                {t('common:actions.preview_thermal')}
+                            </option>
+                        </select>
+                    </div>
+                }
             </div >,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
+            minWidth: "300px"
         },
         {
             name: t('common:info.invoice_num'),
@@ -75,6 +93,24 @@ function index({ invoicesData, userData, clients }) {
         setClients(clients)
     }, []);
 
+
+    const onSelectChange = async (e, id) => {
+        Print(id, e.target.value)
+    }
+    const Print = async (id, report_type_id = null) => {
+        console.log(report_type_id)
+        const { data } = await fetch(`clients_invoices/items/report_data/${id}`, {
+            token: getCookie('token'),
+        })
+        setReportData(data);
+        if (!report_type_id) {
+            setShowPreviewType(reportTypes.find(t => t.is_default == 1).id)
+        }
+        else {
+            setShowPreviewType(report_type_id);
+        }
+    }
+
     const deleteInvoice = async (id) => {
         const res = await deleteService('clients_invoices', id, 'Invoice');
         if (res.success) {
@@ -91,7 +127,13 @@ function index({ invoicesData, userData, clients }) {
         }
     };
     return (
-        <>
+        <div className="relative">
+            {showPreviewType && showPreviewType == 1
+                ? <ClientInvoiceReport closeState={setShowPreviewType} data={reportData} />
+                : showPreviewType == 2
+                    ? <ClientInvoiceReportThermal closeState={setShowPreviewType} data={reportData} />
+                    : false
+            }
             <CurrentPageHeader icon={icons.Invoices} title={t('common:pages.clients_invoices')} showBack={false} component={ClientsInvoicesActions} />
             <div className='content'>
                 <Toast />
@@ -101,7 +143,7 @@ function index({ invoicesData, userData, clients }) {
                     <CustomDataTable data={clientsInvoices} columns={columns} />
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
@@ -118,7 +160,8 @@ export async function getServerSideProps(ctx) {
         props: {
             invoicesData: invoices,
             userData: loginResponse.dataUser,
-            clients: data.clients
+            clients: data.clients,
+            reportTypes: data.report_types
         }
     }
 }

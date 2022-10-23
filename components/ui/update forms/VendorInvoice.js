@@ -16,9 +16,12 @@ import useFocus from '../../../hooks/useAutoFocus';
 import CreatableSelect from 'react-select/creatable';
 import Select from 'react-select';
 import useDefaultPayMethod from '../../../hooks/use-default-pay-method';
+import selectAdd from '../../../services/selectAdd';
+import { useGetPermissions } from '../../../hooks/get-permissions';
+import { can } from '../../../utils/can';
 function VendorInvoice({ invoice = null, invoiceProducts = null }) {
     const { t } = useTranslation();
-    const { products, vendors, setProducts, config, payMethods, categories, units } = useMainStore(state => state);
+    const { products, vendors, setProducts, config, payMethods, categories, units, setVendors, setCategories, setUnits } = useMainStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(invoice ? invoice : {
         vendor_id: 1,
@@ -44,11 +47,14 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
         buy_price: '',
         sell_price: ''
     });
+    const [unExistedProducts, setUnExistedProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const ref = useRef();
     const focusRef = useRef();
     const qtyRef = useRef();
     const productRef = useRef();
+    const permissions = useGetPermissions();
+
     useFocus(focusRef)
 
     //update total_amount value
@@ -67,6 +73,11 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
             rest_amount: restAmount
         }));
     }, [invoiceItems, data.total_discount]);
+    useEffect(() => {
+        if (data.method_id == 1) {
+            setData({ ...data, paid_amount: 0 })
+        }
+    }, [data.method_id]);
     //set default pay method
     useDefaultPayMethod(data, setData);
 
@@ -119,6 +130,7 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
         setSelectedProduct({ ...selectedProduct, [name]: value });
     }
     const onAddProduct = async () => {
+        console.log(selectedProduct)
         if (selectedProduct.barcode == "") {
             alert(t('common:toast.fill_barcode'));
             ref.current.focus();
@@ -157,21 +169,27 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
 
             const isInProducts = products.find(p => p.id == selectedProduct.id);
             let productId = selectedProduct.id;
+            let isExisted = true;
             if (!isInProducts) {
                 const { barcode, name, qty: quantity_initial, unit_id, category_id, sell_price, buy_price } = selectedProduct;
+                productId = Math.floor(Math.random() * 1000);
+                isExisted = false;
                 const p = {
+                    temporary_id: productId,
+                    id: productId,
                     barcode,
                     name,
                     quantity_initial,
                     unit_id,
+                    unit_name: units.find(unit => unit.value == unit_id).label,
                     category_id,
                     sell_price,
                     buy_price,
                     vendor_id: data.vendor_id,
                 }
-                const res = await addService('products', p);
-                productId = res.data.id;
-                setProducts([...products, res.data]);
+                // const res = await addService('products', p);
+                setProducts([...products, p]);
+                setUnExistedProducts([...unExistedProducts, p]);
             }
             qty = selectedProduct.qty;
             let amount = selectedProduct.sell_price * qty;
@@ -182,6 +200,7 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
             const Obj = {
                 name: selectedProduct.name,
                 unit: selectedProduct.unit_id,
+                is_existed: isExisted,
                 barcode: selectedProduct.barcode,
                 product_id: productId,
                 price: selectedProduct.sell_price,
@@ -241,7 +260,6 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
                 buy_price: '',
                 sell_price: ''
             })
-            alert("There's no product with this barcode!");
             productRef.current.focus();
         }
     }
@@ -260,12 +278,12 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
         setIsLoading(true);
         const id = toast.loading("Please wait...")
         if (invoice) {
-            const res = await updateService('vendors_invoices', invoice.id, { invoice: data, invoice_items: invoiceItems });
+            const res = await updateService('vendors_invoices', invoice.id, { invoice: data, invoice_items: invoiceItems, un_existed_products: unExistedProducts });
+            console.log(res);
             ToastDone("Invoice updated successfully", id, res);
-
         }
         else {
-            const res = await addService('vendors_invoices', { invoice: data, invoice_items: invoiceItems });
+            const res = await addService('vendors_invoices', { invoice: data, invoice_items: invoiceItems, un_existed_products: unExistedProducts });
             ToastDone("Invoice added successfully", id, res);
         }
         setIsLoading(false);
@@ -306,11 +324,19 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
                                 </div>
                                 <div className="input-container z-[500]">
                                     <label className='label'>{t('common:models.vendor')}</label>
-                                    <Select options={vendors}
-                                        maxMenuHeight={200}
-                                        value={vendors.find(v => v.value == data.vendor_id) || vendors[0]}
-                                        onChange={v => setData({ ...data, vendor_id: v.value })}
-                                    />
+                                    {
+                                        Object.keys(permissions).length > 0 &&
+                                            can(permissions.vendors, 'create')
+                                            ? <CreatableSelect options={vendors}
+                                                onCreateOption={(v) => selectAdd('vendors', { full_name: v, city_id: '1' }, (id) => setData({ ...data, vendor_id: id }), vendors, setVendors)}
+                                                value={vendors.find(v => v.value == data.vendor_id) || vendors[0]}
+                                                onChange={v => setData({ ...data, vendor_id: v.value })}
+                                            />
+                                            : <Select options={vendors}
+                                                value={vendors.find(v => v.value == data.vendor_id) || vendors[0]}
+                                                onChange={v => setData({ ...data, vendor_id: v.value })}
+                                            />
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -344,19 +370,40 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
                                         </div>
                                         <div className="flex-1 min-w-[100px] ">
                                             <label className='label'>{t('common:models.category')}</label>
-
-                                            <CreatableSelect options={categories}
-                                                value={categories.find(v => v.value == selectedProduct.category_id) || categories[0]}
-                                                onChange={v => setSelectedProduct({ ...selectedProduct, category_id: v.value })} />
+                                            {
+                                                Object.keys(permissions).length > 0 &&
+                                                    can(permissions.categories, 'create')
+                                                    ? <CreatableSelect options={categories}
+                                                        onCreateOption={(v) => selectAdd('categories', { name: v }, (id) => setSelectedProduct({ ...selectedProduct, category_id: id }), categories, setCategories)}
+                                                        value={categories.find(c => c.value == selectedProduct.category_id) || categories[0]}
+                                                        onChange={v => setSelectedProduct({ ...selectedProduct, category_id: v.value })}
+                                                    />
+                                                    : <Select options={categories}
+                                                        value={categories.find(c => c.value == selectedProduct.category_id) || categories[0]}
+                                                        onChange={v => setSelectedProduct({ ...selectedProduct, category_id: v.value })}
+                                                    />
+                                            }
                                         </div>
 
                                     </div>
                                     <div className="flex flex-wrap gap-2 items-center">
                                         <div className="flex-1 min-w-[100px] ">
                                             <label className='label'>{t('common:models.unit')}</label>
-                                            <CreatableSelect options={units}
-                                                value={units.find(v => v.value == selectedProduct.unit_id) || units[0]}
-                                                onChange={v => setSelectedProduct({ ...selectedProduct, unit_id: v.value })} />
+                                            {
+                                                Object.keys(permissions).length > 0 &&
+                                                    can(permissions.units, 'create')
+                                                    ? <CreatableSelect
+                                                        options={units}
+                                                        onCreateOption={(v) => selectAdd('units', { name: v }, (id) => setSelectedProduct({ ...selectedProduct, unit_id: id }), units, setUnits)}
+                                                        value={units.find(u => u.value == selectedProduct.unit_id) || units[0]}
+                                                        onChange={v => setSelectedProduct({ ...selectedProduct, unit_id: v.value })}
+                                                    />
+                                                    : <Select
+                                                        options={units}
+                                                        value={units.find(u => u.value == selectedProduct.unit_id) || units[0]}
+                                                        onChange={v => setSelectedProduct({ ...selectedProduct, unit_id: v.value })}
+                                                    />
+                                            }
                                         </div>
                                         <div className="flex-1 min-w-[100px] ">
                                             <label className='label'>{t('common:info.qte')}</label>

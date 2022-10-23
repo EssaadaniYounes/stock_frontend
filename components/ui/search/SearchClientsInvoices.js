@@ -50,7 +50,7 @@ function SearchClientsInvoices({ allInvoices }) {
                         placeholder=' '
                         className='input-rounded' />
                 </div>
-                <div className="input-container z-[500]">
+                <div className="input-container">
                     <label htmlFor="" className='label'>{t('common:info.date_invoice')}</label>
                     <input type="date"
                         name="invoice_date"

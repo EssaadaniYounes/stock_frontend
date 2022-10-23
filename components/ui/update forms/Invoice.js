@@ -14,9 +14,13 @@ import { getDate } from '../../../utils/dates';
 import useFocus from '../../../hooks/useAutoFocus';
 import Select from 'react-select';
 import useDefaultPayMethod from '../../../hooks/use-default-pay-method';
+import CreatableSelect from 'react-select/creatable';
+import selectAdd from '../../../services/selectAdd';
+import { useGetPermissions } from '../../../hooks/get-permissions';
+import { can } from '../../../utils/can';
 function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
     const { t } = useTranslation();
-    const { products, clients, clientsInvoices, setClientsInvoices, config, payMethods } = useMainStore(state => state);
+    const { products, clients, clientsInvoices, setClientsInvoices, config, payMethods, setClient } = useMainStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(invoice ? invoice : {
         client_id: 1,
@@ -37,7 +41,7 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
     const focusRef = useRef();
     useFocus(focusRef)
     const [selectedProductId, setSelectedProductId] = useState(0);
-    
+    const permissions = useGetPermissions();
     //update total_amount value
     useEffect(() => {
         const totalAmount = invoiceItems.reduce((prev, current) => prev + current.amount, 0);
@@ -54,7 +58,11 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
             rest_amount: restAmount
         }));
     }, [invoiceItems, data.total_discount]);
-
+    useEffect(() => {
+        if (data.method_id == 1) {
+            setData({ ...data, paid_amount: 0 })
+        }
+    }, [data.method_id]);
     useDefaultPayMethod(data, setData);
 
     const handleOnChange = (e) => {
@@ -235,6 +243,7 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
                                     <input type="text"
                                         name='invoice_num'
                                         className='input-rounded'
+                                        readOnly
                                         value={data.invoice_num}
                                         onChange={(e) => handleOnChange(e)}
                                         placeholder=" " />
@@ -251,11 +260,19 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
                                 </div>
                                 <div className="input-container z-[500]">
                                     <label className='label'>{t('common:models.client')}</label>
-                                    <Select options={clients}
-                                        maxMenuHeight={140}
-                                        value={clients.find(v => v.value == data.client_id) || clients[0]}
-                                        onChange={v => setData({ ...data, client_id: v.value })}
-                                    />
+                                    {
+                                        Object.keys(permissions).length > 0 &&
+                                            can(permissions.clients, 'create')
+                                            ? <CreatableSelect options={clients}
+                                                onCreateOption={(v) => selectAdd('clients', { full_name: v, city_id: '1' }, (id) => setData({ ...data, client_id: id }), clients, setClient)}
+                                                value={clients.find(v => v.value == data.client_id) || clients[0]}
+                                                onChange={v => setData({ ...data, client_id: v.value })}
+                                            />
+                                            : <Select options={clients}
+                                                value={clients.find(v => v.value == data.client_id) || clients[0]}
+                                                onChange={v => setData({ ...data, client_id: v.value })}
+                                            />
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -289,7 +306,7 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
                                             <th className={'max-xss border-l-0'}>#</th>
                                             <th className={'max-md'}>{t('common:info.barcode')}</th>
                                             <th className={'max-lg'}>{t('common:info.name')}</th>
-                                            <th className={'max-xs'}>{t('common:models.unit')}</th>
+                                            <th className={'max-xs'}>{t('common:models.unit')} </th>
                                             <th className={'max-xs'}>{t('common:info.qte')}</th>
                                             <th className={'max-xs'}>{t('common:info.price')}</th>
                                             <th className={'max-xs'}>{t('common:info.amount')}</th>
@@ -311,7 +328,7 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
                                                 <td className={'lg'}>
                                                     <input type="text" className={'input-rounded rounded-none'} name="name" value={product.name} onChange={(e) => onProductChange(e, index)} />
                                                 </td>
-                                                <td className={'xs'}>
+                                                <td className={'md'}>
                                                     <input type="text" className={'input-rounded rounded-none bg-gray-100 text-center'} name="unit" value={products.find((p, i) => p.id == product.product_id)?.unit_name} readOnly />
                                                 </td>
                                                 <td className={'xs'}>

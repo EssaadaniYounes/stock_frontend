@@ -71,9 +71,9 @@ function index({ vendorsInvoicesData, vendorsData, userData }) {
     }, []);
 
     const deleteInvoice = async (id) => {
-        const res = await deleteService('vendor_invoices', id, 'Invoice');
+        const res = await deleteService('vendors_invoices', id, 'Invoice');
         if (res.success) {
-            setClientsInvoices(clientsInvoices.filter(i => i.id !== id));
+            setVendorsInvoices(vendorsInvoices.filter(i => i.id !== id));
             toast.success(res.message, {
                 position: "top-right",
                 autoClose: 1500,
@@ -90,7 +90,7 @@ function index({ vendorsInvoicesData, vendorsData, userData }) {
             <CurrentPageHeader icon={icons.Invoices} title={t('common:pages.suppliers_invoices')} showBack={false} component={VendorsInvoicesActions} />
             <div className='content'>
                 <Toast />
-                <SearchVendorsInvoices allInvoices={vendorsInvoicesData} />
+                {vendorsInvoicesData.length > 0 && <SearchVendorsInvoices allInvoices={vendorsInvoicesData} />}
                 <div className='w-full h-full rounded-md overflow-hidden mt-4'>
                     <CustomDataTable data={vendorsInvoices} columns={columns} />
                 </div>

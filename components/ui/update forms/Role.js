@@ -40,6 +40,7 @@ function Role({ role = null }) {
     }
 
     const handleSubmit = async () => {
+      
         setIsLoading(true);
         const id = toast.loading("Please wait...")
         if (role) {
@@ -86,7 +87,7 @@ function Role({ role = null }) {
                         Object.keys(roles).map(r => {
                             return (
                                 <div key={r} className='flex items-center mt-2 border-b pb-2 '>
-                                    <h3 className='text-[17px] font-semibold w-[100px] capitalize'>{t(`common:pages.${r}`)} :</h3>
+                                    <h3 className='text-[10px] md:text-[15px] font-medium w-[115px] capitalize'>{t(`common:pages.${r}`)} :</h3>
                                     <ul className='flex items-center justify-between w-[calc(100%-100px)] '>
                                         {
                                             roles[r].map(action => {

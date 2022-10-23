@@ -37,3 +37,7 @@ export { default as User } from './update forms/User';
 export { default as Company } from './update forms/Company';
 export { default as City } from './update forms/City';
 export { default as PayMethod } from './update forms/PayMethod';
+
+//Reports
+export { default as ClientInvoiceReport } from './reports/ClientInvoiceReport';
+export { default as ClientInvoiceReportThermal } from './reports/ClientInvoiceReportThermal';
