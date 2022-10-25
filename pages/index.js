@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react';
-import { autoLogin } from '../services/autoLogin';
-import { useAuthStore } from '../store/authStore';
+import { autoLogin } from '@/services/autoLogin';
+import { useAuthStore } from '@/store/authStore';
 
 const Home = ({ dataUser }) => {
   const router = useRouter();

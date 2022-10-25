@@ -1,8 +1,8 @@
 import useTranslation from 'next-translate/useTranslation';
 import React, { useRef } from 'react'
-import { useOnClickOutside } from '../../../hooks/click-outside'
-import currency from '../../../utils/format-money';
-import { InvoiceCompanyInfo, InvoiceInfo, InvoiceItems, ReportActions } from '../../parts'
+import { useOnClickOutside } from '@/hooks/click-outside'
+import currency from '@/utils/format-money';
+import { InvoiceCompanyInfo, InvoiceInfo, InvoiceItems, ReportActions } from '@/components/parts'
 function ClientInvoiceReport({ closeState, data }) {
     const { company, invoice, items } = data;
     const ref = useRef();

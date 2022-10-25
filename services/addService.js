@@ -1,5 +1,5 @@
-import { fetch } from "../lib/fetch";
-import getCookie from "../utils/get-cookie";
+import { fetch } from "@/lib/fetch";
+import getCookie from "@/utils/get-cookie";
 
 export default async function addService(service, data) {
     const token = getCookie('token');

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { SharedHeader, SideBar, Overlay } from './'
 import { useRouter } from 'next/router'
-import { useSharedVariableStore } from '../../store/sharedVariablesStore'
+import { useSharedVariableStore } from '@/store/sharedVariablesStore'
 import useTranslation from 'next-translate/useTranslation'
 function Container(props) {
     const router = useRouter()

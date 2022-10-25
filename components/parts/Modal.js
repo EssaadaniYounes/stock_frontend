@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import { useOnClickOutside } from '../../hooks/click-outside';
-import { useSharedVariableStore } from '../../store/sharedVariablesStore';
+import { useOnClickOutside } from '@/hooks/click-outside';
+import { useSharedVariableStore } from '@/store/sharedVariablesStore';
 import { Form } from './'
 
 function Modal(props) {

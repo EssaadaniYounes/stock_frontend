@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react'
-import icons from '../../../data/iconsComponents';
-import { addService, updateService } from '../../../services';
+import icons from '@/data/iconsComponents';
+import { addService, updateService } from '@/services';
 import Select from 'react-select'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ToastDone from '../../../utils/toast-update';
+import ToastDone from '@/utils/toast-update';
 import { useRouter } from 'next/router';
-import { FormHeader, FormItemsContainer, RequestLoader, Toast } from '../../parts';
-import { useMainStore } from '../../../store/MainStore';
-import { useAuthStore } from '../../../store/authStore';
+import { FormHeader, FormItemsContainer, RequestLoader, Toast } from '@/components/parts';
+import { useMainStore } from '@/store/MainStore';
+import { useAuthStore } from '@/store/authStore';
 import useTranslation from 'next-translate/useTranslation';
-import useFocus from '../../../hooks/useAutoFocus';
+import useFocus from '@/hooks/useAutoFocus';
 function User({ targetUser = null }) {
     const { t } = useTranslation();
     const { user } = useAuthStore(state => state);

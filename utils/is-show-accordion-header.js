@@ -1,4 +1,4 @@
-import items from "../data/SideBarItems";
+import items from "@/data/SideBarItems";
 
 export default function isShowAccordionHeader(id, permissions = null) {
     if (permissions) {

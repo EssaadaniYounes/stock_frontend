@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { CurrentPageHeader } from '../../../../components/layouts'
-import { Form } from '../../../../components/parts'
-import { User } from '../../../../components/ui'
-import { fetch } from '../../../../lib/fetch'
-import { useMainStore } from '../../../../store/MainStore'
+import { CurrentPageHeader } from '@/components/layouts'
+import { Form } from '@/components/parts'
+import { User } from '@/components/ui'
+import { fetch } from '@/lib/fetch'
+import { useMainStore } from '@/store/MainStore'
 
 function edit({ user, roles }) {
     const { setRoles } = useMainStore(state => state);

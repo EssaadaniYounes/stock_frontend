@@ -1,6 +1,6 @@
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import icons from '../../data/iconsComponents'
+import icons from '@/data/iconsComponents'
 function SearchHeader() {
     const { t } = useTranslation()
     return (

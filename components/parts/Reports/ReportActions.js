@@ -1,5 +1,5 @@
 import React from 'react'
-import icons from '../../../data/iconsComponents'
+import icons from '@/data/iconsComponents'
 function ReportActions({ closeState }) {
     return (
         <div className="w-full no-print h-[56px] bg-gray-500 flex items-center justify-between px-4 shadow-md ">

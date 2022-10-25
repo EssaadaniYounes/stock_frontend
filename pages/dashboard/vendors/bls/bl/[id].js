@@ -1,8 +1,8 @@
 import useTranslation from 'next-translate/useTranslation';
 import React, { useEffect } from 'react'
-import { VendorInvoice } from '../../../../../components/ui';
-import { fetch } from '../../../../../lib/fetch';
-import { useMainStore } from '../../../../../store/MainStore';
+import { VendorInvoice } from '@/components/ui';
+import { fetch } from '@/lib/fetch';
+import { useMainStore } from '@/store/MainStore';
 
 function edit({ invoice = null, invoiceProducts = null, vendors, products, config, payMethodsData, categories, units }) {
     const { t } = useTranslation();

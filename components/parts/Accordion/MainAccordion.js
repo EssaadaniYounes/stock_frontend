@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Accordion, AccordionBody } from '@material-tailwind/react'
 import { TheAccordtionHeader, AccordionBodyItems } from '..'
-import icons from '../../../data/iconsComponents';
-import { useSharedVariableStore } from '../../../store/sharedVariablesStore';
+import icons from '@/data/iconsComponents';
+import { useSharedVariableStore } from '@/store/sharedVariablesStore';
 
 function MainAccordion({ items }) {
     const { open, setOpen } = useSharedVariableStore(state => state);

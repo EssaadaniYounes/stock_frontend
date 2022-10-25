@@ -1,24 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react'
-import icons from '../../../data/iconsComponents';
-import { addService, deleteService, updateService } from '../../../services';
-import { Product } from '../'
+import icons from '@/data/iconsComponents';
+import { addService, deleteService, updateService } from '@/services';
+import { Product } from '@/components/ui'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ToastDone from '../../../utils/toast-update';
-import { useMainStore } from '../../../store/MainStore';
-import { FormHeader, FormItemsContainer, Modal, RequestLoader, Toast } from '../../parts';
+import ToastDone from '@/utils/toast-update';
+import { useMainStore } from '@/store/MainStore';
+import { FormHeader, FormItemsContainer, Modal, RequestLoader, Toast } from '@/components/parts';
 import { useRouter } from 'next/router';
-import getToday from '../../../utils/get-today';
-import currency from '../../../utils/format-money';
+import getToday from '@/utils/get-today';
+import currency from '@/utils/format-money';
 import useTranslation from 'next-translate/useTranslation';
-import { getDate } from '../../../utils/dates';
-import useFocus from '../../../hooks/useAutoFocus';
+import { getDate } from '@/utils/dates';
+import useFocus from '@/hooks/useAutoFocus';
 import CreatableSelect from 'react-select/creatable';
 import Select from 'react-select';
-import useDefaultPayMethod from '../../../hooks/use-default-pay-method';
-import selectAdd from '../../../services/selectAdd';
-import { useGetPermissions } from '../../../hooks/get-permissions';
-import { can } from '../../../utils/can';
+import useDefaultPayMethod from '@/hooks/use-default-pay-method';
+import selectAdd from '@/services/selectAdd';
+import { useGetPermissions } from '@/hooks/get-permissions';
+import { can } from '@/utils/can';
 function VendorInvoice({ invoice = null, invoiceProducts = null }) {
     const { t } = useTranslation();
     const { products, vendors, setProducts, config, payMethods, categories, units, setVendors, setCategories, setUnits } = useMainStore(state => state);

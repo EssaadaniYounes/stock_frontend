@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import useSearch from '../../../hooks/useSearch';
-import { useMainStore } from '../../../store/MainStore'
-import { SearchHeader } from '../../parts';
-import useFocus from '../../../hooks/useAutoFocus'
+import useSearch from '@/hooks/useSearch';
+import { useMainStore } from '@/store/MainStore'
+import { SearchHeader } from '@/components/parts';
+import useFocus from '@/hooks/useAutoFocus'
 import useTranslation from 'next-translate/useTranslation';
 import Select from 'react-select';
 function SearchClientsInvoices({ allInvoices }) {

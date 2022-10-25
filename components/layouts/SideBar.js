@@ -1,6 +1,6 @@
-import items from '../../data/SideBarItems'
-import { useSharedVariableStore } from '../../store/sharedVariablesStore'
-import { MainAccordion } from '../parts'
+import items from '@/data/SideBarItems'
+import { useSharedVariableStore } from '@/store/sharedVariablesStore'
+import { MainAccordion } from '@/components/parts'
 
 function SideBar() {
 

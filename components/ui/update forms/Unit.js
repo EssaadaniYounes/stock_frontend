@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react'
-import { Form, FormHeader, FormItemsContainer, RequestLoader } from '../../parts'
-import icons from '../../../data/iconsComponents'
-import { addService, updateService } from '../../../services'
-import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
-import { useMainStore } from '../../../store/MainStore';
-import ToastDone from '../../../utils/toast-update'
+import { Form, FormHeader, FormItemsContainer, RequestLoader } from '@/components/parts'
+import icons from '@/data/iconsComponents'
+import { addService, updateService } from '@/services'
+import { useSharedVariableStore } from '@/store/sharedVariablesStore'
+import { useMainStore } from '@/store/MainStore';
+import ToastDone from '@/utils/toast-update'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useTranslation from 'next-translate/useTranslation'
-import useFocus from '../../../hooks/useAutoFocus'
+import useFocus from '@/hooks/useAutoFocus'
 function Unit({ unit = null, callBack, setState = null }) {
     const [data, setData] = useState(unit ? unit : {
         name: ''

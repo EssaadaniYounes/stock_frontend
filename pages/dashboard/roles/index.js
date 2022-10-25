@@ -1,16 +1,16 @@
 import Link from 'next/link'
 import React, { useEffect } from 'react'
-import { CurrentPageHeader } from '../../../components/layouts'
-import CustomDataTable from '../../../components/parts/CustomDataTable'
-import { RoleActions, SearchRole } from '../../../components/ui'
-import icons from '../../../data/iconsComponents'
-import { fetch } from '../../../lib/fetch'
-import autoLogin, { deleteService } from '../../../services'
-import { useMainStore } from '../../../store/MainStore'
+import { CurrentPageHeader } from '@/components/layouts'
+import CustomDataTable from '@/components/parts/CustomDataTable'
+import { RoleActions, SearchRole } from '@/components/ui'
+import icons from '@/data/iconsComponents'
+import { fetch } from '@/lib/fetch'
+import autoLogin, { deleteService } from '@/services'
+import { useMainStore } from '@/store/MainStore'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { can } from '../../../utils/can'
-import { Toast } from '../../../components/parts'
+import { can } from '@/utils/can'
+import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
 
 function index({ rolesData, userData }) {
@@ -67,7 +67,7 @@ function index({ rolesData, userData }) {
         <Toast />
         <SearchRole allRoles={rolesData} />
         <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
-          
+
           <CustomDataTable data={roles} columns={columns} />
         </div>
       </div>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { fetch } from '../../../lib/fetch'
-import Tabs from '../../../components/parts/Tabs'
-import { CurrentPageHeader } from '../../../components/layouts';
-import icons from '../../../data/iconsComponents';
+import { fetch } from '@/lib/fetch'
+import Tabs from '@/components/parts/Tabs'
+import { CurrentPageHeader } from '@/components/layouts';
+import icons from '@/data/iconsComponents';
 import useTranslation from 'next-translate/useTranslation';
 function files({ cities, clientsData }) {
     const { t } = useTranslation();
@@ -22,7 +22,7 @@ function files({ cities, clientsData }) {
                 <div className='p-3 shadow-md bg-gray-100 flex items-center'>
                     <label className="label mr-2 ">{t('common:actions.filter_by_city')} : </label>
                     <select className="input flex-1 rounded-md" value={selectedCityId} onChange={(e) => { getClients(e) }}>
-                        <option value="0">{t('common:actions.select')+' '+t('common:models.city') }</option>
+                        <option value="0">{t('common:actions.select') + ' ' + t('common:models.city')}</option>
                         {cities.map(c => <option value={c.id} key={c.id}>{c.name}</option>)}
                     </select>
                 </div>

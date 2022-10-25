@@ -1,4 +1,4 @@
-import { fetch } from "../lib/fetch";
+import { fetch } from "@/lib/fetch";
 
 export async function autoLogin(ctx) {
     if (ctx && ctx.req.cookies.user) {

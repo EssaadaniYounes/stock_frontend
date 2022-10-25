@@ -1,18 +1,18 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { CurrentPageHeader } from '../../../components/layouts'
-import CustomDataTable from '../../../components/parts/CustomDataTable'
-import { Category, CategoryActions, City, CityActions, SearchCategory, SearchCity } from '../../../components/ui'
-import icons from '../../../data/iconsComponents'
-import { fetch } from '../../../lib/fetch'
-import autoLogin, { deleteService } from '../../../services'
-import { useMainStore } from '../../../store/MainStore'
+import { CurrentPageHeader } from '@/components/layouts'
+import CustomDataTable from '@/components/parts/CustomDataTable'
+import { Category, CategoryActions, City, CityActions, SearchCategory, SearchCity } from '@/components/ui'
+import icons from '@/data/iconsComponents'
+import { fetch } from '@/lib/fetch'
+import autoLogin, { deleteService } from '@/services'
+import { useMainStore } from '@/store/MainStore'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useAuthStore } from '../../../store/authStore'
-import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
-import { can } from '../../../utils/can'
-import { Toast } from '../../../components/parts'
+import { useAuthStore } from '@/store/authStore'
+import { useSharedVariableStore } from '@/store/sharedVariablesStore'
+import { can } from '@/utils/can'
+import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
 function index({ citiesData, userData }) {
     const { user, setUser } = useAuthStore(state => state);
@@ -76,7 +76,7 @@ function index({ citiesData, userData }) {
 
     return (
         <>
-            <CurrentPageHeader icon={icons.City} title={ t('common:pages.cities') } showBack={false} component={CityActions} />
+            <CurrentPageHeader icon={icons.City} title={t('common:pages.cities')} showBack={false} component={CityActions} />
             <div className='content'>
                 <Toast />
                 {showCity && <City city={city} setState={setCity} />}

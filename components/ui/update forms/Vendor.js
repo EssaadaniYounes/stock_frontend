@@ -1,22 +1,22 @@
 import React, { useRef, useState } from 'react'
-import icons from '../../../data/iconsComponents';
-import { addService, updateService } from '../../../services';
-import { useMainStore } from '../../../store/MainStore';
-import { useSharedVariableStore } from '../../../store/sharedVariablesStore';
+import icons from '@/data/iconsComponents';
+import { addService, updateService } from '@/services';
+import { useMainStore } from '@/store/MainStore';
+import { useSharedVariableStore } from '@/store/sharedVariablesStore';
 import CreatableSelect from 'react-select/creatable';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
-import ToastDone from '../../../utils/toast-update';
-import { FormHeader, FormItemsContainer, Modal, RequestLoader, Toast } from '../../parts';
+import ToastDone from '@/utils/toast-update';
+import { FormHeader, FormItemsContainer, Modal, RequestLoader, Toast } from '@/components/parts';
 import useTranslation from 'next-translate/useTranslation';
-import { City } from '../';
-import { useOnClickOutside } from '../../../hooks/click-outside';
-import useFocus from '../../../hooks/useAutoFocus';
-import { useGetPermissions } from '../../../hooks/get-permissions';
-import { can } from '../../../utils/can';
+import { City } from '@/components/ui';
+import { useOnClickOutside } from '@/hooks/click-outside';
+import useFocus from '@/hooks/useAutoFocus';
+import { useGetPermissions } from '@/hooks/get-permissions';
+import { can } from '@/utils/can';
 import Select from 'react-select';
-import selectAdd from '../../../services/selectAdd';
+import selectAdd from '@/services/selectAdd';
 function Vendor({ vendor = null, callBack }) {
     const { t } = useTranslation();
     const { cities, setCities, vendors, setVendors } = useMainStore(state => state);

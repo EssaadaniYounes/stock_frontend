@@ -1,19 +1,19 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { CurrentPageHeader } from '../../../components/layouts'
-import CustomDataTable from '../../../components/parts/CustomDataTable'
-import { ProductActions, SearchProduct } from '../../../components/ui'
-import icons from '../../../data/iconsComponents'
-import { fetch } from '../../../lib/fetch'
-import autoLogin, { deleteService } from '../../../services'
-import { useMainStore } from '../../../store/MainStore'
+import { CurrentPageHeader } from '@/components/layouts'
+import CustomDataTable from '@/components/parts/CustomDataTable'
+import { ProductActions, SearchProduct } from '@/components/ui'
+import icons from '@/data/iconsComponents'
+import { fetch } from '@/lib/fetch'
+import autoLogin, { deleteService } from '@/services'
+import { useMainStore } from '@/store/MainStore'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { can } from '../../../utils/can';
-import { Toast } from '../../../components/parts'
-import calStockQty from '../../../utils/calc-qty-stock'
+import { can } from '@/utils/can';
+import { Toast } from '@/components/parts'
+import calStockQty from '@/utils/calc-qty-stock'
 import useTranslation from 'next-translate/useTranslation'
-import currency from '../../../utils/format-money'
+import currency from '@/utils/format-money'
 function index({ productsData, userData }) {
 
     const permission = JSON.parse(userData.data.permissions).products;
@@ -120,7 +120,7 @@ function index({ productsData, userData }) {
                 <Toast />
                 <SearchProduct allProducts={productsData} />
                 <div className='w-full h-full relative rounded-md overflow-hidden mt-4'>
-                    
+
                     <CustomDataTable data={products} columns={columns} />
                 </div>
             </div>

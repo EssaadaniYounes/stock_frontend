@@ -1,10 +1,10 @@
 import useTranslation from 'next-translate/useTranslation'
 import React, { useEffect } from 'react'
-import { CurrentPageHeader } from '../../../../components/layouts'
-import { Invoice, VendorInvoice } from '../../../../components/ui'
-import icons from '../../../../data/iconsComponents'
-import { fetch } from '../../../../lib/fetch'
-import { useMainStore } from '../../../../store/MainStore'
+import { CurrentPageHeader } from '@/components/layouts'
+import { Invoice, VendorInvoice } from '@/components/ui'
+import icons from '@/data/iconsComponents'
+import { fetch } from '@/lib/fetch'
+import { useMainStore } from '@/store/MainStore'
 
 function add({ vendors, products, invoices, config, payMethodsData, categories, units }) {
   const { setVendors, setProducts, setVendorsInvoices, setConfig, setPayMethods, setCategories, setUnits } = useMainStore(state => state);

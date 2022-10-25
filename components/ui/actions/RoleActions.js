@@ -1,8 +1,8 @@
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link'
 import React from 'react'
-import icons from '../../../data/iconsComponents'
-import { LinkButton } from '../../parts'
+import icons from '@/data/iconsComponents'
+import { LinkButton } from '@/components/parts'
 
 function RoleActions() {
     const { t } = useTranslation();

@@ -1,5 +1,5 @@
-import { Container } from '../components/layouts'
-import '../styles/globals.css'
+import { Container } from '@/components/layouts'
+import '@/styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   return (<Container>

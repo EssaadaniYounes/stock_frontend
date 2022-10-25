@@ -1,4 +1,4 @@
-import items from "../data/SideBarItems";
+import items from "@/data/SideBarItems";
 
 export default function isShowAccordionItem(permissions = null, key) {
     let isVisible = false;

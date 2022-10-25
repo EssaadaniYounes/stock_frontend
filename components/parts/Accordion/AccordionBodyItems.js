@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useAuthStore } from '../../../store/authStore'
-import isShowAccordionItem from '../../../utils/show-accordion-item';
-import { useSharedVariableStore } from '../../../store/sharedVariablesStore';
-import { LinkButton } from '../';
+import { useAuthStore } from '@/store/authStore'
+import isShowAccordionItem from '@/utils/show-accordion-item';
+import { useSharedVariableStore } from '@/store/sharedVariablesStore';
+import { LinkButton } from '@/components/parts';
 import useTranslation from 'next-translate/useTranslation';
 function AccordionBodyItems({ subItems }) {
     const { user } = useAuthStore(state => state);

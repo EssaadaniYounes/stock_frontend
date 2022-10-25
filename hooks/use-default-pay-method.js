@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useMainStore } from "../store/MainStore";
+import { useMainStore } from "@/store/MainStore";
 
 export default function useDefaultPayMethod(data, setData) {
 

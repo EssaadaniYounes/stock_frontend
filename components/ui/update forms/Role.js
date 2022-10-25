@@ -1,15 +1,15 @@
 import React, { useRef, useState } from 'react'
 import { toast } from 'react-toastify';
 
-import icons from '../../../data/iconsComponents';
-import roles from '../../../data/roles'
+import icons from '@/data/iconsComponents';
+import roles from '@/data/roles'
 import { useRouter } from 'next/router'
-import { addService, updateService } from '../../../services'
-import isPermissionChecked from '../../../utils/is-permission-checked';
-import ToastDone from '../../../utils/toast-update';
-import { FormHeader, FormItemsContainer, RequestLoader, Toast } from '../../parts';
+import { addService, updateService } from '@/services'
+import isPermissionChecked from '@/utils/is-permission-checked';
+import ToastDone from '@/utils/toast-update';
+import { FormHeader, FormItemsContainer, RequestLoader, Toast } from '@/components/parts';
 import useTranslation from 'next-translate/useTranslation';
-import useFocus from '../../../hooks/useAutoFocus'
+import useFocus from '@/hooks/useAutoFocus'
 function Role({ role = null }) {
     const { t } = useTranslation();
     const [data, setRole] = useState(role
@@ -40,7 +40,7 @@ function Role({ role = null }) {
     }
 
     const handleSubmit = async () => {
-      
+
         setIsLoading(true);
         const id = toast.loading("Please wait...")
         if (role) {
@@ -100,7 +100,7 @@ function Role({ role = null }) {
                                                             onChange={(e) => { handleCheckBox(e, r) }}
                                                             name={action}
                                                             id={r + '_' + action} />
-                                                        
+
                                                         <label htmlFor={r + '_' + action} className=' cursor-pointer pb-1 mx-2 text-[18px] capitalize'>
                                                             {t(`common:actions.${action}`)}
                                                         </label>

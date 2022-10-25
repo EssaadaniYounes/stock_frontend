@@ -1,5 +1,5 @@
 import React from 'react'
-import currency from '../../../../utils/format-money'
+import currency from '@/utils/format-money'
 
 function InvoiceItemsThermal({ items }) {
     return (

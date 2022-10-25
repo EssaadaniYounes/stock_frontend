@@ -1,7 +1,7 @@
 import useTranslation from 'next-translate/useTranslation';
 import React, { useRef } from 'react'
-import { useOnClickOutside } from '../../../hooks/click-outside';
-import { InvoiceAmountsThermal, InvoiceItemsThermal, InvoiceThermalHeader, InvoiceThermalInfo, ReportActions } from '../../parts';
+import { useOnClickOutside } from '@/hooks/click-outside';
+import { InvoiceAmountsThermal, InvoiceItemsThermal, InvoiceThermalHeader, InvoiceThermalInfo, ReportActions } from '@/components/parts';
 
 function ClientInvoiceReportThermal({ closeState, data }) {
     const { company, invoice, items } = data;

@@ -1,23 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
-import icons from '../../../data/iconsComponents';
-import { addService, deleteService, updateService } from '../../../services';
+import icons from '@/data/iconsComponents';
+import { addService, deleteService, updateService } from '@/services';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ToastDone from '../../../utils/toast-update';
-import { useMainStore } from '../../../store/MainStore';
-import { FormHeader, FormItemsContainer, RequestLoader, Toast } from '../../parts';
+import ToastDone from '@/utils/toast-update';
+import { useMainStore } from '@/store/MainStore';
+import { FormHeader, FormItemsContainer, RequestLoader, Toast } from '@/components/parts';
 import { useRouter } from 'next/router';
-import getToday from '../../../utils/get-today';
-import currency from '../../../utils/format-money';
+import getToday from '@/utils/get-today';
+import currency from '@/utils/format-money';
 import useTranslation from 'next-translate/useTranslation';
-import { getDate } from '../../../utils/dates';
-import useFocus from '../../../hooks/useAutoFocus';
+import { getDate } from '@/utils/dates';
+import useFocus from '@/hooks/useAutoFocus';
 import Select from 'react-select';
-import useDefaultPayMethod from '../../../hooks/use-default-pay-method';
+import useDefaultPayMethod from '@/hooks/use-default-pay-method';
 import CreatableSelect from 'react-select/creatable';
-import selectAdd from '../../../services/selectAdd';
-import { useGetPermissions } from '../../../hooks/get-permissions';
-import { can } from '../../../utils/can';
+import selectAdd from '@/services/selectAdd';
+import { useGetPermissions } from '@/hooks/get-permissions';
+import { can } from '@/utils/can';
 function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
     const { t } = useTranslation();
     const { products, clients, clientsInvoices, setClientsInvoices, config, payMethods, setClient } = useMainStore(state => state);

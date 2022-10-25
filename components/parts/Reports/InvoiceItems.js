@@ -1,6 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
 import React from 'react'
-import currency from '../../../utils/format-money';
+import currency from '@/utils/format-money';
 
 function InvoiceItems({ items }) {
     const { t } = useTranslation();

@@ -1,12 +1,12 @@
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import React from 'react'
-import { CurrentPageHeader } from '../../../components/layouts'
-import { Box } from '../../../components/parts'
-import { CompanyActions } from '../../../components/ui'
-import icons from '../../../data/iconsComponents'
-import { fetch } from '../../../lib/fetch'
-import autoLogin from '../../../services'
+import { CurrentPageHeader } from '@/components/layouts'
+import { Box } from '@/components/parts'
+import { CompanyActions } from '@/components/ui'
+import icons from '@/data/iconsComponents'
+import { fetch } from '@/lib/fetch'
+import autoLogin from '@/services'
 
 function update({ company, companyPermissions }) {
     const { t } = useTranslation();

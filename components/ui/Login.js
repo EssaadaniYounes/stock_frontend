@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { fetch } from '../../lib/fetch';
-import { useAuthStore } from '../../store/authStore';
-import setCookie from '../../utils/set-cookies';
+import { fetch } from '@/lib/fetch';
+import { useAuthStore } from '@/store/authStore';
+import setCookie from '@/utils/set-cookies';
 import useTranslation from 'next-translate/useTranslation';
-import useFocus from '../../hooks/useAutoFocus';
+import useFocus from '@/hooks/useAutoFocus';
+// import { Field, Form, Formik, useFormik } from 'formik';
 function Login() {
     const router = useRouter();
     const { t } = useTranslation()
@@ -84,5 +85,28 @@ function Login() {
         </div>
     )
 }
+
+// function Login() {
+//     const formik = useFormik({
+//         initialValues: {
+//             email: '',
+//         },
+//         onSubmit: values => {
+//             alert(JSON.stringify(values, null, 2));
+//         },
+//     });
+//     return (
+//         <form onSubmit={formik.handleSubmit}>
+//             <label htmlFor="email">Email Address</label>
+//             <input
+//                 id="email"
+//                 name="email"
+//                 type="text"
+//                 onChange={formik.handleChange}
+//                 value={formik.values.email} />
+
+//             <button type="submit">Submit</button>
+//         </form>)
+// }
 
 export default Login

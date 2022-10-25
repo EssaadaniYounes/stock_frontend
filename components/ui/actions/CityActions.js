@@ -1,8 +1,8 @@
 import useTranslation from 'next-translate/useTranslation';
 import React from 'react'
-import icons from '../../../data/iconsComponents';
-import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
-import { Button } from '../../parts';
+import icons from '@/data/iconsComponents';
+import { useSharedVariableStore } from '@/store/sharedVariablesStore'
+import { Button } from '@/components/parts';
 
 function CityActions() {
     const { setShowCity } = useSharedVariableStore();

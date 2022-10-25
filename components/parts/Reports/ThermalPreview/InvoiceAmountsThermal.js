@@ -1,5 +1,5 @@
 import React from 'react'
-import currency from '../../../../utils/format-money'
+import currency from '@/utils/format-money'
 import useTranslation from 'next-translate/useTranslation';
 function InvoiceAmountsThermal({ invoice, items }) {
     const { t } = useTranslation();

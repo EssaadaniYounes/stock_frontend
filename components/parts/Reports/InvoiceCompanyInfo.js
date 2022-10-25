@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import InfoViewer from '../InfoViewer'
+import {InfoViewer} from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation';
 function InvoiceCompanyInfo({ company }) {
     const { t } = useTranslation();

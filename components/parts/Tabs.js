@@ -1,11 +1,11 @@
 import useTranslation from "next-translate/useTranslation";
 import React, { useEffect, useRef, useState } from "react";
 import { Loader } from ".";
-import { fetch } from '../../lib/fetch'
-import { useAuthStore } from "../../store/authStore";
-import calcTotalAmount, { calcLastMonthAmount } from "../../utils/calc";
-import { getDate, itemsInMonth } from "../../utils/dates";
-import currency from '../../utils/format-money'
+import { fetch } from '@/lib/fetch'
+import { useAuthStore } from "@/store/authStore";
+import calcTotalAmount, { calcLastMonthAmount } from "@/utils/calc";
+import { getDate, itemsInMonth } from "@/utils/dates";
+import currency from '@/utils/format-money'
 const Tabs = ({ items }) => {
 
     const { t } = useTranslation();

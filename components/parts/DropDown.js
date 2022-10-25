@@ -1,7 +1,7 @@
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import setLanguage from 'next-translate/setLanguage'
-import icons from '../../data/iconsComponents'
+import icons from '@/data/iconsComponents'
 import useTranslation from 'next-translate/useTranslation';
 
 export default function DropDown() {

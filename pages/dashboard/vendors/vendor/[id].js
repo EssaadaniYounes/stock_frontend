@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { CurrentPageHeader } from '../../../../components/layouts'
-import { Form } from '../../../../components/parts'
-import { Vendor } from '../../../../components/ui'
-import { fetch } from '../../../../lib/fetch'
-import { useMainStore } from '../../../../store/MainStore'
+import { CurrentPageHeader } from '@/components/layouts'
+import { Form } from '@/components/parts'
+import { Vendor } from '@/components/ui'
+import { fetch } from '@/lib/fetch'
+import { useMainStore } from '@/store/MainStore'
 
 function edit({ vendor, citiesData }) {
     const { setCities } = useMainStore(state => state);

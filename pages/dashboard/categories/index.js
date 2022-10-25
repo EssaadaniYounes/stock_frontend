@@ -1,18 +1,18 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { CurrentPageHeader } from '../../../components/layouts'
-import CustomDataTable from '../../../components/parts/CustomDataTable'
-import { Category, CategoryActions, SearchCategory } from '../../../components/ui'
-import icons from '../../../data/iconsComponents'
-import { fetch } from '../../../lib/fetch'
-import autoLogin, { deleteService } from '../../../services'
-import { useMainStore } from '../../../store/MainStore'
+import { CurrentPageHeader } from '@/components/layouts'
+import CustomDataTable from '@/components/parts/CustomDataTable'
+import { Category, CategoryActions, SearchCategory } from '@/components/ui'
+import icons from '@/data/iconsComponents'
+import { fetch } from '@/lib/fetch'
+import autoLogin, { deleteService } from '@/services'
+import { useMainStore } from '@/store/MainStore'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useAuthStore } from '../../../store/authStore'
-import { useSharedVariableStore } from '../../../store/sharedVariablesStore'
-import { can } from '../../../utils/can'
-import { Toast } from '../../../components/parts'
+import { useAuthStore } from '@/store/authStore'
+import { useSharedVariableStore } from '@/store/sharedVariablesStore'
+import { can } from '@/utils/can'
+import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
 function index({ categoriesData, userData }) {
     const { setUser } = useAuthStore(state => state);
@@ -84,7 +84,7 @@ function index({ categoriesData, userData }) {
                 {showCategory && <Category category={category} setState={setCategory} />}
                 <SearchCategory allCategories={categoriesData} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
-                    
+
                     <CustomDataTable data={categories} columns={columns} />
                 </div>
             </div>

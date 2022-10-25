@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import icons from '../../data/iconsComponents';
+import icons from '@/data/iconsComponents';
 import useTranslation from 'next-translate/useTranslation';
-import { useSharedVariableStore } from '../../store/sharedVariablesStore';
+import { useSharedVariableStore } from '@/store/sharedVariablesStore';
 function CurrentPageHeader({ icon: Icon, title, component: Component = null, showBack = true }) {
     const { t } = useTranslation()
     const router = useRouter();

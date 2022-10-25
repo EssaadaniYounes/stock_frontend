@@ -1,12 +1,12 @@
 import useTranslation from 'next-translate/useTranslation'
 import React, { useEffect } from 'react'
 import Select from 'react-select'
-import { CurrentPageHeader } from '../../../components/layouts'
-import { Form } from '../../../components/parts'
-import { Product } from '../../../components/ui'
-import icons from '../../../data/iconsComponents'
-import { fetch } from '../../../lib/fetch'
-import { useMainStore } from '../../../store/MainStore'
+import { CurrentPageHeader } from '@/components/layouts'
+import { Form } from '@/components/parts'
+import { Product } from '@/components/ui'
+import icons from '@/data/iconsComponents'
+import { fetch } from '@/lib/fetch'
+import { useMainStore } from '@/store/MainStore'
 
 function add({ categories, vendors, units, cities }) {
     const { t } = useTranslation();

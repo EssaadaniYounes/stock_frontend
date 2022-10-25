@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedVariableStore } from '../../store/sharedVariablesStore';
+import { useSharedVariableStore } from '@/store/sharedVariablesStore';
 
 function Overlay() {
     const { setShowSideBar } = useSharedVariableStore();

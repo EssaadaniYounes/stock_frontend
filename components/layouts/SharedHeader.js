@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useSharedVariableStore } from '../../store/sharedVariablesStore';
-import { useAuthStore } from '../../store/authStore';
-import icons from '../../data/iconsComponents';
-import deleteAllCookies from '../../utils/clear-cookies';
-import { DropDown } from '../parts';
+import { useSharedVariableStore } from '@/store/sharedVariablesStore';
+import { useAuthStore } from '@/store/authStore';
+import icons from '@/data/iconsComponents';
+import deleteAllCookies from '@/utils/clear-cookies';
+import { DropDown } from '@/components/parts';
 import useTranslation from 'next-translate/useTranslation';
-import getCookie from '../../utils/get-cookie';
+import getCookie from '@/utils/get-cookie';
 
 function SharedHeader() {
 
