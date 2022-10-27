@@ -64,6 +64,8 @@ export function itemsInMonth(items, invoices) {
                     const communItems = items.filter(i => i.invoice_num == item.invoice_num);
                     item.total_amount = communItems.reduce((prev, cur) => prev + cur.amount, 0);
                     item.paid = invoices.find(i => i.id == item.invoice_id).paid_amount;
+                    item.dus = communItems.reduce((prev, cur) => prev + cur.amount, 0) - item.paid;
+
                     item.length = communItems.length;
                 }
             }

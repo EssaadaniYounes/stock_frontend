@@ -232,7 +232,6 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
             <Toast />
             {isLoading && <RequestLoader />}
             <FormItemsContainer>
-                <FormHeader title={t('common:models.invoice')} isEdit={invoice} />
                 <div className="form-content">
                     <div className='flex flex-col gap-y-1'>
                         <div className='search-box pb-2' style={{ overflow: 'visible' }}>
@@ -264,7 +263,7 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
                                         Object.keys(permissions).length > 0 &&
                                             can(permissions.clients, 'create')
                                             ? <CreatableSelect options={clients}
-                                                onCreateOption={(v) => selectAdd('clients', { full_name: v, city_id: '1' }, (id) => setData({ ...data, client_id: id }), clients, setClient)}
+                                                onCreateOption={(v) => selectAdd('clients', { full_name: v, city_id: '1' }, (id) => setData({ ...data, client_id: id }), clients, setClients)}
                                                 value={clients.find(v => v.value == data.client_id) || clients[0]}
                                                 onChange={v => setData({ ...data, client_id: v.value })}
                                             />

@@ -91,7 +91,8 @@
         "clients_balance": "رصيد العملاء",
         "users": "المستخدمون",
         "pay_methods": "طرق الدفع",
-        "suppliers_invoices": " bls الموردين"
+        "suppliers_invoices": " bls الموردين",
+        "report_types": "انواع التقارير"
     },
     "models": {
         "home": "الصفحة الرئيسية",

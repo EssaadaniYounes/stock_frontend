@@ -67,7 +67,6 @@ function Client({ client = null }) {
             {isLoading && <RequestLoader />}
             <Toast />
             <FormItemsContainer>
-                <FormHeader title={t('common:models.client')} isEdit={client} />
                 <div className="flex flex-col form-content">
                     <div className="items-container">
                         <div className="input-container">

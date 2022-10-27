@@ -36,10 +36,10 @@ export async function getServerSideProps(ctx) {
   const { data } = await fetch('clients_invoices/items/related_items', {
     token: ctx.req.cookies.token
   })
-
+  const InvoiceNum = invoices.length > 0 ? +invoices[invoices.length - 1].invoice_num + 1 : 1;
   return {
     props: {
-      InvoiceNum: +invoices[invoices.length - 1].invoice_num + 1,
+      InvoiceNum,
       clients: data.clients,
       products: data.products,
       invoices,

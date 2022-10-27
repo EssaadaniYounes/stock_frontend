@@ -74,7 +74,6 @@ function Vendor({ vendor = null, callBack }) {
             <Toast />
             {isLoading && <RequestLoader />}
             <FormItemsContainer>
-                <FormHeader title={t('common:models.vendor')} isEdit={vendor} />
                 <div className="form-content">
                     <div className="flex flex-col">
                         <div className="items-container">

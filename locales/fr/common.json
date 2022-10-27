@@ -88,7 +88,8 @@
         "clients_balance": "Fiches Clients",
         "users": "Utilisateurs",
         "pay_methods": "Méthodes de paiement",
-        "suppliers_invoices": "BL Fournisseurs"
+        "suppliers_invoices": "BL Fournisseurs",
+        "report_types": "Types de Report"
     },
     "models": {
         "home": "Accueil",

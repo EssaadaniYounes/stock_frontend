@@ -13,16 +13,17 @@ export function calcLastMonthAmount(items, invoiceItem, paidAmount) {
         Object.keys(items[month]).map(day => {
             Object.keys(items[month][day]).map(item => {
                 const curr = items[month][day][item];
-                if (new Date(curr.dt).getTime() <= new Date(invoiceItem.dt).getTime())
+                if (new Date(curr.created_at).getTime() <= new Date(invoiceItem.created_at).getTime())
                     invoiceItems.push(curr)
             })
         })
     })
     for (let i = 0; i < invoiceItems.length; i++) {
-        dus += invoiceItems[i].amount;
+        if (invoiceItems[i].is_target) {
+            dus += invoiceItems[i].dus;
+        }
     }
-
-    return dus - paidAmount;
+    return dus;
 }
 var getPreviousItem = function (items, key, i) {
     var keys = Object.keys(items).sort(function (a, b) { return a - b; });

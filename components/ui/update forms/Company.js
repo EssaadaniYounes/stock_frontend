@@ -31,6 +31,8 @@ function Company({ company = null }) {
         bank_iban: ' ',
         logo: ' ',
         init_user_id: ' ',
+        ice: ' ',
+        cr: ' '
     });
     const [isLoading, setIsLoading] = useState(false);
     const focusRef = useRef();
@@ -70,7 +72,6 @@ function Company({ company = null }) {
             {isLoading && <RequestLoader />}
             <Toast />
             <FormItemsContainer>
-                <FormHeader title={t('common:models.company')} isEdit={company} />
                 <div className="form-content">
                     <div className='w-full flex flex-wrap gap-x-2'>
                         <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
@@ -206,6 +207,24 @@ function Company({ company = null }) {
                                 name='bank_iban'
                                 className='input-rounded'
                                 value={data.bank_iban}
+                                onChange={(e) => handleOnChange(e)}
+                                placeholder=" " />
+                        </div>
+                        <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
+                            <label className='label'>{t('common:info.ice')}</label>
+                            <input type="text"
+                                name='ice'
+                                className='input-rounded'
+                                value={data.ice}
+                                onChange={(e) => handleOnChange(e)}
+                                placeholder=" " />
+                        </div>
+                        <div className="relative z-0 mb-6 w-full md:w-[49%]  group">
+                            <label className='label'>{t('common:info.cr')}</label>
+                            <input type="text"
+                                name='cr'
+                                className='input-rounded'
+                                value={data.cr}
                                 onChange={(e) => handleOnChange(e)}
                                 placeholder=" " />
                         </div>

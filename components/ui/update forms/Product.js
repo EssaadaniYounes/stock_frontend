@@ -92,7 +92,6 @@ function Product({ items, product = null, setState = null }) {
                 <Toast />
 
                 <FormItemsContainer>
-                    <FormHeader title={t('common:models.product')} isEdit={product} />
                     <div className="form-content">
                         <div className="flex flex-col">
                             <div className="items-container">

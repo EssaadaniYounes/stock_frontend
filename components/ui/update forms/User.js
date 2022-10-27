@@ -55,7 +55,6 @@ function User({ targetUser = null }) {
             {isLoading && <RequestLoader />}
             <Toast />
             <FormItemsContainer>
-                <FormHeader title={t('common:models.user')} isEdit={targetUser} />
                 <div className="form-content">
                     <div className="flex flex-col">
                         <div className="items-container">

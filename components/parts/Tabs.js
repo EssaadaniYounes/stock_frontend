@@ -16,7 +16,7 @@ const Tabs = ({ items }) => {
     const [isFetching, setIsFetching] = useState(false);
     const [invoiceItems, setInvoiceItems] = useState(null);
     const [selectedClientId, setSelectedClientId] = useState(items[0].id);
-    const [lastYear, setLastYear] = useState({ year: '2021', dus: 200 });
+    const [lastYear, setLastYear] = useState({ year: '2021', dus: 100 });
     let paidAmount = 0;
     useEffect(() => {
         fetchInvoice(selectedClientId);
@@ -106,7 +106,7 @@ const Tabs = ({ items }) => {
                             <tbody>
                                 <tr>
                                     <td colSpan="9">LE RESTE DE {lastYear.year} :</td>
-                                    <td>{lastYear.dus}</td>
+                                    <td>{currency(lastYear.dus)}</td>
                                 </tr>
                                 {invoiceItems && Object.keys(invoiceItems).map((key, i) =>
                                     Object.keys(invoiceItems[key]).map((dayKey, j) =>
@@ -123,10 +123,6 @@ const Tabs = ({ items }) => {
                                                 <td>{invoiceItem.quantity}</td>
                                                 <td>{currency(invoiceItem.price)}</td>
                                                 <td>{currency(invoiceItem.amount)}</td>
-                                                {/* {index == 0
-                                                    ? <td rowSpan={invoiceItems[key][dayKey].length}>{currency(calcTotalAmount(invoiceItems[key][dayKey], 'amount'))}</td>
-                                                    : false
-                                                } */}
                                                 {invoiceItem.is_target ?
                                                     <td className="" rowSpan={invoiceItem.length}>{currency(invoiceItem.total_amount)}</td>
                                                     : false
@@ -139,26 +135,18 @@ const Tabs = ({ items }) => {
                                                     <td className="" rowSpan={invoiceItem.length}>{currency(invoiceItem.paid)}</td>
                                                     : false
                                                 }
-                                                {/* {index == 0
-                                                    ? <td rowSpan={invoiceItems[key][dayKey].length}>
-                                                        {currency(invoiceItem.paid_amount)}
-                                                    </td>
-                                                    : false
-                                                } */}
+
                                                 {invoiceItem.is_target ?
                                                     <td className="" rowSpan={invoiceItem.length}>{invoiceItem.method_name}</td>
                                                     : false
                                                 }
-                                                {
-
-                                                    index == 0
-                                                        ? <td rowSpan={invoiceItems[key][dayKey].length}>
-                                                            {currency(
-                                                                calcLastMonthAmount(invoiceItems, invoiceItem, paidAmount)
-                                                                + lastYear.dus
-                                                            )}
-                                                        </td>
-                                                        : false
+                                                {invoiceItem.is_target ?
+                                                    <td className="" rowSpan={invoiceItem.length}>
+                                                        {
+                                                            currency(calcLastMonthAmount(invoiceItems, invoiceItem, paidAmount) + lastYear.dus)
+                                                        }
+                                                    </td>
+                                                    : false
                                                 }
                                             </tr>
                                         })

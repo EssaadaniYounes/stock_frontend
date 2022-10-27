@@ -297,7 +297,6 @@ function VendorInvoice({ invoice = null, invoiceProducts = null }) {
             <Toast />
             {isLoading && <RequestLoader />}
             <FormItemsContainer>
-                <FormHeader title={t('common:models.supplier_bl')} isEdit={invoice} />
                 <div className="form-content">
                     <div className='flex flex-col gap-y-1'>
                         <div className='search-box pb-1' style={{ overflow: 'visible' }}>

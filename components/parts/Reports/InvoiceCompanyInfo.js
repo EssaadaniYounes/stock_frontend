@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import {InfoViewer} from '@/components/parts'
+import { InfoViewer } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation';
 function InvoiceCompanyInfo({ company }) {
     const { t } = useTranslation();
@@ -12,13 +12,15 @@ function InvoiceCompanyInfo({ company }) {
                     {company.company_name}
                 </span>
                 <InfoViewer title={t('common:info.mobile')} value={company.tel} />
-                <InfoViewer title={t('common:info.vat')} value={company.bank_iban} />
-                <InfoViewer title={t('common:info.cr')} value={company.bank_swift_code} />
+                <InfoViewer title={t('common:info.vat')} value={company.ice} />
+                <InfoViewer title={t('common:info.cr')} value={company.cr} />
                 <span className="font-semibold">{company.address}</span>
             </div>
-            <div className="relative pt-4">
-                <Image src={company.logo} alt='logo' width='200' height='200' />
-            </div>
+            {
+                company.logo && <div className="relative pt-4">
+                    <Image src={company.logo} alt='logo' width='200' height='200' />
+                </div>
+            }
         </div>
     )
 }

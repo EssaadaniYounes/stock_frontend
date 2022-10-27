@@ -68,7 +68,6 @@ function Role({ role = null }) {
             {isLoading && <RequestLoader />}
             <Toast />
             <FormItemsContainer>
-                <FormHeader title={t('common:models.role')} isEdit={role} />
                 <div className="form-content">
                     <div className="relative z-0 mb-6 w-full  group">
                         <label className='label'>{t('common:info.name')}</label>

@@ -10,7 +10,7 @@ import { useMainStore } from '@/store/MainStore'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { can } from '@/utils/can'
-import { Loader, RequestLoader, Toast } from '@/components/parts'
+import {  Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
 import currency from '@/utils/format-money'
 import { ClientInvoiceReport, ClientInvoiceReportThermal } from '@/components/ui'

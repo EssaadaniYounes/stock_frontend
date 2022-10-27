@@ -29,6 +29,8 @@ function update({ company, companyPermissions }) {
         'zip_code': company.zip_code,
         'city': company.city,
         'address': company.address,
+        'ice': company.ice,
+        'cr': company.cr,
     }
     return (
         <>
