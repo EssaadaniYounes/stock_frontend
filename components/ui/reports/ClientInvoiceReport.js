@@ -57,10 +57,6 @@ function ClientInvoiceReport({ closeState, data }) {
                                 <div>{t('common:info.discount')}</div>
                                 <div className="mx-8" dir="ltr">{currency(invoice.total_discount)}</div>
                             </div>
-                            <div className="border-b-0  p-1.5 text-center border-black flex justify-between items-center">
-                                <div>{t('common:info.total')}</div>
-                                <div className="mx-8" dir="ltr">{currency(invoice.rest_amount)}</div>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -19,10 +19,20 @@ function SearchClient({ allClients }) {
     })
     const ref = useRef();
     const callBack = (client) => {
-        return (client.full_name.toLowerCase().includes(searchItems.full_name) &&
-            client.city.toLowerCase().includes(searchItems.city) &&
-            client.tel.toLowerCase().includes(searchItems.tel) &&
-            client.email.toLowerCase().includes(searchItems.email))
+        return (
+            (client.full_name != null
+                ? client.full_name.toLowerCase().includes(searchItems.full_name.toLocaleLowerCase())
+                : client.full_name == null)
+            && (client.city != null
+                ? client.city.toLowerCase().includes(searchItems.city.toLocaleLowerCase())
+                : client.city == null)
+            && (client.tel != null
+                ? client.tel.toLowerCase().includes(searchItems.tel.toLocaleLowerCase())
+                : client.tel == null)
+            && (client.email != null
+                ? client.email.toLowerCase().includes(searchItems.email.toLocaleLowerCase())
+                : client.email == null)
+        )
     }
     useSearch(callBack, setClients, searchItems, allClients);
     useFocus(ref);
