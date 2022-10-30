@@ -7,14 +7,14 @@ function InvoiceItemsThermal({ items }) {
             <thead className="border-2 border-gray-700 font-bold">
                 <tr className=" flex justify-between items-center">
                     <th>Description</th>
-                    <th>Qty * Price</th>
+                    <th>Qty x Price</th>
                     <th>Total</th>
                 </tr>
             </thead>
             <tbody>
                 {items.map(item => <tr key={item.id} className="flex items-center text-center justify-between text-[14px] font-semibold">
                     <td>{item.name}</td>
-                    <td className="text-center">{item.quantity} * {currency(item.price)}</td>
+                    <td className="text-center">{item.quantity} x {currency(item.price)}</td>
                     <td dir="ltr">{currency(item.amount_total)}</td>
                 </tr>)}
             </tbody>
