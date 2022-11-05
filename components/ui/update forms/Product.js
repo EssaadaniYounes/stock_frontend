@@ -44,9 +44,9 @@ function Product({ items, product = null, setState = null }) {
     useEffect(() => {
         if (vendors.length > 0 && data.unit_id == 0) {
             setData({
-                ...data, vendor_id: vendors[0].value,
-                category_id: categories[0].value,
-                unit_id: units[0].value,
+                ...data, vendor_id: vendors[0]?.value,
+                category_id: categories[0]?.value,
+                unit_id: units[0]?.value,
             });
         }
     }, [vendors, categories, units]);

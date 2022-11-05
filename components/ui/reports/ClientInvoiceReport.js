@@ -9,7 +9,7 @@ function ClientInvoiceReport({ closeState, data }) {
     useOnClickOutside(ref, () => closeState(false));
     const { t } = useTranslation();
     return (
-        <div className="w-full min-h-screen inset-0 fixed top-0 bg-white bg-opacity-40  z-[100] ">
+        <div className="w-full inset-0 fixed top-0 bg-white bg-opacity-40  z-[100] ">
             <div ref={ref} className="w-[210mm] overflow-y-auto h-screen shadow-md shadow-gray-600 ltr:float-right rtl:float-left bg-white">
                 <ReportActions closeState={closeState} />
                 <div className="px-6" >

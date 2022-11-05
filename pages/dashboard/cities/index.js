@@ -24,7 +24,7 @@ function index({ citiesData, userData }) {
         {
             name: "#",
             cell: row => <div className="flex items-center gap-2">
-                {can(permission, 'delete') && < button onClick={() => deleteCity(row.id)}>
+                {can(permission, 'delete') && row.init == 0 && row.init == 0 && < button onClick={() => deleteCity(row.id)}>
                     {<icons.Remove />}
                 </button>
                 }

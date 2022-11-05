@@ -11,8 +11,10 @@ function AccordionBodyItems({ subItems }) {
     const [permissions, setPermissions] = useState(null);
     const { t } = useTranslation()
     useEffect(() => {
-        setPermissions(JSON.parse(user.data.permissions))
-    }, []);
+        if (user.data) {
+            setPermissions(JSON.parse(user.data.permissions))
+        }
+    }, [user]);
     const router = useRouter();
     const handleOnClick = (path) => {
         router.push(path);
