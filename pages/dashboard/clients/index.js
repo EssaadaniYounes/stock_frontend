@@ -20,7 +20,7 @@ function index({ clientsData, userData }) {
         {
             name: "#",
             cell: row => <div className="flex items-center gap-x-2">
-                {can(permission, 'delete') && <button onClick={() => deleteClient(row.id)}>
+                {can(permission, 'delete') && row.init == 0 && row.init == 0 && <button onClick={() => deleteClient(row.id)}>
                     {<icons.Remove />}
                 </button>}
                 {can(permission, 'update') && < Link href={`/dashboard/clients/client/${row.id}`}>

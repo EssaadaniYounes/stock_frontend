@@ -98,7 +98,8 @@
         "pay_methods": "Pay methods",
         "suppliers_invoices": "Suppliers Bls",
         "report_types": "Report types",
-        "defaults":"Defaults"
+        "defaults": "Defaults",
+        "pos":"Pos"
     },
     "models": {
         "home": "Home",
@@ -132,7 +133,9 @@
         "filter_by_city": "Filter by city",
         "select_all": "Select all",
         "print_a4": "Print A4",
-        "preview_thermal": "Preview Thermal"
+        "preview_thermal": "Preview Thermal",
+        "import": "Import",
+        "download_examples": "Download example"
     },
     "general": {
         "list": "List",

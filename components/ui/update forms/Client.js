@@ -28,8 +28,7 @@ function Client({ client = null }) {
         city_id: '0',
         address: '',
         tel: '',
-        email: '',
-        ice: ''
+        email: ''
     });
     const [isLoading, setIsLoading] = useState(false);
     const { setShowCity, showCity } = useSharedVariableStore(state => state)
@@ -146,15 +145,6 @@ function Client({ client = null }) {
                                 onChange={(e) => handleOnChange(e)}
                                 placeholder=" " />
                         </div>
-                        <div className="input-container">
-                            <label className="label">{t('common:info.ice')}</label>
-                            <input type="text"
-                                className='input-rounded'
-                                name='ice'
-                                value={data.ice}
-                                onChange={(e) => handleOnChange(e)}
-                                placeholder=" " />
-                        </div>
                     </div>
                 </div>
                 <button onClick={() => handleOnSubmit()} className={`${!client ? 'button-save' : 'yellow-button'} max-w-[180px] flex items-center mx-auto`}>
@@ -163,8 +153,8 @@ function Client({ client = null }) {
                         {t('common:actions.save')}
                     </div>
                 </button>
-            </FormItemsContainer>
-        </div>
+            </FormItemsContainer >
+        </div >
     )
 }
 

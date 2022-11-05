@@ -14,11 +14,11 @@ function InvoiceCompanyInfo({ company }) {
                 <InfoViewer title={t('common:info.mobile')} value={company.tel} />
                 <InfoViewer title={t('common:info.vat')} value={company.ice} />
                 <InfoViewer title={t('common:info.cr')} value={company.cr} />
-                <span className="font-semibold">{company.address}</span>
+                <span className="font-normal text-[14px] uppercase">{company.address}</span>
             </div>
             {
                 company.logo && <div className="relative pt-4">
-                    <Image src={company.logo} alt='logo' width='200' height='200' />
+                    <Image src={company.logo} alt='logo' width={100} height={100} />
                 </div>
             }
         </div>

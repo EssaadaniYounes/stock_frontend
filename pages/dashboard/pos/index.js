@@ -1,26 +1,21 @@
-import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
 import { CurrentPageHeader } from '@/components/layouts'
+import { Toast } from '@/components/parts'
 import CustomDataTable from '@/components/parts/CustomDataTable'
-import { ClientsInvoicesActions, SearchClientsInvoices } from '@/components/ui'
+import { PosActions } from '@/components/ui'
 import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
 import autoLogin, { deleteService } from '@/services'
 import { useMainStore } from '@/store/MainStore'
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { can } from '@/utils/can'
-import { Toast } from '@/components/parts'
-import useTranslation from 'next-translate/useTranslation'
 import currency from '@/utils/format-money'
-import { ClientInvoiceReport, ClientInvoiceReportThermal } from '@/components/ui'
-import getCookie from '@/utils/get-cookie'
+import useTranslation from 'next-translate/useTranslation'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
-function index({ invoicesData, userData, clients, reportTypes }) {
-    const permission = JSON.parse(userData.data.permissions).clients_invoices;
+function index({ invoicesData, userData, clients }) {
+    const permission = JSON.parse(userData.data.permissions).pos;
     const [showPreviewType, setShowPreviewType] = useState(false);
-    const [showPrintTypes, setShowPrintTypes] = useState(false);
-    const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
     const [reportData, setReportData] = useState(null);
     const { clientsInvoices, setClientsInvoices, setClients } = useMainStore(state => state);
     const { t } = useTranslation();
@@ -33,15 +28,22 @@ function index({ invoicesData, userData, clients, reportTypes }) {
                     {<icons.Remove />}
                 </button>}
 
-                {can(permission, 'update') && < Link href={`/dashboard/invoices/invoice/${row.id}`}>
+                {can(permission, 'update') && < Link href={`/pos/items/${row.id}`}>
                     <a>{<icons.Update />}</a>
                 </Link>}
                 {
                     can(permission, 'read') && <div className=" flex items-center">
                         <button className="bg-gray-100 p-2 px-3 font-semibold border border-gray-600 rounded-sm" onClick={() => Print(row.id)}>{t('common:actions.print')}</button>
-                        <div onClick={() => handleSelectionChange(row.id)}>
-                            {<icons.ArrowDown />}
-                        </div>
+                        <select className="bg-gray-50 outline-none p-2" onChange={(e) => onSelectChange(e, row.id)}>
+                            <option value="0">
+                            </option>
+                            <option value="1">
+                                {t('common:actions.print_a4')}
+                            </option>
+                            <option value="2">
+                                {t('common:actions.preview_thermal')}
+                            </option>
+                        </select>
                     </div>
                 }
             </div >,
@@ -82,19 +84,11 @@ function index({ invoicesData, userData, clients, reportTypes }) {
         }
     ];
 
-
-
     useEffect(() => {
         setClientsInvoices(invoicesData);
         setClients(clients)
     }, []);
 
-
-    const handleSelectionChange = (id) => {
-        console.log(id);
-        setSelectedInvoiceId(id);
-        setShowPrintTypes(true);
-    }
 
     const onSelectChange = async (e, id) => {
         Print(id, e.target.value)
@@ -114,7 +108,7 @@ function index({ invoicesData, userData, clients, reportTypes }) {
     }
 
     const deleteInvoice = async (id) => {
-        const res = await deleteService('clients_invoices', id, 'Invoice');
+        const res = await deleteService('pos', id, 'Invoice');
         if (res.success) {
             setClientsInvoices(clientsInvoices.filter(i => i.id !== id));
             toast.success(res.message, {
@@ -128,25 +122,13 @@ function index({ invoicesData, userData, clients, reportTypes }) {
             });
         }
     };
+
     return (
         <div className="relative">
-            {showPreviewType && showPreviewType == 1
-                ? <ClientInvoiceReport closeState={setShowPreviewType} data={reportData} />
-                : showPreviewType == 2
-                    ? <ClientInvoiceReportThermal closeState={setShowPreviewType} data={reportData} />
-                    : false
-            }
-            <CurrentPageHeader icon={icons.Invoices} title={t('common:pages.clients_invoices')} showBack={false} component={ClientsInvoicesActions} />
+            <CurrentPageHeader icon={icons.Invoices} title={'Pos'} showBack={false} component={PosActions} />
             <div className='content'>
                 <Toast />
-                {showPrintTypes && <div className="absolute">
-                    <div onClick={() => Print(selectedInvoiceId, 1)}>A4</div>
-                    <div onClick={() => Print(selectedInvoiceId, 2)}>Preview Thermal</div>
-                </div>
-                }
-                <SearchClientsInvoices allInvoices={invoicesData} />
                 <div className='w-full h-full rounded-md overflow-hidden mt-4'>
-
                     <CustomDataTable data={clientsInvoices} columns={columns} />
                 </div>
             </div>
@@ -154,20 +136,19 @@ function index({ invoicesData, userData, clients, reportTypes }) {
     )
 }
 
+
 export async function getServerSideProps(ctx) {
-    const { data: invoices } = await fetch('clients_invoices', {
+    const { data: invoices } = await fetch('pos', {
         token: ctx.req.cookies.token
     })
     const { data } = await fetch('clients_invoices/items/related_items', {
         token: ctx.req.cookies.token
     })
-    data.clients.unshift({ value: 0, label: 'All' })
     const loginResponse = await autoLogin(ctx);
     return {
         props: {
             invoicesData: invoices,
             userData: loginResponse.dataUser,
-            clients: data.clients,
             reportTypes: data.report_types
         }
     }

@@ -20,7 +20,7 @@ function index({ rolesData, userData }) {
     {
       name: "#",
       cell: row => <div className="flex items-center gap-x-2">
-        {can(permission, 'delete') && <button onClick={() => deleteRole(row.id)}>
+        {can(permission, 'delete') && row.init == 0 && <button onClick={() => deleteRole(row.id)}>
           {<icons.Remove />}
         </button>}
         {can(permission, 'update') && < Link href={`/dashboard/roles/role/${row.id}`}>

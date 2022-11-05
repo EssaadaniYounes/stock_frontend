@@ -12,6 +12,8 @@ export { default as UserActions } from './actions/UserActions';
 export { default as CompanyActions } from './actions/CompanyActions';
 export { default as PayMethodActions } from './actions/PayMethodActions';
 export { default as VendorsInvoicesActions } from './actions/VendorsInvoicesActions';
+export { default as PosActions } from './actions/PosActions';
+export { default as ImportProductActions } from './actions/ImportProductActions';
 //Search
 export { default as SearchCategory } from './search/SearchCategory';
 export { default as SearchProduct } from './search/SearchProduct';

@@ -27,8 +27,7 @@ function Vendor({ vendor = null, callBack }) {
         city_id: '',
         address: '',
         tel: '',
-        email: '',
-        ice: ''
+        email: ''
     });
     const [isLoading, setIsLoading] = useState(false);
     const permissions = useGetPermissions();
@@ -153,15 +152,6 @@ function Vendor({ vendor = null, callBack }) {
                                     className='input-rounded'
                                     name='address'
                                     value={data.address}
-                                    onChange={(e) => handleOnChange(e)}
-                                    placeholder=" " />
-                            </div>
-                            <div className="input-container">
-                                <label className="label">{t('common:info.ice')}</label>
-                                <input type="text"
-                                    className='input-rounded'
-                                    name='ice'
-                                    value={data.ice}
                                     onChange={(e) => handleOnChange(e)}
                                     placeholder=" " />
                             </div>

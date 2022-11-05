@@ -65,6 +65,12 @@ const items = [
                 link: '/dashboard/invoices'
             },
             {
+                key: 'pos',
+                title: 'Pos',
+                icon: <icons.Invoices />,
+                link: '/dashboard/pos'
+            },
+            {
                 key: 'clients_balance',
                 title: 'Clients balance',
                 icon: <icons.Money />,

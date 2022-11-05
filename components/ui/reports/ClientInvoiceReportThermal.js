@@ -12,7 +12,7 @@ function ClientInvoiceReportThermal({ closeState, data }) {
     return (
         <div className="w-full min-h-screen inset-0 fixed top-0 bg-white bg-opacity-40  z-[100] ">
             <div ref={ref} className="w-[80mm] overflow-y-auto h-screen shadow-md shadow-gray-600 ltr:float-right rtl:float-left bg-white">
-                <ReportActions />
+                <ReportActions closeState={closeState} />
                 <div className="px-4 mt-2 flex flex-col gap-y-2 mb-2">
                     <InvoiceThermalHeader company={company} />
                     <InvoiceThermalInfo invoice={invoice} />
