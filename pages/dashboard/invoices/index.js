@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { CurrentPageHeader } from '@/components/layouts'
 import CustomDataTable from '@/components/parts/CustomDataTable'
 import { ClientsInvoicesActions, SearchClientsInvoices } from '@/components/ui'
@@ -15,6 +15,7 @@ import useTranslation from 'next-translate/useTranslation'
 import currency from '@/utils/format-money'
 import { ClientInvoiceReport, ClientInvoiceReportThermal } from '@/components/ui'
 import getCookie from '@/utils/get-cookie'
+import { useOnClickOutside } from '@/hooks/click-outside'
 
 function index({ invoicesData, userData, clients, reportTypes }) {
     const permission = JSON.parse(userData.data.permissions).clients_invoices;
@@ -22,6 +23,7 @@ function index({ invoicesData, userData, clients, reportTypes }) {
     const [showPrintTypes, setShowPrintTypes] = useState(false);
     const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
     const [reportData, setReportData] = useState(null);
+    const ref = useRef();
     const { clientsInvoices, setClientsInvoices, setClients } = useMainStore(state => state);
     const { t } = useTranslation();
     const columns = [
@@ -82,8 +84,7 @@ function index({ invoicesData, userData, clients, reportTypes }) {
         }
     ];
 
-
-
+    useOnClickOutside(ref, () => setShowPrintTypes(false));
     useEffect(() => {
         setClientsInvoices(invoicesData);
         setClients(clients)
@@ -137,11 +138,11 @@ function index({ invoicesData, userData, clients, reportTypes }) {
                     : false
             }
             <CurrentPageHeader icon={icons.Invoices} title={t('common:pages.clients_invoices')} showBack={false} component={ClientsInvoicesActions} />
-            <div className='content'>
+            <div className='content relative'>
                 <Toast />
-                {showPrintTypes && <div className="absolute">
-                    <div onClick={() => Print(selectedInvoiceId, 1)}>A4</div>
-                    <div onClick={() => Print(selectedInvoiceId, 2)}>Preview Thermal</div>
+                {showPrintTypes && <div ref={ref} className="fixed top-72 left-[30%] bg-gray-200 z-20 shadow-sm shadow-gray-600 rounded-md">
+                    <div onClick={() => Print(selectedInvoiceId, 1)} className="border p-2 border-black my-2 mx-3 rounded-md cursor-pointer duration-150 hover:bg-gray-300 hover:shadow-sm shadow-gray-900 ">A4</div>
+                    <div onClick={() => Print(selectedInvoiceId, 2)} className="border p-2 border-black my-2 mx-3 rounded-md cursor-pointer duration-150 hover:bg-gray-300 hover:shadow-sm shadow-gray-900 ">Preview Thermal</div>
                 </div>
                 }
                 <SearchClientsInvoices allInvoices={invoicesData} />
