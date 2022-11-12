@@ -4,9 +4,11 @@ import { useSharedVariableStore } from '@/store/sharedVariablesStore';
 import { useAuthStore } from '@/store/authStore';
 import icons from '@/data/iconsComponents';
 import deleteAllCookies from '@/utils/clear-cookies';
-import { DropDown } from '@/components/parts';
+import {DropDown, LinkButton} from '@/components/parts';
 import useTranslation from 'next-translate/useTranslation';
 import getCookie from '@/utils/get-cookie';
+import Link from "next/link";
+import {can} from "@/utils/can";
 
 function SharedHeader() {
 
@@ -56,6 +58,16 @@ function SharedHeader() {
                     }
                 </div>
                 {currentUser?.data.name && <p className="uppercase text-xs md:text-[16px] text-white font-semibold">{currentUser?.data?.company_name}</p>}
+                {
+                    currentUser?.data.name
+                    && can(JSON.parse(user.data.permissions).pos,'create')
+                    &&<LinkButton href='/pos/add'
+                                  icon={<icons.Pos />}
+                                  className="button-add mt-2"
+                                  title={t('common:pages.pos')}
+                                  style={{textTransform:'uppercase'}}
+                    />
+                }
             </div>
             <div className="flex items-center gap-x-3">
                 <DropDown />

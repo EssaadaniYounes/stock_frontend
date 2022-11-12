@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import ToastDone from '@/utils/toast-update';
-import { FormHeader, FormItemsContainer, Modal, RequestLoader, Toast } from '@/components/parts';
+import { Error, FormHeader, FormItemsContainer, Modal, RequestLoader, Toast } from '@/components/parts';
 import useTranslation from 'next-translate/useTranslation';
 import { City } from '@/components/ui';
 import { useOnClickOutside } from '@/hooks/click-outside';
@@ -17,6 +17,7 @@ import { useGetPermissions } from '@/hooks/get-permissions';
 import { can } from '@/utils/can';
 import Select from 'react-select';
 import selectAdd from '@/services/selectAdd';
+import { validateClientVendor } from '@/utils/validation';
 function Vendor({ vendor = null, callBack }) {
     const { t } = useTranslation();
     const { cities, setCities, vendors, setVendors } = useMainStore(state => state);
@@ -29,6 +30,10 @@ function Vendor({ vendor = null, callBack }) {
         tel: '',
         email: ''
     });
+    const [errors, setErrors] = useState({
+        full_name: '',
+        email: ''
+    })
     const [isLoading, setIsLoading] = useState(false);
     const permissions = useGetPermissions();
     const router = useRouter();
@@ -43,27 +48,29 @@ function Vendor({ vendor = null, callBack }) {
     }
 
     const handleOnSubmit = async () => {
-        setIsLoading(true);
-        const id = toast.loading('Please wait...')
-        if (vendor) {
-            const res = await updateService('vendors', vendor.id, data);
-            ToastDone(t('common:toast.update'), id, res);
-        }
-        else {
-            const res = await addService('vendors', data);
-            callBack ? setVendors([{ value: res.data.id, label: res.data.full_name }, ...vendors])
-                : setVendors([...vendors, res.data]);
-            if (callBack) {
-                callBack(res.data.id);
-                setShowVendor(false);
+        if (validateClientVendor(data, errors, setErrors)) {
+            setIsLoading(true);
+            const id = toast.loading('Please wait...')
+            if (vendor) {
+                const res = await updateService('vendors', vendor.id, data);
+                ToastDone(t('common:toast.update'), id, res);
             }
-            ToastDone("Supplier added successfully", id, res);
-        }
-        setIsLoading(false);
-        if (!callBack) {
-            setTimeout(() => {
-                router.push('/dashboard/vendors');
-            }, 1500);
+            else {
+                const res = await addService('vendors', data);
+                callBack ? setVendors([{ value: res.data.id, label: res.data.full_name }, ...vendors])
+                    : setVendors([...vendors, res.data]);
+                if (callBack) {
+                    callBack(res.data.id);
+                    setShowVendor(false);
+                }
+                ToastDone("Supplier added successfully", id, res);
+            }
+            setIsLoading(false);
+            if (!callBack) {
+                setTimeout(() => {
+                    router.push('/dashboard/vendors');
+                }, 1500);
+            }
         }
     }
 
@@ -80,20 +87,22 @@ function Vendor({ vendor = null, callBack }) {
                                 <label className='label'>{t('common:info.full_name')}</label>
                                 <input type="text"
                                     name='full_name'
-                                    className='input-rounded'
+                                    className={`input-rounded ${errors.full_name ? ' border-red-300 animate-[scale_0.6s_ease-in-out]' : 'border-gray-400'}`}
                                     value={data.full_name}
                                     ref={focusRef}
                                     onChange={(e) => handleOnChange(e)}
                                     placeholder=" " />
+                                <Error error={errors.full_name} />
                             </div>
                             <div className="input-container">
                                 <label className='label'>{t('common:info.email')}</label>
                                 <input type="text"
-                                    className='input-rounded'
+                                    className={`input-rounded ${errors.email ? ' border-red-300 animate-[scale_0.6s_ease-in-out]' : 'border-gray-400'}`}
                                     name='email'
                                     value={data.email}
                                     onChange={(e) => handleOnChange(e)}
                                     placeholder=" " />
+                                <Error error={errors.email} />
                             </div>
                         </div>
                         <div className="items-container">

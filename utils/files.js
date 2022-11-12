@@ -4,7 +4,9 @@ const uploadFile = async (name, file, endpoint) => {
 
     const formData = new FormData();
     formData.append(name, file);
-    const data = await addService(endpoint, formData);
+    const data = await addService(endpoint, formData, {
+        'Content-Type': 'multipart/form-data'
+    });
     return data;
 
 }
