@@ -17,7 +17,7 @@ import { useGetPermissions } from '@/hooks/get-permissions';
 import { can } from '@/utils/can';
 import Select from 'react-select';
 import selectAdd from '@/services/selectAdd';
-import { validateClientVendor } from '@/utils/validation';
+import { validateOne } from '@/utils/validation';
 function Vendor({ vendor = null, callBack }) {
     const { t } = useTranslation();
     const { cities, setCities, vendors, setVendors } = useMainStore(state => state);
@@ -48,7 +48,7 @@ function Vendor({ vendor = null, callBack }) {
     }
 
     const handleOnSubmit = async () => {
-        if (validateClientVendor(data, errors, setErrors)) {
+        if (validateOne(data, errors, setErrors)) {
             setIsLoading(true);
             const id = toast.loading('Please wait...')
             if (vendor) {

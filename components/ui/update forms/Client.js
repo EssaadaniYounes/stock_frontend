@@ -18,7 +18,7 @@ import useFocus from '@/hooks/useAutoFocus';
 import Select from 'react-select';
 import selectAdd from '@/services/selectAdd';
 import { isText } from '@/utils/validate';
-import { validateClientVendor } from '@/utils/validation';
+import { validateOne } from '@/utils/validation';
 function Client({ client = null }) {
     const router = useRouter();
     const { t } = useTranslation();
@@ -27,7 +27,7 @@ function Client({ client = null }) {
         full_name: '',
         street: '',
         zip_code: '',
-        city_id: '0',
+        city_id: 0,
         address: '',
         tel: '',
         email: ''
@@ -50,16 +50,18 @@ function Client({ client = null }) {
     }
 
     const handleOnSubmit = async () => {
-        if (validateClientVendor(data, errors, setErrors)) {
+        if (validateOne(data, errors, setErrors)) {
             setIsLoading(true);
+            const Obj = data;
+            Obj.city_id = data.city_id != 0 ? data.city_id : cities.find(city => city.init == 1).value;
             const id = toast.loading(t('common:toast.wait'))
             if (client) {
-                const res = await updateService('clients', client.id, data);
+                const res = await updateService('clients', client.id, Obj);
                 ToastDone(t('common:toast.update'), id, res);
 
             }
             else {
-                const res = await addService('clients', data);
+                const res = await addService('clients', Obj);
                 ToastDone(t('common:toast.add'), id, res);
             }
             setTimeout(() => {

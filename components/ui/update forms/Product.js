@@ -17,6 +17,7 @@ import { useAuthStore } from '@/store/authStore';
 import Select from 'react-select';
 import selectAdd from '@/services/selectAdd';
 import { useGetPermissions } from '@/hooks/get-permissions';
+import { validateProduct } from '@/utils/validation';
 
 function Product({ items, product = null, setState = null }) {
     const router = useRouter();
@@ -32,6 +33,9 @@ function Product({ items, product = null, setState = null }) {
         sell_price: 0,
         buy_price: 0,
     });
+    const [errors, setErrors] = useState({
+        name: ''
+    })
     const [isLoading, setIsLoading] = useState(false);
     const permissions = useGetPermissions();
 
@@ -55,33 +59,39 @@ function Product({ items, product = null, setState = null }) {
     const handleOnChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     }
+    
 
     const handleOnSubmit = async () => {
-
-        setIsLoading(true);
-        const id = toast.loading("Please wait...")
-        if (product) {
-            const res = await updateService('products', product.id, data);
-            ToastDone("Product updated successfully", id, res);
-        }
-        else {
-
-            const res = await addService('products', data);
-            ToastDone("Product added successfully", id, res);
-            if (setState) {
-                const category_name = categories.find(c => c.id == res.data.category_id).name
-                const unit_name = units.find(u => u.id == res.data.unit_id).name
-                setProducts([...products, res.data])
-                setState({ ...res.data, category_name, unit_name });
-                setTimeout(() => {
-                    setShowProduct(false)
-                }, 1500);
+        if (validateProduct(data, errors, setErrors)) {
+            const Obj = data;
+            Obj.vendor_id = data.vendor_id != 0 ? data.vendor_id : vendors.find(v => v.init == 1).value;
+            Obj.category_id = data.category_id != 0 ? data.category_id : categories.find(c => c.init == 1).value;
+            Obj.unit_id = data.unit_id != 0 ? data.unit_id : units.find(u => u.init == 1).value;
+            setIsLoading(true);
+            const id = toast.loading("Please wait...")
+            if (product) {
+                const res = await updateService('products', product.id, Obj);
+                ToastDone("Product updated successfully", id, res);
             }
+            else {
+
+                const res = await addService('products', Obj);
+                ToastDone("Product added successfully", id, res);
+                if (setState) {
+                    const category_name = categories.find(c => c.id == res.data.category_id).name
+                    const unit_name = units.find(u => u.id == res.data.unit_id).name
+                    setProducts([...products, res.data])
+                    setState({ ...res.data, category_name, unit_name });
+                    setTimeout(() => {
+                        setShowProduct(false)
+                    }, 1500);
+                }
+            }
+            setIsLoading(false);
+            !setState && setTimeout(() => {
+                router.push('/dashboard/products');
+            }, 1500);
         }
-        setIsLoading(false);
-        !setState && setTimeout(() => {
-            router.push('/dashboard/products');
-        }, 1500);
     }
 
     return (

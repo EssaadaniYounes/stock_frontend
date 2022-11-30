@@ -22,7 +22,7 @@ function add({ InvoiceNum, clients, products, invoices, config, payMethodsData }
   )
 }
 export async function getServerSideProps(ctx) {
-
+  console.log(ctx.req);
   const { data: invoices } = await fetch('pos', {
     token: ctx.req.cookies.token
   })

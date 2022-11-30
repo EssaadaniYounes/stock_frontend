@@ -9,9 +9,11 @@ function MyApp({ Component, pageProps }) {
       ? <PosContainer>
         <Component {...pageProps} />
       </PosContainer>
-      : < Container >
-        <Component {...pageProps} />
-      </Container >
+      : router.pathname.split('/')[1] == 'iframes'
+        ? <Component {...pageProps} />
+        : < Container >
+          <Component {...pageProps} />
+        </Container >
   )
 }
 export default MyApp
