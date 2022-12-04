@@ -20,7 +20,7 @@ import { useGetPermissions } from '@/hooks/get-permissions';
 import { can } from '@/utils/can';
 function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum, isPos = false }) {
     const { t } = useTranslation();
-    const { products, clients, clientsInvoices, setClientsInvoices, config, payMethods, setClient } = useMainStore(state => state);
+    const { products, clients, clientsInvoices, setClientsInvoices, config, payMethods, setClients } = useMainStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(invoice ? invoice : {
         client_id: 1,
@@ -189,9 +189,11 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum, isPos = f
                 return handleSelectionChange(e);
             }
             alert("There's no product with this barcode!");
-        }
-    }
 
+        }
+    //TODO : clear barcode value
+    // TODO : add default values clients vendors product
+    }
     const removeInvoiceItem = async (index) => {
         const invoice_item = invoiceItems.find((item, i) => i == index);
         let isDeleted = true;
@@ -296,9 +298,11 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum, isPos = f
                             </div>
                         }
                         <div className="search-box" style={{ overflow: 'visible' }}>
-                            <div className="search-header">
+                            {
+                                !isPos && <div className="search-header">
                                 {t('common:info.invoice_items')}
-                            </div>
+                                </div>
+                            }
                             <div className="flex flex-wrap flex-col md:flex-row gap-y-2 justify-center items-center w-full my-1 min-h-[80px] px-2 gap-x-2 ">
                                 <div className="items-container">
                                     <div className="input-container">
@@ -307,6 +311,7 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum, isPos = f
                                             name='barcode'
                                             ref={focusRef}
                                             className='input-rounded'
+
                                             onKeyDown={(e) => handleBarcodeSearch(e)}
                                             placeholder={t('common:info.barcode')} />
                                             : <input type="text"

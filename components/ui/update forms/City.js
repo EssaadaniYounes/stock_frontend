@@ -12,10 +12,11 @@ import useFocus from '@/hooks/useAutoFocus'
 import { isText } from '@/utils/validate'
 import { useMemo } from 'react'
 
-function City({ city = null, callBack, setState = null }) {
+function City({ city = null, callBack, setState = null, onSubmit = null }) {
     const { t } = useTranslation();
     const [data, setData] = useState(city ? city : {
-        name: ''
+        name: '',
+        init: 0
     });
     const [errors, setErrors] = useState({
         name: false
@@ -45,8 +46,10 @@ function City({ city = null, callBack, setState = null }) {
         setIsLoading(true);
         const id = toast.loading('Please wait...')
         if (!city) {
+
             const res = await addService('cities', data);
             !callBack ? setCities([...cities, res.data]) : setCities([{ value: res.data.id, label: res.data.name }, ...cities]);
+
             if (callBack) {
                 callBack(res.data.id);
             }
@@ -64,6 +67,7 @@ function City({ city = null, callBack, setState = null }) {
         }
         setIsLoading(false);
         setShowCity(false);
+        onSubmit && onSubmit(cities);
     }
 
     return (

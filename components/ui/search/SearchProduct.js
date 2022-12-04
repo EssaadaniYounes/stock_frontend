@@ -20,11 +20,23 @@ function SearchProduct({ allProducts }) {
     })
 
     const callBack = (product) => {
-        return (product.barcode.toLowerCase().includes(searchItems.barcode) &&
-            product.unit_name.toLowerCase().includes(searchItems.unit_name) &&
-            product.vendor_name.toLowerCase().includes(searchItems.vendor_name) &&
-            product.category_name.toLowerCase().includes(searchItems.category_name) &&
-            product.name.toLowerCase().includes(searchItems.name))
+        return (
+            (product.barcode != null
+                ? product.barcode.toLowerCase().includes(searchItems.barcode)
+                : product?.barcode == null)
+            && (product.unit_name != null
+                ? product.unit_name.toLowerCase().includes(searchItems.unit_name)
+                : product.unit_name == null)
+            & (product.vendor_name != null
+                ? product.vendor_name.toLowerCase().includes(searchItems.vendor_name)
+                : product.vendor_name == null)
+            & (product.category_name != null
+                ? product.category_name.toLowerCase().includes(searchItems.category_name)
+                : product.category_name == null)
+            & (product.name != null
+                ? product.name.toLowerCase().includes(searchItems.name)
+                : product.name == null)
+        )
     }
     useSearch(callBack, setProducts, searchItems, allProducts);
     const ref = useRef();

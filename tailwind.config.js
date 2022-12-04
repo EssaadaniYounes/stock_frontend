@@ -14,7 +14,7 @@ module.exports = {
         }
       },
       animation: {
-        scale: 'scale 1.5s ease-in-out',
+        scale: 'scale 1.2s ease-in-out',
       },
       colors: {
         'panel-grey': '#77777',

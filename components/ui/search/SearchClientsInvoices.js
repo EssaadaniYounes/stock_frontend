@@ -28,8 +28,6 @@ function SearchClientsInvoices({ allInvoices }) {
         const name = e.target.name;
         setSearchItems(prev => ({ ...prev, [name]: value.toLowerCase() }));
     }
-
-
     return (
         <div className='search-box pb-1' style={{ overflow: 'visible' }}>
             <SearchHeader />
@@ -37,7 +35,7 @@ function SearchClientsInvoices({ allInvoices }) {
                 <div className="input-container">
                     <label htmlFor="" className='label'>{t('common:models.client')}</label>
                     <Select options={clients}
-                        value={clients.find(c => c.id == selectedClientId)}
+                        value={clients?.find(c => c.value == selectedClientId)}
                         onChange={v => { setSearchItems({ ...searchItems, client_name: v.label }), setSelectedClientId(v.value) }}
                     />
                 </div>

@@ -24,7 +24,7 @@ function index({ payMethodsData, userData }) {
         {
             name: "#",
             cell: row => <div className="flex items-center gap-2">
-                {can(permission, 'delete') && row.init == 0 && row.id != 1 && row.is_default == 0 && < button onClick={() => deletePayMethod(row.id)}>
+                {can(permission, 'delete') && row.id != 1 && row.is_default == 0 && < button onClick={() => deletePayMethod(row.id)}>
                     {<icons.Remove />}
                 </button>
                 }

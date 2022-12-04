@@ -55,7 +55,7 @@ function Company({ company = null }) {
         if (company) {
             const res = await updateService('companies', company.id, { ...data, logo: logo_name });
             ToastDone("Company updated successfully", id, res);
-            setUser({ ...user, data: { ...data, company_name: data.company_name } });
+            setUser({ ...user, data: { ...user.data, company_name: data.company_name } });
         }
         else {
             const res = await addService('companies', { ...data, logo: logo_name });

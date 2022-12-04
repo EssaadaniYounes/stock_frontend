@@ -4,9 +4,11 @@ import { useSharedVariableStore } from '@/store/sharedVariablesStore';
 import { useAuthStore } from '@/store/authStore';
 import icons from '@/data/iconsComponents';
 import deleteAllCookies from '@/utils/clear-cookies';
-import { DropDown } from '@/components/parts';
+import {DropDown, LinkButton} from '@/components/parts';
 import useTranslation from 'next-translate/useTranslation';
 import getCookie from '@/utils/get-cookie';
+import Link from "next/link";
+import {can} from "@/utils/can";
 
 function SharedHeader() {
 
@@ -39,8 +41,6 @@ function SharedHeader() {
             router.push('/auth/login');
         }
     }
-
-
     return (
         <div className='w-full fixed top-0 z-[40] h-14 bg-[#343d4a] flex justify-between md:px-8 px-2 items-center'>
             <div className='flex md:gap-x-6 gap-x-2  items-center '>
@@ -56,6 +56,16 @@ function SharedHeader() {
                     }
                 </div>
                 {currentUser?.data.name && <p className="uppercase text-xs md:text-[16px] text-white font-semibold">{currentUser?.data?.company_name}</p>}
+                {
+                    currentUser?.data.name
+                    && can(JSON.parse(user.data.permissions).pos,'create')
+                    &&<LinkButton href='/pos/add'
+                                  icon={<icons.Pos />}
+                                  className="button-add mt-2"
+                                  title={t('common:pages.pos')}
+                                  style={{textTransform:'uppercase'}}
+                    />
+                }
             </div>
             <div className="flex items-center gap-x-3">
                 <DropDown />

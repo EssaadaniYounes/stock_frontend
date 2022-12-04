@@ -17,13 +17,12 @@ function add({ InvoiceNum, clients, products, invoices, config, payMethodsData }
   }, []);
   return (
     <div className='px-2 mt-1'>
-      <FormHeader title="Pos" style={{ background: '#eee', color: '#444' }} />
       <Invoice isPos={true} InvoiceNum={InvoiceNum} />
     </div>
   )
 }
 export async function getServerSideProps(ctx) {
-
+  console.log(ctx.req);
   const { data: invoices } = await fetch('pos', {
     token: ctx.req.cookies.token
   })

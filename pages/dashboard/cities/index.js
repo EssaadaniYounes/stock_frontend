@@ -14,6 +14,7 @@ import { useSharedVariableStore } from '@/store/sharedVariablesStore'
 import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
+import union from '@/utils/union-data'
 function index({ citiesData, userData }) {
     const { user, setUser } = useAuthStore(state => state);
     const { t } = useTranslation();
@@ -24,7 +25,7 @@ function index({ citiesData, userData }) {
         {
             name: "#",
             cell: row => <div className="flex items-center gap-2">
-                {can(permission, 'delete') && row.init == 0 && row.init == 0 && < button onClick={() => deleteCity(row.id)}>
+                {can(permission, 'delete') && row.init != 1 && < button onClick={() => deleteCity(row.id)}>
                     {<icons.Remove />}
                 </button>
                 }
@@ -57,6 +58,7 @@ function index({ citiesData, userData }) {
         const res = await deleteService('cities', id, 'city');
         if (res.success) {
             setCities(cities.filter(c => c.id !== id));
+            //TODO: remove the deleted city from the serverData
             toast.success(res.message, {
                 position: "top-right",
                 autoClose: 1500,
@@ -73,7 +75,10 @@ function index({ citiesData, userData }) {
         setCity(cities.find(c => c.id == id));
         setShowCity(true);
     }
-
+    //TODO: when submit form change the data in the serverData (citiesData)
+    const handleSubmit = (data) => {
+        citiesData = data;
+    }
     return (
         <>
             <CurrentPageHeader icon={icons.City} title={t('common:pages.cities')} showBack={false} component={CityActions} />

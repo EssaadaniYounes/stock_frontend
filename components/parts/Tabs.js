@@ -16,7 +16,7 @@ const Tabs = ({ items }) => {
     const [isFetching, setIsFetching] = useState(false);
     const [invoiceItems, setInvoiceItems] = useState(null);
     const [selectedClientId, setSelectedClientId] = useState(items[0].id);
-    const [lastYear, setLastYear] = useState({ year: '2021', dus: 100 });
+    const [lastYear, setLastYear] = useState({ year: '2021', dus: 0 });
     let paidAmount = 0;
     useEffect(() => {
         fetchInvoice(selectedClientId);
@@ -143,7 +143,7 @@ const Tabs = ({ items }) => {
                                                 {invoiceItem.is_target ?
                                                     <td className="" rowSpan={invoiceItem.length}>
                                                         {
-                                                            currency(calcLastMonthAmount(invoiceItems, invoiceItem, paidAmount) + lastYear.dus)
+                                                            currency(calcLastMonthAmount(invoiceItems, invoiceItem, 0) + lastYear.dus)
                                                         }
                                                     </td>
                                                     : false
