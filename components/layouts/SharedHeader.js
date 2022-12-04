@@ -41,8 +41,6 @@ function SharedHeader() {
             router.push('/auth/login');
         }
     }
-
-
     return (
         <div className='w-full fixed top-0 z-[40] h-14 bg-[#343d4a] flex justify-between md:px-8 px-2 items-center'>
             <div className='flex md:gap-x-6 gap-x-2  items-center '>

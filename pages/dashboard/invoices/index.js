@@ -31,7 +31,7 @@ function index({ invoicesData, userData, clients, reportTypes }) {
         {
             name: "#",
             cell: row => <div className="flex items-center gap-2">
-                {can(permission, 'delete') && row.init == 0 && <button onClick={() => deleteInvoice(row.id)}>
+                {can(permission, 'delete') && <button onClick={() => deleteInvoice(row.id)}>
                     {<icons.Remove />}
                 </button>}
 
@@ -40,8 +40,8 @@ function index({ invoicesData, userData, clients, reportTypes }) {
                 </Link>}
                 {
                     can(permission, 'read') && <div className=" flex items-center">
-                        <button className="bg-white p-1 font-semibold border border-gray-600 rounded-sm flex items-center gap-x-2" onClick={() => Print(row.id)}><span> {<icons.Print style={{width:'16px',height:'16px'}}/>}</span> <span> {t('common:actions.print')}</span></button>
-                        <div onClick={() => handleSelectionChange(row.id)}>
+                        <button className="bg-white p-1 font-semibold border border-gray-600 border-r-0 rounded-r-none rounded-sm flex items-center gap-x-2" onClick={() => Print(row.id)}><span> {<icons.Print style={{ width: '16px', height: '16px' }} />}</span> <span> {t('common:actions.print')}</span></button>
+                        <div onClick={() => handleSelectionChange(row.id)} className="p-[4px] bg-[#dfcfcf] duration-75 hover:bg-[#a39090] rounded-tr-sm border border-black rounded-br-sm shadow-sm">
                             {<icons.ArrowDownBold className='bg-gray-200' />}
                         </div>
                     </div>
@@ -101,7 +101,7 @@ function index({ invoicesData, userData, clients, reportTypes }) {
         Print(id, e.target.value)
     }
     const Print = async (id, report_type_id = null) => {
-        console.log(report_type_id)
+        setSelectedInvoiceId(id);
         const { data } = await fetch(`clients_invoices/items/report_data/${id}`, {
             token: getCookie('token'),
         })
@@ -110,7 +110,6 @@ function index({ invoicesData, userData, clients, reportTypes }) {
             setShowPreviewType(reportTypes.find(t => t.is_default == 1).id)
         }
         else {
-
             //Thermal
             if (report_type_id == 3) {
 
@@ -138,9 +137,9 @@ function index({ invoicesData, userData, clients, reportTypes }) {
     return (
         <div className="relative">
             {showPreviewType && showPreviewType == 1
-                ? <ClientInvoiceReport closeState={setShowPreviewType} data={reportData} />
+                ? <ClientInvoiceReport closeState={setShowPreviewType} data={reportData} id={selectedInvoiceId} />
                 : showPreviewType == 2
-                    ? <ClientInvoiceReportThermal closeState={setShowPreviewType} data={reportData} />
+                    ? <ClientInvoiceReportThermal closeState={setShowPreviewType} id={selectedInvoiceId} />
                     : false
             }
             <CurrentPageHeader icon={icons.Invoices} title={t('common:pages.clients_invoices')} showBack={false} component={ClientsInvoicesActions} />
@@ -149,7 +148,7 @@ function index({ invoicesData, userData, clients, reportTypes }) {
                 {showPrintTypes && <div ref={ref} className="fixed top-72 left-[30%] bg-white z-20 shadow-sm shadow-gray-600 rounded-md">
                     <div onClick={() => Print(selectedInvoiceId, 1)} className="border p-2 border-black cursor-pointer duration-150 hover:shadow-sm hover:bg-gray-100 border-b-0 shadow-gray-900 ">A4</div>
                     <div onClick={() => Print(selectedInvoiceId, 2)} className="border p-2 border-black cursor-pointer duration-150 hover:shadow-sm hover:bg-gray-100 border-t-0  border-b-0 shadow-gray-900 ">Preview Thermal</div>
-                    <div onClick={() => Print(selectedInvoiceId, 3)} className="border p-2 border-black cursor-pointer duration-150 hover:shadow-sm hover:bg-gray-100 border-t-0 shadow-gray-900 ">Thermal</div>
+                    {/* <div onClick={() => Print(selectedInvoiceId, 3)} className="border p-2 border-black cursor-pointer duration-150 hover:shadow-sm hover:bg-gray-100 border-t-0 shadow-gray-900 ">Thermal</div> */}
                 </div>
                 }
                 <SearchClientsInvoices allInvoices={invoicesData} />

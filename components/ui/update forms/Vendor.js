@@ -49,14 +49,16 @@ function Vendor({ vendor = null, callBack }) {
 
     const handleOnSubmit = async () => {
         if (validateOne(data, errors, setErrors)) {
+            const Obj = data;
+            Obj.city_id = data.city_id != 0 ? data.city_id : cities.find(city => city.init == 1).value;
             setIsLoading(true);
             const id = toast.loading('Please wait...')
             if (vendor) {
-                const res = await updateService('vendors', vendor.id, data);
+                const res = await updateService('vendors', vendor.id, Obj);
                 ToastDone(t('common:toast.update'), id, res);
             }
             else {
-                const res = await addService('vendors', data);
+                const res = await addService('vendors', Obj);
                 callBack ? setVendors([{ value: res.data.id, label: res.data.full_name }, ...vendors])
                     : setVendors([...vendors, res.data]);
                 if (callBack) {

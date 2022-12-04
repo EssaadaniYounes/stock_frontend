@@ -59,7 +59,7 @@ function Product({ items, product = null, setState = null }) {
     const handleOnChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     }
-    
+
 
     const handleOnSubmit = async () => {
         if (validateProduct(data, errors, setErrors)) {
@@ -193,20 +193,20 @@ function Product({ items, product = null, setState = null }) {
                             </div>
                             <div className="items-container">
                                 <div className="input-container">
-                                    <label className="label">{t('common:info.sell_price')}</label>
-                                    <input type="number"
-                                        name='sell_price'
-                                        className='input-rounded'
-                                        value={data.sell_price}
-                                        onChange={(e) => handleOnChange(e)}
-                                        placeholder=" " />
-                                </div>
-                                <div className="input-container">
                                     <label className="label">{t('common:info.buy_price')}</label>
                                     <input type="number"
                                         name='buy_price'
                                         className='input-rounded'
                                         value={data.buy_price}
+                                        onChange={(e) => handleOnChange(e)}
+                                        placeholder=" " />
+                                </div>
+                                <div className="input-container">
+                                    <label className="label">{t('common:info.sell_price')}</label>
+                                    <input type="number"
+                                        name='sell_price'
+                                        className='input-rounded'
+                                        value={data.sell_price}
                                         onChange={(e) => handleOnChange(e)}
                                         placeholder=" " />
                                 </div>

@@ -14,6 +14,7 @@ export { default as PayMethodActions } from './actions/PayMethodActions';
 export { default as VendorsInvoicesActions } from './actions/VendorsInvoicesActions';
 export { default as PosActions } from './actions/PosActions';
 export { default as ImportProductActions } from './actions/ImportProductActions';
+export { default as PrinterActions } from './actions/PrinterActions';
 //Search
 export { default as SearchCategory } from './search/SearchCategory';
 export { default as SearchProduct } from './search/SearchProduct';
@@ -26,6 +27,7 @@ export { default as SearchRole } from './search/SearchRole';
 export { default as SearchUser } from './search/SearchUser';
 export { default as SearchCity } from './search/SearchCity';
 export { default as SearchPayMethod } from './search/SearchPayMethod';
+export { default as SearchPrinter } from './search/SearchPrinter';
 //Forms
 export { default as Client } from './update forms/Client';
 export { default as Invoice } from './update forms/Invoice';
@@ -39,6 +41,7 @@ export { default as User } from './update forms/User';
 export { default as Company } from './update forms/Company';
 export { default as City } from './update forms/City';
 export { default as PayMethod } from './update forms/PayMethod';
+export { default as Printer } from './update forms/Printer';
 
 //Reports
 export { default as ClientInvoiceReport } from './reports/ClientInvoiceReport';

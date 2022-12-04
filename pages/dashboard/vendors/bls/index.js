@@ -22,7 +22,7 @@ function index({ vendorsInvoicesData, vendorsData, userData }) {
         {
             name: "#",
             cell: row => <div className="flex items-center gap-2">
-                {can(permission, 'delete') && row.init == 0 && <button onClick={() => deleteInvoice(row.id)}>
+                {can(permission, 'delete') && <button onClick={() => deleteInvoice(row.id)}>
                     {<icons.Remove />}
                 </button>}
                 {can(permission, 'update') && <Link href={`/dashboard/vendors/bls/bl/${row.id}`}>

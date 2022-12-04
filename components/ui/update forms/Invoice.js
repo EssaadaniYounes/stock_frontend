@@ -20,7 +20,7 @@ import { useGetPermissions } from '@/hooks/get-permissions';
 import { can } from '@/utils/can';
 function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum, isPos = false }) {
     const { t } = useTranslation();
-    const { products, clients, clientsInvoices, setClientsInvoices, config, payMethods, setClient } = useMainStore(state => state);
+    const { products, clients, clientsInvoices, setClientsInvoices, config, payMethods, setClients } = useMainStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(invoice ? invoice : {
         client_id: 1,

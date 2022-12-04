@@ -128,6 +128,12 @@ const items = [
                 icon: <icons.PayMethod />,
                 link: '/dashboard/report_types'
             },
+            {
+                key: 'printers',
+                title: 'Printers',
+                icon: <icons.Print />,
+                link: '/dashboard/printers'
+            },
         ]
     },
 ]

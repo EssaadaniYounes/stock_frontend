@@ -1,8 +1,7 @@
-import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { CurrentPageHeader } from '@/components/layouts'
 import CustomDataTable from '@/components/parts/CustomDataTable'
-import { City, CityActions, PayMethod, PayMethodActions, SearchCity, SearchPayMethod } from '@/components/ui'
+import { Printer, PrinterActions, SearchPrinter } from '@/components/ui'
 import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
 import autoLogin, { deleteService, updateService } from '@/services'
@@ -14,26 +13,24 @@ import { useSharedVariableStore } from '@/store/sharedVariablesStore'
 import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
-function index({ payMethodsData, userData }) {
-    const { setUser } = useAuthStore(state => state);
+function index({ printersData, userData }) {
+    const { user, setUser } = useAuthStore(state => state);
     const { t } = useTranslation();
-    const permission = JSON.parse(userData.data.permissions).pay_methods;
+    const permission = JSON.parse(userData.data.permissions).printers;
 
     const columns = [
 
         {
             name: "#",
             cell: row => <div className="flex items-center gap-2">
-                {can(permission, 'delete') && row.id != 1 && row.is_default == 0 && < button onClick={() => deletePayMethod(row.id)}>
+                {can(permission, 'delete') && row.is_default == 0 && < button onClick={() => deletePrinter(row.id)}>
                     {<icons.Remove />}
                 </button>
                 }
                 {can(permission, 'update') && < button onClick={() => handleOnUpdateClick(row.id)}>
                     <a>{<icons.Update />}</a>
-
                 </button >
                 }
-
             </div >,
             ignoreRowClick: true,
             allowOverflow: true,
@@ -48,38 +45,48 @@ function index({ payMethodsData, userData }) {
             button: true,
         },
         {
-            name: t('common:info.name'),
+            name: t('common:pages.printers'),
             selector: row => row.name,
             sortable: true,
-        }
+        },
+        {
+            name: t('common:info.host'),
+            selector: row => row.host,
+            sortable: true,
+        },
+        {
+            name: t('common:info.type'),
+            selector: row => row.type,
+            sortable: true,
+        },
     ];
-    const [payMethod, setPayMethod] = useState(null);
-    const { payMethods, setPayMethods } = useMainStore(state => state);
-    const { showPayMethod, setShowPayMethod } = useSharedVariableStore(state => state);
+    const [printer, setPrinter] = useState(null);
+    const { printers, setPrinters } = useMainStore(state => state);
+    const { showPrinter, setShowPrinter } = useSharedVariableStore(state => state);
 
     useEffect(() => {
-        setPayMethods(payMethodsData);
+        setPrinters(printersData);
         setUser(userData);
     }, []);
 
     const makeDefault = async (id) => {
-        const res = await updateService('pay_methods/default', id, { old_item: payMethodsData.find(p => p.is_default == 1).id });
+        const res = await updateService('printers/default', id, { old_item: printersData.find(p => p.is_default == 1).id });
 
         if (res.success) {
-            const newMethods = payMethods.map(m => {
-                if (m.id != id) {
-                    return { ...m, is_default: 0 }
+            const newPrinters = printers.map(p => {
+                if (p.id != id) {
+                    return { ...p, is_default: 0 }
                 }
-                return { ...m, is_default: 1 }
+                return { ...p, is_default: 1 }
             })
-            setPayMethods(newMethods);
+            setPrinters(newPrinters);
         }
     }
 
-    const deletePayMethod = async (id) => {
-        const res = await deleteService('pay_methods', id, 'Method');
+    const deletePrinter = async (id) => {
+        const res = await deleteService('printers', id);
         if (res.success) {
-            setPayMethods(payMethods.filter(c => c.id !== id));
+            setPrinters(printers.filter(p => p.id !== id));
             toast.success(res.message, {
                 position: "top-right",
                 autoClose: 1500,
@@ -93,19 +100,18 @@ function index({ payMethodsData, userData }) {
     };
 
     const handleOnUpdateClick = (id) => {
-        setPayMethod(payMethods.find(c => c.id == id));
-        setShowPayMethod(true);
+        setPrinter(printers.find(p => p.id == id));
+        setShowPrinter(true);
     }
-
     return (
         <>
-            <CurrentPageHeader icon={icons.PayMethod} title={t('common:pages.pay_methods')} showBack={false} component={PayMethodActions} />
+            <CurrentPageHeader icon={icons.Print} title={t('common:pages.printers')} showBack={false} component={PrinterActions} />
             <div className='content'>
                 <Toast />
-                {showPayMethod && <PayMethod payMethod={payMethod} setState={setPayMethod} />}
-                <SearchPayMethod allPayMethods={payMethodsData} />
+                {showPrinter && <Printer printer={printer} setState={setPrinter} />}
+                <SearchPrinter allPrinters={printersData} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
-                    <CustomDataTable data={payMethods} columns={columns} />
+                    <CustomDataTable data={printers} columns={columns} />
                 </div>
             </div>
         </>
@@ -113,13 +119,13 @@ function index({ payMethodsData, userData }) {
 }
 
 export async function getServerSideProps(ctx) {
-    const { data: payMethodsData } = await fetch('pay_methods', {
+    const { data: printersData } = await fetch('printers', {
         token: ctx.req.cookies.token
     })
     const loginResponse = await autoLogin(ctx);
     return {
         props: {
-            payMethodsData,
+            printersData,
             userData: loginResponse.dataUser
         }
     }

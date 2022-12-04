@@ -10,6 +10,7 @@ export const useSharedVariableStore = create(set => ({
     showCity: false,
     showPayMethod: false,
     showProduct: false,
+    showPrinter: false,
     setShowSideBar: (value) => set(state => ({ showSideBar: value })),
     setShowCategory: (value) => set(state => ({ showCategory: value })),
     setShowVendor: (value) => set(state => ({ showVendor: value })),
@@ -17,6 +18,7 @@ export const useSharedVariableStore = create(set => ({
     setOpen: (value) => set(state => ({ open: value })),
     setShowCity: (value) => set(state => ({ showCity: value })),
     setShowPayMethod: (value) => set(state => ({ showPayMethod: value })),
-    setShowProduct: (value) => set(state => ({ showProduct: value }))
+    setShowProduct: (value) => set(state => ({ showProduct: value })),
+    setShowPrinter: (value) => set(state => ({ showPrinter: value }))
 }))
 
