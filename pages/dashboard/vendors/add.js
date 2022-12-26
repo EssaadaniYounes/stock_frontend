@@ -7,7 +7,7 @@ import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
 import { useMainStore } from '@/store/MainStore'
 
-function add({ citiesData }) {
+function Add({ citiesData }) {
     const { setCities } = useMainStore(state => state);
     const { t } = useTranslation();
     useEffect(() => {
@@ -33,4 +33,4 @@ export async function getServerSideProps(ctx) {
         }
     }
 }
-export default add
+export default Add

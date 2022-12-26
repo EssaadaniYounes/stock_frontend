@@ -15,7 +15,7 @@ import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 
-function index({ invoicesData, userData, clients, reportTypes }) {
+function Index({ invoicesData, userData, clients, reportTypes }) {
     const permission = JSON.parse(userData.data.permissions).pos;
     const [showPreviewType, setShowPreviewType] = useState(false);
     const [showPrintTypes, setShowPrintTypes] = useState(false);
@@ -171,4 +171,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default index
+export default Index

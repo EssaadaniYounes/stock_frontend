@@ -5,7 +5,7 @@ import { User } from '@/components/ui'
 import { fetch } from '@/lib/fetch'
 import { useMainStore } from '@/store/MainStore'
 
-function edit({ user, roles }) {
+function Edit({ user, roles }) {
     const { setRoles } = useMainStore(state => state);
     useEffect(() => {
         setRoles(roles);
@@ -39,4 +39,4 @@ export async function getServerSideProps(ctx) {
 }
 
 
-export default edit
+export default Edit

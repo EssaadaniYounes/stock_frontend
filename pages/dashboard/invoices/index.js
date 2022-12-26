@@ -17,7 +17,7 @@ import { ClientInvoiceReport, ClientInvoiceReportThermal } from '@/components/ui
 import getCookie from '@/utils/get-cookie'
 import { useOnClickOutside } from '@/hooks/click-outside'
 
-function index({ invoicesData, userData, clients, reportTypes }) {
+function Index({ invoicesData, userData, clients, reportTypes }) {
     const permission = JSON.parse(userData.data.permissions).clients_invoices;
     const [showPreviewType, setShowPreviewType] = useState(false);
     const [showPrintTypes, setShowPrintTypes] = useState(false);
@@ -77,7 +77,7 @@ function index({ invoicesData, userData, clients, reportTypes }) {
 
         },
         {
-            name: t('common:models.user'),
+            name: t('common:info.created_by'),
             selector: row => row.user,
             sortable: true,
 
@@ -180,4 +180,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default index
+export default Index

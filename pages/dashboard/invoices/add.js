@@ -7,7 +7,7 @@ import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
 import { useMainStore } from '@/store/MainStore'
 
-function add({ clients, products, invoices, config, payMethodsData, InvoiceNum }) {
+function Add({ clients, products, invoices, config, payMethodsData, InvoiceNum }) {
   const { setClients, setProducts, setClientsInvoices, setConfig, setPayMethods } = useMainStore(state => state);
   const { t } = useTranslation();
   useEffect(() => {
@@ -50,4 +50,4 @@ export async function getServerSideProps(ctx) {
 
 }
 
-export default add
+export default Add

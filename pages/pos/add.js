@@ -5,7 +5,7 @@ import { useMainStore } from '@/store/MainStore';
 import useTranslation from 'next-translate/useTranslation';
 import React, { useEffect } from 'react'
 
-function add({ InvoiceNum, clients, products, invoices, config, payMethodsData }) {
+function Add({ InvoiceNum, clients, products, invoices, config, payMethodsData }) {
   const { setClients, setProducts, setClientsInvoices, setConfig, setPayMethods } = useMainStore(state => state);
   const { t } = useTranslation();
   useEffect(() => {
@@ -42,4 +42,4 @@ export async function getServerSideProps(ctx) {
   }
 
 }
-export default add
+export default Add

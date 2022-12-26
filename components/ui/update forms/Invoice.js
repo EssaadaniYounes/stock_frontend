@@ -186,13 +186,13 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum, isPos = f
             const product = products.find(p => p.barcode == e.target.value);
             if (product) {
                 setSelectedProductId(product.id);
-                return handleSelectionChange(e);
+                handleSelectionChange(e);
+                return e.target.value = "";
             }
             alert("There's no product with this barcode!");
-
+            e.target.value = "";
         }
-    //TODO : clear barcode value
-    // TODO : add default values clients vendors product
+        // TODO : add default values clients vendors product
     }
     const removeInvoiceItem = async (index) => {
         const invoice_item = invoiceItems.find((item, i) => i == index);
@@ -300,7 +300,7 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum, isPos = f
                         <div className="search-box" style={{ overflow: 'visible' }}>
                             {
                                 !isPos && <div className="search-header">
-                                {t('common:info.invoice_items')}
+                                    {t('common:info.invoice_items')}
                                 </div>
                             }
                             <div className="flex flex-wrap flex-col md:flex-row gap-y-2 justify-center items-center w-full my-1 min-h-[80px] px-2 gap-x-2 ">
@@ -311,7 +311,6 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum, isPos = f
                                             name='barcode'
                                             ref={focusRef}
                                             className='input-rounded'
-
                                             onKeyDown={(e) => handleBarcodeSearch(e)}
                                             placeholder={t('common:info.barcode')} />
                                             : <input type="text"

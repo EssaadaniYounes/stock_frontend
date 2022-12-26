@@ -78,7 +78,8 @@
         "pay_method": "Payment method",
         "type": "Type",
         "host": "Host",
-        "printer": "Printer"
+        "printer": "Printer",
+        "created_by": "Created by"
     },
     "pages": {
         "dashboard": "Dashboard",
