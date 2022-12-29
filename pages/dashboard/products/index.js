@@ -14,7 +14,7 @@ import { Toast } from '@/components/parts'
 import calStockQty from '@/utils/calc-qty-stock'
 import useTranslation from 'next-translate/useTranslation'
 import currency from '@/utils/format-money'
-function index({ productsData, userData }) {
+function Index({ productsData, userData }) {
 
     const permission = JSON.parse(userData.data.permissions).products;
     const { t } = useTranslation();
@@ -141,4 +141,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default index
+export default Index

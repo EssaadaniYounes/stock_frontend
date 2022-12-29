@@ -41,6 +41,7 @@ const Tabs = ({ items }) => {
         setIsFetching(true);
         setSelectedClientId(id);
         const res = await fetch(`clients/balance/${id}`, { token: user.token });
+        console.log(res.data);
         setInvoiceItems(itemsInMonth(res.data, res.invoices));
         setOpenTab(id);
         setIsFetching(false);

@@ -13,7 +13,7 @@ import { useSharedVariableStore } from '@/store/sharedVariablesStore'
 import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
-function index({ printersData, userData }) {
+function Index({ printersData, userData }) {
     const { user, setUser } = useAuthStore(state => state);
     const { t } = useTranslation();
     const permission = JSON.parse(userData.data.permissions).printers;
@@ -131,4 +131,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default index
+export default Index

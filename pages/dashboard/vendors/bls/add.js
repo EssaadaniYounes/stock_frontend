@@ -6,7 +6,7 @@ import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
 import { useMainStore } from '@/store/MainStore'
 
-function add({ vendors, products, invoices, config, payMethodsData, categories, units }) {
+function Add({ vendors, products, invoices, config, payMethodsData, categories, units }) {
   const { setVendors, setProducts, setVendorsInvoices, setConfig, setPayMethods, setCategories, setUnits } = useMainStore(state => state);
   const { t } = useTranslation();
   useEffect(() => {
@@ -31,22 +31,22 @@ export async function getServerSideProps(ctx) {
   const { data: invoices } = await fetch('vendors_invoices', {
     token: ctx.req.cookies.token
   })
-  
+
   const { data } = await fetch('vendors_invoices/items/related_items', {
     token: ctx.req.cookies.token
   })
   return {
     props: {
-      vendors:data.vendors,
-      products:data.products,
+      vendors: data.vendors,
+      products: data.products,
       invoices,
-      config:data.config,
-      payMethodsData:data.payMethods,
-      categories:data.categories,
-      units:data.units
+      config: data.config,
+      payMethodsData: data.payMethods,
+      categories: data.categories,
+      units: data.units
     }
   }
 
 }
 
-export default add
+export default Add

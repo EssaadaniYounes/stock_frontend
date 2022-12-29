@@ -1,8 +1,9 @@
 //TODO: in the add forms as components (cities, units, etc) fix the new item to add it in the list
-//TODO: clear barcode input
 //TODO: fix sorting bls
 //TODO: fix bls dus
 //TODO: fix if user is logged in in sidebar && header 
 
+//DONE: create iframe accessed for any user
+//DONE: clear barcode input
 //DONE: add default printer
 //DONE: add: fixed printing , added printers, fixed user state

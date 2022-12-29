@@ -1,11 +1,12 @@
-import { InvoiceCompanyInfo, InvoiceInfo, InvoiceItems } from '@/components/parts'
+import { Empty, InvoiceCompanyInfo, InvoiceInfo, InvoiceItems } from '@/components/parts'
 import { fetch } from '@/lib/fetch';
 import React from 'react'
 import useTranslation from 'next-translate/useTranslation';
 import currency from '@/utils/format-money';
-function invoice({ data }) {
+function Invoice({ data }) {
     const { company, invoice, items } = data;
     const { t } = useTranslation();
+    if (company == null || invoice == null) return <Empty />
     return (
         <div className="px-6" >
             <InvoiceCompanyInfo company={company} />
@@ -32,7 +33,7 @@ function invoice({ data }) {
                     <div className="flex justify-between items-center">
                         <div>{t('common:info.cashier')} :</div>
                         <div>{invoice.created_by}</div>
-                        
+
                     </div>
                 </div>
                 <div className="flex-1 ltr:ml-10 rtl:mr-10 border-2 border-black border-t-1">
@@ -59,7 +60,8 @@ function invoice({ data }) {
     )
 }
 export async function getServerSideProps(ctx) {
-    const { data } = await fetch(`clients_invoices/items/report_data/${ctx.params.id}`, {
+    const query = ctx.query;
+    const { data } = await fetch(`clients_invoices/report_data/${ctx.params.id}?company=${query.company}`, {
         token: ctx.req.cookies.token,
     })
     return {
@@ -68,4 +70,4 @@ export async function getServerSideProps(ctx) {
         }
     }
 }
-export default invoice
+export default Invoice

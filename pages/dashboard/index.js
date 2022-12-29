@@ -6,7 +6,7 @@ import { CurrentPageHeader } from '@/components/layouts'
 import icons from '@/data/iconsComponents'
 import getCookie from '@/utils/get-cookie'
 import { fetch } from '@/lib/fetch'
-function index() {
+function Index() {
     const { t } = useTranslation()
     return (
         <div className='relative'>
@@ -17,4 +17,4 @@ function index() {
     )
 }
 
-export default index
+export default Index

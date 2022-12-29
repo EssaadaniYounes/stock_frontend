@@ -13,7 +13,7 @@ import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
 
-function index({ rolesData, userData }) {
+function Index({ rolesData, userData }) {
   const permission = JSON.parse(userData.data.permissions).roles;
   const { t } = useTranslation();
   const columns = [
@@ -89,4 +89,4 @@ export async function getServerSideProps(ctx) {
   }
 }
 
-export default index
+export default Index

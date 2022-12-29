@@ -12,7 +12,7 @@ import useFocus from '@/hooks/useAutoFocus'
 import { isText } from '@/utils/validate'
 import { useMemo } from 'react'
 
-function City({ city = null, callBack, setState = null, onSubmit = null }) {
+function City({ city = null, callBack, setState = null, setAll=()=>{} }) {
     const { t } = useTranslation();
     const [data, setData] = useState(city ? city : {
         name: '',
@@ -49,7 +49,7 @@ function City({ city = null, callBack, setState = null, onSubmit = null }) {
 
             const res = await addService('cities', data);
             !callBack ? setCities([...cities, res.data]) : setCities([{ value: res.data.id, label: res.data.name }, ...cities]);
-
+            setAll([...cities, res.data]);
             if (callBack) {
                 callBack(res.data.id);
             }
@@ -67,7 +67,7 @@ function City({ city = null, callBack, setState = null, onSubmit = null }) {
         }
         setIsLoading(false);
         setShowCity(false);
-        onSubmit && onSubmit(cities);
+        return;
     }
 
     return (

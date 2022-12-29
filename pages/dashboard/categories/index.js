@@ -14,7 +14,7 @@ import { useSharedVariableStore } from '@/store/sharedVariablesStore'
 import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
-function index({ categoriesData, userData }) {
+function Index({ categoriesData, userData }) {
     const { setUser } = useAuthStore(state => state);
     const { t } = useTranslation();
     const permission = JSON.parse(userData.data.permissions).categories;
@@ -105,4 +105,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default index
+export default Index

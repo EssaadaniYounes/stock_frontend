@@ -8,7 +8,7 @@ import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
 import { useMainStore } from '@/store/MainStore'
 
-function add({ categories, vendors, units, cities }) {
+function Add({ categories, vendors, units, cities }) {
     const { t } = useTranslation();
     const { setCategories, setVendors, setUnits, setCities } = useMainStore(state => state);
     useEffect(() => {
@@ -47,4 +47,4 @@ export async function getServerSideProps(ctx) {
 
 }
 
-export default add
+export default Add

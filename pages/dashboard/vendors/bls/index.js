@@ -14,7 +14,7 @@ import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
 import currency from '@/utils/format-money'
 
-function index({ vendorsInvoicesData, vendorsData, userData }) {
+function Index({ vendorsInvoicesData, vendorsData, userData }) {
     const permission = JSON.parse(userData.data.permissions).suppliers_invoices;
     const { t } = useTranslation();
     const columns = [
@@ -116,4 +116,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default index
+export default Index

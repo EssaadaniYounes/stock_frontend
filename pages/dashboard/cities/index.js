@@ -15,11 +15,12 @@ import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
 import union from '@/utils/union-data'
-function index({ citiesData, userData }) {
+import useAssing from '@/hooks/use-assign'
+function Index({ citiesData, userData }) {
     const { user, setUser } = useAuthStore(state => state);
     const { t } = useTranslation();
     const permission = JSON.parse(userData.data.permissions).cities;
-
+    const { items: data, setItems: setData } = useAssing(citiesData);
     const columns = [
 
         {
@@ -48,7 +49,7 @@ function index({ citiesData, userData }) {
     const [city, setCity] = useState(null);
     const { cities, setCities } = useMainStore(state => state);
     const { showCity, setShowCity } = useSharedVariableStore(state => state);
-
+    
     useEffect(() => {
         setCities(citiesData);
         setUser(userData);
@@ -75,17 +76,14 @@ function index({ citiesData, userData }) {
         setCity(cities.find(c => c.id == id));
         setShowCity(true);
     }
-    //TODO: when submit form change the data in the serverData (citiesData)
-    const handleSubmit = (data) => {
-        citiesData = data;
-    }
+    
     return (
         <>
             <CurrentPageHeader icon={icons.City} title={t('common:pages.cities')} showBack={false} component={CityActions} />
             <div className='content'>
                 <Toast />
-                {showCity && <City city={city} setState={setCity} />}
-                <SearchCity allCities={citiesData} />
+                {showCity && <City city={city} setState={setCity} setAll={setData} />}
+                <SearchCity allCities={data} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
                     <CustomDataTable data={cities} columns={columns} />
                 </div>
@@ -107,4 +105,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default index
+export default Index

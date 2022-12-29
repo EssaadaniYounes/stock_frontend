@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
-function index({ vendorsData, userData }) {
+function Index({ vendorsData, userData }) {
     const permission = JSON.parse(userData.data.permissions).vendors;
     const { t } = useTranslation()
     const columns = [
@@ -118,4 +118,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default index
+export default Index

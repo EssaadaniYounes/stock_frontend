@@ -5,7 +5,7 @@ import { Invoice } from '@/components/ui'
 import { fetch } from '@/lib/fetch';
 import { useMainStore } from '@/store/MainStore';
 
-function edit({ invoice = null, invoiceProducts = null, clients, products, config, payMethodsData }) {
+function Edit({ invoice = null, invoiceProducts = null, clients, products, config, payMethodsData }) {
     const { t } = useTranslation();
     const { setClients, setProducts, setConfig, setPayMethods } = useMainStore(state => state);
     useEffect(() => {
@@ -49,4 +49,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default edit
+export default Edit
