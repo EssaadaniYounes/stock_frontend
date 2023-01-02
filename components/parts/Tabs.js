@@ -41,7 +41,6 @@ const Tabs = ({ items }) => {
         setIsFetching(true);
         setSelectedClientId(id);
         const res = await fetch(`clients/balance/${id}`, { token: user.token });
-        console.log(res.data);
         setInvoiceItems(itemsInMonth(res.data, res.invoices));
         setOpenTab(id);
         setIsFetching(false);
@@ -144,7 +143,7 @@ const Tabs = ({ items }) => {
                                                 {invoiceItem.is_target ?
                                                     <td className="" rowSpan={invoiceItem.length}>
                                                         {
-                                                            currency(calcLastMonthAmount(invoiceItems, invoiceItem, 0) + lastYear.dus)
+                                                            currency(calcLastMonthAmount(invoiceItems, invoiceItem) + lastYear.dus)
                                                         }
                                                     </td>
                                                     : false

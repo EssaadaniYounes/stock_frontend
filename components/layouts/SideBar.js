@@ -1,10 +1,10 @@
 import items from '@/data/SideBarItems'
-import { useSharedVariableStore } from '@/store/sharedVariablesStore'
 import { MainAccordion } from '@/components/parts'
+import useCloseSidebar from '@/hooks/use-close-sideBar'
 
 function SideBar() {
 
-    const { showSideBar } = useSharedVariableStore(state => state)
+    // useCloseSidebar();
 
     return (
         <div className={`bg-gray-800 fixed z-[39] h-full w-[180px] overflow-y-auto top-14`}>

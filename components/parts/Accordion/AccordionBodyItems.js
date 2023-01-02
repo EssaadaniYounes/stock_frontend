@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useAuthStore } from '@/store/authStore'
 import isShowAccordionItem from '@/utils/show-accordion-item';
-import { useSharedVariableStore } from '@/store/sharedVariablesStore';
 import { LinkButton } from '@/components/parts';
 import useTranslation from 'next-translate/useTranslation';
 function AccordionBodyItems({ subItems }) {
     const { user } = useAuthStore(state => state);
     const [permissions, setPermissions] = useState(null);
+    const router = useRouter();
     const { t } = useTranslation()
     useEffect(() => {
         if (user.data) {
             setPermissions(JSON.parse(user.data.permissions))
         }
     }, [user]);
-    const router = useRouter();
-    const handleOnClick = (path) => {
-        router.push(path);
-    }
     return (
         <>
             {

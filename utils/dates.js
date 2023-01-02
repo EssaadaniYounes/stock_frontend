@@ -23,25 +23,16 @@ export function itemsInMonth(items, invoices) {
     Object.keys(months).map((key) => months[key] = itemsInDays(months[key]));
 
     Object.keys(months).map((key) => {
-        Object.keys(months[key]).map(dayKey => {
-            months[key][dayKey].map((item, i) => {
-                months[key][dayKey][i].dus = item.amount;
-            })
-        })
+        // Object.keys(months[key]).map(dayKey => {
+        //     months[key][dayKey].map((item, i) => {
+        //         console.log(item.id, item.amount_total);
+        //         months[key][dayKey][i].dus = item.amount_total;
+        //     })
+        // })
         if (Object.keys(months[key]).length == 0) {
             delete months[key];
         };
     });
-    for (let i = 0; i < invoices.length; i++) {
-        let paidAmount = 0;
-        const invoice = invoices[i];
-        paidAmount += +invoice.paid_amount;
-        const paid_amount = months[invoice.month][invoice.day][0]['paid_amount'];
-        months[invoice.month][invoice.day][0]['paid_amount'] = paid_amount
-            ? paid_amount + paidAmount
-            : paidAmount;
-
-    }
     let storedItems = [];
     Object.keys(months).map(monthKey => {
         Object.keys(months[monthKey]).map(dayKey => {
@@ -65,12 +56,12 @@ export function itemsInMonth(items, invoices) {
                     item.total_amount = communItems.reduce((prev, cur) => prev + cur.amount_total, 0);
                     item.paid = invoices.find(i => i.id == item.invoice_id).paid_amount;
                     item.dus = communItems.reduce((prev, cur) => prev + cur.amount_total, 0) - item.paid;
-
                     item.length = communItems.length;
                 }
             }
         })
     })
+    console.log(months)
     return months;
 
 }

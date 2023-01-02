@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSharedVariableStore } from '@/store/sharedVariablesStore';
 import { useAuthStore } from '@/store/authStore';
 import icons from '@/data/iconsComponents';
 import deleteAllCookies from '@/utils/clear-cookies';
-import {DropDown, LinkButton} from '@/components/parts';
+import { DropDown, LinkButton } from '@/components/parts';
 import useTranslation from 'next-translate/useTranslation';
 import getCookie from '@/utils/get-cookie';
 import Link from "next/link";
-import {can} from "@/utils/can";
+import { can } from "@/utils/can";
+import { useOnClickOutside } from '@/hooks/click-outside';
 
 function SharedHeader() {
 
     const router = useRouter();
     const { lang, t } = useTranslation();
+    const ref = useRef();
     const { user, setUser } = useAuthStore((state) => state);
     const [currentUser, setCurrentUser] = useState({
         token: '',
@@ -23,7 +25,7 @@ function SharedHeader() {
     })
     const [showLogout, setShowLogout] = useState(false);
     const { showSideBar, setShowSideBar } = useSharedVariableStore(state => state);
-
+    useOnClickOutside(ref, () => setShowLogout(false));
     useEffect(() => {
         setCurrentUser(user);
     }, [router.pathname, user]);
@@ -58,12 +60,12 @@ function SharedHeader() {
                 {currentUser?.data.name && <p className="uppercase text-xs md:text-[16px] text-white font-semibold">{currentUser?.data?.company_name}</p>}
                 {
                     currentUser?.data.name
-                    && can(JSON.parse(user.data.permissions).pos,'create')
-                    &&<LinkButton href='/pos/add'
-                                  icon={<icons.Pos />}
-                                  className="button-add mt-2"
-                                  title={t('common:pages.pos')}
-                                  style={{textTransform:'uppercase'}}
+                    && can(JSON.parse(user?.data.permissions).pos, 'create')
+                    && <LinkButton href='/pos/add'
+                        icon={<icons.Pos />}
+                        className="button-add mt-2"
+                        title={t('common:pages.pos')}
+                        style={{ textTransform: 'uppercase' }}
                     />
                 }
             </div>
@@ -76,7 +78,7 @@ function SharedHeader() {
                 </div>}
             </div>
             {
-                showLogout && <div className={`absolute ${lang != "ar" ? ' right-0 ' : ' left-0 '} font-semibold top-14 w-[200px] h-[70px] rounded-b-lg duration-150 hover:bg-gray-200 flex items-center justify-center z-[11] bg-gray-300`}>
+                showLogout && <div ref={ref} className={`absolute ${lang != "ar" ? ' right-0 ' : ' left-0 '} font-semibold top-14 w-[200px] h-[70px] rounded-b-lg duration-150 hover:bg-gray-200 flex items-center justify-center z-[11] bg-gray-300`}>
                     <button className='flex items-center gap-x-1 cursor-pointer' onClick={() => handleLogout()}>
                         {<icons.Logout />}
                         {t('common:login.logout')}
