@@ -8,8 +8,8 @@ function Container(props) {
     const { lang } = useTranslation()
     const { showSideBar, setShowSideBar } = useSharedVariableStore(state => state)
     return (
-        <div dir={`${lang != "ar" ? 'ltr' : 'rtl'}`} className='flex flex-col items-start justify-start'>
-
+        <div dir={`${lang != "ar" ? 'ltr' : 'rtl'}`} className='flex flex-col items-start justify-start relative'>
+           
             <SharedHeader />
             <div className="w-full h-screen flex  mt-14 relative">
                 {router.pathname != '/auth/login' && showSideBar && <SideBar />}

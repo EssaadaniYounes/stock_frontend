@@ -28,7 +28,7 @@ function User({ targetUser = null }) {
     const handleOnChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     }
-
+    console.log(roles);
     const handleOnSubmit = async () => {
         setIsLoading(true);
         const id = toast.loading("Please wait...")
@@ -49,7 +49,6 @@ function User({ targetUser = null }) {
             router.push('/dashboard/users');
         }, 1500);
     }
-    console.log(roles)
     return (
         <div className="flex flex-col">
             {isLoading && <RequestLoader />}
@@ -95,7 +94,7 @@ function User({ targetUser = null }) {
                                     onChange={v => setData({ ...data, role_id: v.value })}
                                 /> */}
                                 <select name="role_id" className="input-rounded" value={data.role_id} onChange={e => handleOnChange(e)}>
-                                    {roles.map(role => <option key={role.value} value={role.value}>{role.label}</option>)}
+                                    {roles.map(role => <option key={role.id} value={role.id}>{role.role_name}</option>)}
                                 </select>
                             </div>
                         </div>
