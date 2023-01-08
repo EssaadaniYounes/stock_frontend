@@ -3,10 +3,7 @@ import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '@/components/layouts'
 import { Form } from '@/components/parts'
 import { Company } from '@/components/ui'
-import icons from '@/data/iconsComponents'
-import { fetch } from '@/lib/fetch'
-
-function update({ company }) {
+import icoUpdate({ company }) {
   const { t } = useTranslation()
   return (
     <>
@@ -34,4 +31,4 @@ export async function getServerSideProps(ctx) {
 
 }
 
-export default update
+export default Update
