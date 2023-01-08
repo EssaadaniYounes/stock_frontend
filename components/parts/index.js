@@ -18,6 +18,7 @@ export { default as RequestLoader } from './RequestLoader';
 export { default as Modal } from './Modal';
 export { default as Empty } from './Empty';
 export { default as Error } from './Error';
+export { default as DeleteHandler } from './DeleteHandler';
 export { default as InfoViewer } from './InfoViewer';
 export { default as ReportActions } from './Reports/ReportActions';
 export { default as InvoiceCompanyInfo } from './Reports/InvoiceCompanyInfo';
