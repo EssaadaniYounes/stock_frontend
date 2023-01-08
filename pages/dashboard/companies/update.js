@@ -3,7 +3,10 @@ import React, { useEffect } from 'react'
 import { CurrentPageHeader } from '@/components/layouts'
 import { Form } from '@/components/parts'
 import { Company } from '@/components/ui'
-import icoUpdate({ company }) {
+import icons from '@/data/iconsComponents'
+import { fetch } from '@/lib/fetch'
+
+function Update({ company }) {
   const { t } = useTranslation()
   return (
     <>
