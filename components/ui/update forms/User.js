@@ -28,7 +28,7 @@ function User({ targetUser = null }) {
     const handleOnChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     }
-
+    console.log(roles);
     const handleOnSubmit = async () => {
         setIsLoading(true);
         const id = toast.loading("Please wait...")
@@ -49,7 +49,6 @@ function User({ targetUser = null }) {
             router.push('/dashboard/users');
         }, 1500);
     }
-    console.log(roles)
     return (
         <div className="flex flex-col">
             {isLoading && <RequestLoader />}

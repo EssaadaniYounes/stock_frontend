@@ -70,12 +70,16 @@
         "no_data": "No data",
         "vat": "Vat",
         "cr": "Cr",
-        "tax_invoice": "Tax Invoice",
+        "tax_invoice": "Invoice",
         "items_count": "Items Count",
         "rest": "Changes",
         "cashier": "Cashier",
         "total": "Total",
-        "pay_method": "Payment method"
+        "pay_method": "Payment method",
+        "type": "Type",
+        "host": "Host",
+        "printer": "Printer",
+        "created_by": "Created by"
     },
     "pages": {
         "dashboard": "Dashboard",
@@ -98,7 +102,9 @@
         "pay_methods": "Pay methods",
         "suppliers_invoices": "Suppliers Bls",
         "report_types": "Report types",
-        "defaults":"Defaults"
+        "defaults": "Defaults",
+        "pos": "Pos",
+        "printers": "Printers"
     },
     "models": {
         "home": "Home",
@@ -132,7 +138,9 @@
         "filter_by_city": "Filter by city",
         "select_all": "Select all",
         "print_a4": "Print A4",
-        "preview_thermal": "Preview Thermal"
+        "preview_thermal": "Preview Thermal",
+        "import": "Import",
+        "download_examples": "Download example"
     },
     "general": {
         "list": "List",

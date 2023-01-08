@@ -4,7 +4,7 @@ export function isEmail(value) {
 }
 
 export function isText(value) {
-    if (value.length < 0 && value.length <= 255) return true;
+    if (value.length > 0 && value.length <= 255) return true;
     return false;
 }
 

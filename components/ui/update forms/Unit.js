@@ -11,7 +11,8 @@ import useTranslation from 'next-translate/useTranslation'
 import useFocus from '@/hooks/useAutoFocus'
 function Unit({ unit = null, callBack, setState = null }) {
     const [data, setData] = useState(unit ? unit : {
-        name: ''
+        name: '',
+        init: 0
     })
     const [isLoading, setIsLoading] = useState(false);
     const { t } = useTranslation();

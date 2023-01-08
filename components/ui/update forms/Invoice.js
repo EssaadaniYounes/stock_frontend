@@ -18,9 +18,9 @@ import CreatableSelect from 'react-select/creatable';
 import selectAdd from '@/services/selectAdd';
 import { useGetPermissions } from '@/hooks/get-permissions';
 import { can } from '@/utils/can';
-function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
+function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum, isPos = false }) {
     const { t } = useTranslation();
-    const { products, clients, clientsInvoices, setClientsInvoices, config, payMethods, setClient } = useMainStore(state => state);
+    const { products, clients, clientsInvoices, setClientsInvoices, config, payMethods, setClients } = useMainStore(state => state);
     const router = useRouter();
     const [data, setData] = useState(invoice ? invoice : {
         client_id: 1,
@@ -186,12 +186,14 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
             const product = products.find(p => p.barcode == e.target.value);
             if (product) {
                 setSelectedProductId(product.id);
-                return handleSelectionChange(e);
+                handleSelectionChange(e);
+                return e.target.value = "";
             }
             alert("There's no product with this barcode!");
+            e.target.value = "";
         }
+        // TODO : add default values clients vendors product
     }
-
     const removeInvoiceItem = async (index) => {
         const invoice_item = invoiceItems.find((item, i) => i == index);
         let isDeleted = true;
@@ -212,19 +214,37 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
     const handleOnSubmit = async () => {
         setIsLoading(true);
         const id = toast.loading("Please wait...")
-        if (invoice) {
-            const res = await updateService('clients_invoices', invoice.id, { invoice: data, invoice_items: invoiceItems });
-            ToastDone("Invoice updated successfully", id, res);
+        if (!isPos) {
 
+            if (invoice) {
+                const res = await updateService('clients_invoices', invoice.id, { invoice: data, invoice_items: invoiceItems });
+                ToastDone("Invoice updated successfully", id, res);
+
+            }
+            else {
+                const res = await addService('clients_invoices', { invoice: data, invoice_items: invoiceItems });
+                ToastDone("Invoice added successfully", id, res);
+            }
+            setIsLoading(false);
+            setTimeout(() => {
+                router.push('/dashboard/invoices');
+            }, 1500);
         }
         else {
-            const res = await addService('clients_invoices', { invoice: data, invoice_items: invoiceItems });
-            ToastDone("Invoice added successfully", id, res);
+            const Obj = { ...data, client_id: clients.find(c => c.init == 1).value };
+            if (invoice) {
+                const res = await updateService('pos', invoice.id, { invoice: Obj, invoice_items: invoiceItems });
+                ToastDone("Invoice updated successfully", id, res);
+            }
+            else {
+                const res = await addService('pos', { invoice: Obj, invoice_items: invoiceItems });
+                ToastDone("Invoice added successfully", id, res);
+            }
+            setIsLoading(false);
+            setTimeout(() => {
+                router.push('/dashboard/pos');
+            }, 1500);
         }
-        setIsLoading(false);
-        setTimeout(() => {
-            router.push('/dashboard/invoices');
-        }, 1500);
     }
 
     return (
@@ -234,60 +254,71 @@ function Invoice({ invoice = null, invoiceProducts = null, InvoiceNum }) {
             <FormItemsContainer>
                 <div className="form-content">
                     <div className='flex flex-col gap-y-1'>
-                        <div className='search-box pb-2' style={{ overflow: 'visible' }}>
-                            <div className='search-header'>{t('common:info.invoice_info')}</div>
-                            <div className="search-body">
-                                <div className="input-container">
-                                    <label className='label'>{t('common:info.invoice_num')}</label>
-                                    <input type="text"
-                                        name='invoice_num'
-                                        className='input-rounded'
-                                        readOnly
-                                        value={data.invoice_num}
-                                        onChange={(e) => handleOnChange(e)}
-                                        placeholder=" " />
-                                </div>
-                                <div className="input-container">
-                                    <label className='label'>{t('common:info.date')}</label>
-                                    <input type="date"
-                                        name='invoice_date'
-                                        className='input-rounded'
-                                        ref={focusRef}
-                                        value={getDate(data.invoice_date, true)}
-                                        onChange={(e) => handleOnChange(e)}
-                                        placeholder=" " />
-                                </div>
-                                <div className="input-container z-[500]">
-                                    <label className='label'>{t('common:models.client')}</label>
-                                    {
-                                        Object.keys(permissions).length > 0 &&
-                                            can(permissions.clients, 'create')
-                                            ? <CreatableSelect options={clients}
-                                                onCreateOption={(v) => selectAdd('clients', { full_name: v, city_id: '1' }, (id) => setData({ ...data, client_id: id }), clients, setClients)}
-                                                value={clients.find(v => v.value == data.client_id) || clients[0]}
-                                                onChange={v => setData({ ...data, client_id: v.value })}
-                                            />
-                                            : <Select options={clients}
-                                                value={clients.find(v => v.value == data.client_id) || clients[0]}
-                                                onChange={v => setData({ ...data, client_id: v.value })}
-                                            />
-                                    }
+                        {
+                            !isPos && <div className='search-box pb-2' style={{ overflow: 'visible' }}>
+                                <div className='search-header'>{t('common:info.invoice_info')}</div>
+                                <div className="search-body">
+                                    <div className="input-container">
+                                        <label className='label'>{t('common:info.invoice_num')}</label>
+                                        <input type="text"
+                                            name='invoice_num'
+                                            className='input-rounded'
+                                            readOnly
+                                            value={data.invoice_num}
+                                            onChange={(e) => handleOnChange(e)}
+                                            placeholder=" " />
+                                    </div>
+                                    <div className="input-container">
+                                        <label className='label'>{t('common:info.date')}</label>
+                                        <input type="date"
+                                            name='invoice_date'
+                                            className='input-rounded'
+                                            ref={focusRef}
+                                            value={getDate(data.invoice_date, true)}
+                                            onChange={(e) => handleOnChange(e)}
+                                            placeholder=" " />
+                                    </div>
+                                    <div className="input-container z-[500]">
+                                        <label className='label'>{t('common:models.client')}</label>
+                                        {
+                                            Object.keys(permissions).length > 0 &&
+                                                can(permissions.clients, 'create')
+                                                ? <CreatableSelect options={clients}
+                                                    onCreateOption={(v) => selectAdd('clients', { full_name: v, city_id: '1' }, (id) => setData({ ...data, client_id: id }), clients, setClients)}
+                                                    value={clients.find(v => v.value == data.client_id) || clients[0]}
+                                                    onChange={v => setData({ ...data, client_id: v.value })}
+                                                />
+                                                : <Select options={clients}
+                                                    value={clients.find(v => v.value == data.client_id) || clients[0]}
+                                                    onChange={v => setData({ ...data, client_id: v.value })}
+                                                />
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                         <div className="search-box" style={{ overflow: 'visible' }}>
-                            <div className="search-header">
-                                {t('common:info.invoice_items')}
-                            </div>
+                            {
+                                !isPos && <div className="search-header">
+                                    {t('common:info.invoice_items')}
+                                </div>
+                            }
                             <div className="flex flex-wrap flex-col md:flex-row gap-y-2 justify-center items-center w-full my-1 min-h-[80px] px-2 gap-x-2 ">
                                 <div className="items-container">
                                     <div className="input-container">
                                         {/* <label htmlFor="" className="label">{t('common:info.barcode')}</label> */}
-                                        <input type="text"
+                                        {isPos ? <input type="text"
                                             name='barcode'
+                                            ref={focusRef}
                                             className='input-rounded'
                                             onKeyDown={(e) => handleBarcodeSearch(e)}
                                             placeholder={t('common:info.barcode')} />
+                                            : <input type="text"
+                                                name='barcode'
+                                                className='input-rounded'
+                                                onKeyDown={(e) => handleBarcodeSearch(e)}
+                                                placeholder={t('common:info.barcode')} />
+                                        }
                                     </div>
                                     <div className="input-container">
                                         {/* <label className="label">{ t('common:actions.select') }</label> */}

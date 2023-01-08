@@ -23,8 +23,6 @@ function SearchCity({ allCities }) {
         const name = e.target.name;
         setSearchItems(prev => ({ ...prev, [name]: value.toLowerCase() }));
     }
-
-
     return (
         <div className='search-box'>
             <SearchHeader />
@@ -38,7 +36,6 @@ function SearchCity({ allCities }) {
                         className={classes.input} />
                     <label htmlFor="" className={classes.label}>{t('common:info.name')}</label>
                 </div>
-
             </div>
         </div>
     )

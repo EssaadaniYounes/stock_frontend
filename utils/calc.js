@@ -8,21 +8,33 @@ export default function calcTotalAmount(items = null, key) {
 
 export function calcLastMonthAmount(items, invoiceItem, paidAmount) {
     let dus = 0;
-    const invoiceItems = [];
+    const previousItems = [];
+
     Object.keys(items).map(month => {
         Object.keys(items[month]).map(day => {
-            Object.keys(items[month][day]).map(item => {
-                const curr = items[month][day][item];
-                if (new Date(curr.created_at).getTime() <= new Date(invoiceItem.created_at).getTime())
-                    invoiceItems.push(curr)
+            const invoiceItems = items[month][day];
+
+            invoiceItems.map(item => {
+                if (item.is_target) {
+                    if (item.month < invoiceItem.month) {
+                        previousItems.push(item);
+                    }
+                    if (item.month == invoiceItem.month) {
+                        if (item.day < invoiceItem.day) {
+                            previousItems.push(item);
+                        }
+                        if (item.day == invoiceItem.day && new Date(item.created_at).getTime() <= new Date(invoiceItem.created_at).getTime()) {
+                            previousItems.push(item);
+                        }
+                    }
+                }
             })
+
         })
     })
-    for (let i = 0; i < invoiceItems.length; i++) {
-        if (invoiceItems[i].is_target) {
-            dus += invoiceItems[i].dus;
-        }
-    }
+    previousItems.map(item => {
+        dus += item.total_amount - item.paid
+    })
     return dus;
 }
 var getPreviousItem = function (items, key, i) {

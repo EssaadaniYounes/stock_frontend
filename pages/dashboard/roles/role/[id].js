@@ -5,7 +5,7 @@ import { Form } from '@/components/parts'
 import { Role } from '@/components/ui'
 import { fetch } from '@/lib/fetch'
 
-function edit({ role }) {
+function Edit({ role }) {
     const { t } = useTranslation();
     return (
         <>
@@ -35,4 +35,4 @@ export async function getServerSideProps(ctx) {
 }
 
 
-export default edit
+export default Edit

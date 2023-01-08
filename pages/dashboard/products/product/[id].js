@@ -6,7 +6,7 @@ import { Product } from '@/components/ui'
 import { fetch } from '@/lib/fetch'
 import { useMainStore } from '@/store/MainStore'
 
-function edit({ product, categories, vendors, units, cities }) {
+function Edit({ product, categories, vendors, units, cities }) {
     const { t } = useTranslation();
     const { setCategories, setVendors, setUnits, setCities } = useMainStore(state => state);
     useEffect(() => {
@@ -50,4 +50,4 @@ export async function getServerSideProps(ctx) {
 }
 
 
-export default edit
+export default Edit

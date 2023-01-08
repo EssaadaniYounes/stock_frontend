@@ -65,6 +65,12 @@ const items = [
                 link: '/dashboard/invoices'
             },
             {
+                key: 'pos',
+                title: 'Pos',
+                icon: <icons.Invoices />,
+                link: '/dashboard/pos'
+            },
+            {
                 key: 'clients_balance',
                 title: 'Clients balance',
                 icon: <icons.Money />,
@@ -121,6 +127,12 @@ const items = [
                 title: 'Report types',
                 icon: <icons.PayMethod />,
                 link: '/dashboard/report_types'
+            },
+            {
+                key: 'printers',
+                title: 'Printers',
+                icon: <icons.Print />,
+                link: '/dashboard/printers'
             },
         ]
     },

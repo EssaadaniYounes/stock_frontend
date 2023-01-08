@@ -6,7 +6,7 @@ import { Role } from '@/components/ui'
 import icons from '@/data/iconsComponents'
 
 
-function add() {
+function Add() {
     const { t } = useTranslation();
     return (
         <>
@@ -20,4 +20,4 @@ function add() {
     )
 }
 
-export default add
+export default Add

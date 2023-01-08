@@ -13,7 +13,7 @@ import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
 
-function index({ usersData, userData }) {
+function Index({ usersData, userData }) {
     const permission = JSON.parse(userData.data.permissions).users;
     const { t } = useTranslation();
     const columns = [
@@ -21,7 +21,7 @@ function index({ usersData, userData }) {
         {
             name: "#",
             cell: row => <div className="flex items-center gap-x-2">
-                {can(permission, 'delete') && row.id != userData.data.id && <button onClick={() => deleteUser(row.id)}>
+                {can(permission, 'delete') && row.init == 0 && row.id != userData.data.id && <button onClick={() => deleteUser(row.id)}>
                     {<icons.Remove />}
                 </button>}
                 {can(permission, 'update') && < Link href={`/dashboard/users/user/${row.id}`}>
@@ -100,4 +100,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default index
+export default Index

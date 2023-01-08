@@ -12,7 +12,8 @@ import useFocus from '@/hooks/useAutoFocus'
 function Category({ category = null, callBack = null, setState = null }) {
     const { t } = useTranslation();
     const [data, setData] = useState(category ? category : {
-        name: ''
+        name: '',
+        init: 0
     })
     const [isLoading, setIsLoading] = useState(false);
     const { categories, setCategories } = useMainStore(state => state);

@@ -7,7 +7,7 @@ import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
 import { useMainStore } from '@/store/MainStore'
 
-function add({ cities }) {
+function Add({ cities }) {
     const { setCities } = useMainStore(state => state);
     useEffect(() => {
         setCities(cities);
@@ -36,4 +36,4 @@ export async function getServerSideProps(ctx) {
         }
     }
 }
-export default add
+export default Add

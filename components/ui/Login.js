@@ -5,6 +5,7 @@ import { useAuthStore } from '@/store/authStore';
 import setCookie from '@/utils/set-cookies';
 import useTranslation from 'next-translate/useTranslation';
 import useFocus from '@/hooks/useAutoFocus';
+import { isEmail, isText } from '@/utils/validate';
 // import { Field, Form, Formik, useFormik } from 'formik';
 function Login() {
     const router = useRouter();
@@ -13,17 +14,37 @@ function Login() {
         email: '',
         password: ''
     });
-    const [error, setError] = useState(null);
+    const [errors, setErrors] = useState({
+        email: '',
+        password: ''
+    });
 
     const { setUser, user } = useAuthStore(state => state);
     const focusRef = useRef();
     useFocus(focusRef)
+    const handleErrors = () => {
+        console.log("EMail", isEmail(data.email));
+        console.log("password", isText(data.password));
+        if (!isEmail(data.email)) {
+            return setErrors({ ...errors, email: true });
+        }
+        if (!isText(data.password)) {
+            return setErrors({ ...errors, password: true });
+        }
+        if (isText(data.password) && isEmail(data.email)) {
+            setErrors({ ...errors, password: false, email: false });
+        }
+    }
     const handleChange = (e) => {
         setData({
             ...data,
             [e.target.name]: e.target.value
         })
     };
+
+    const handleOnBlur = () => {
+        handleErrors();
+    }
 
     const handleClick = async () => {
         const userData = await fetch('login', {
@@ -35,11 +56,11 @@ function Login() {
             setCookie('user', JSON.stringify(data), 30);
             setCookie('company', userData.data.company_name, 30);
             setUser(userData);
-            setError(null);
+            // setError(null);
             router.push('/dashboard');
         }
         else {
-            setError(userData.error);
+            // setError(userData.error);
         }
     }
 
@@ -55,24 +76,26 @@ function Login() {
                             <input type="email"
                                 name='email'
                                 ref={focusRef}
-                                className='block py-2.5 px-0 w-full text-[18px] text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                                 value={data.email}
+                                className={`input-rounded ${errors.email ? ' border-red-300 animate-[scale_0.5s_ease-in-out]' : 'border-gray-400'}`}
                                 onChange={(e) => handleChange(e)}
+                                onBlur={() => handleOnBlur()}
                                 placeholder={t('common:info.email')} required />
                         </div>
                         <div className='relative mb-6 w-[285px] group'>
                             <input type="password"
                                 name='password'
-                                className='block py-2.5 px-0 w-full text-[18px] text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                                className={`input-rounded ${errors.password ? ' border-red-300 animate-[scale_0.5s_ease-in-out]' : 'border-gray-400'}`}
                                 value={data.password}
+                                onBlur={() => handleOnBlur()}
                                 onChange={(e) => handleChange(e)}
                                 placeholder={t('common:info.password')} />
                         </div>
-                        {
+                        {/* {
                             error && <div className="text-red-500 mb-3 duration-150">
                                 {error}
                             </div>
-                        }
+                        } */}
                         <button onClick={() => handleClick()} type="button" className='button-save flex flex-row-reverse items-center gap-x-2'>
                             {t('common:login.log')}
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

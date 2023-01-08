@@ -35,14 +35,14 @@ export default function DropDown() {
                                     English
                                 </button>
                             </Menu.Item>
-                            <Menu.Item>
+                            {/* <Menu.Item>
                                 <button
                                     onClick={async () => await setLanguage('ar')}
                                     className={`bg-gray-500 my-1 hover:bg-gray-700 text-white group flex w-[100px] md:w-full items-center rounded-md px-2 py-2 text-sm`}
                                 >
                                     العربية
                                 </button>
-                            </Menu.Item>
+                            </Menu.Item> */}
                             <Menu.Item>
                                 <button
                                     onClick={async () => await setLanguage('fr')}

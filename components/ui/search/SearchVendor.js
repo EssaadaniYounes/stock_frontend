@@ -20,10 +20,20 @@ function SearchVendor({ allVendors }) {
     })
 
     const callBack = (vendor) => {
-        return (vendor.full_name.toLowerCase().includes(searchItems.full_name) &&
-            vendor?.city?.toLowerCase().includes(searchItems.city) &&
-            vendor?.tel?.toLowerCase().includes(searchItems.tel) &&
-            vendor?.email?.toLowerCase().includes(searchItems.email))
+        return (
+            (vendor.full_name != null
+                ? vendor.full_name.toLowerCase().includes(searchItems.full_name.toLocaleLowerCase())
+                : vendor.full_name == null)
+            && (vendor.city != null
+                ? vendor.city.toLowerCase().includes(searchItems.city.toLocaleLowerCase())
+                : vendor.city == null)
+            && (vendor.tel != null
+                ? vendor.tel.toLowerCase().includes(searchItems.tel.toLocaleLowerCase())
+                : vendor.tel == null)
+            && (vendor.email != null
+                ? vendor.email.toLowerCase().includes(searchItems.email.toLocaleLowerCase())
+                : vendor.email == null)
+        )
     }
 
     useSearch(callBack, setVendors, searchItems, allVendors);

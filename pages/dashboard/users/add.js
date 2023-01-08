@@ -8,7 +8,7 @@ import { fetch } from '@/lib/fetch'
 import { useMainStore } from '@/store/MainStore'
 
 
-function add({ rolesData }) {
+function Add({ rolesData }) {
     const { t } = useTranslation();
     const { setRoles } = useMainStore(state => state);
     useEffect(() => {
@@ -35,4 +35,4 @@ export async function getServerSideProps(ctx) {
         }
     }
 }
-export default add
+export default Add

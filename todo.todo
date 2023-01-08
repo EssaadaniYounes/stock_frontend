@@ -1,0 +1,11 @@
+//TODO: in the add forms as components (cities, units, etc) fix the new item to add it in the list
+//TODO: fix if user is loggedin in sidebar && header 
+//TODO: Do DRY when deleting item 
+
+//DONE: create iframe accessed for any user
+//DONE: clear barcode input
+//DONE: add default printer
+//DONE: add: fixed printing , added printers, fixed user state
+//DONE: fix sorting bls
+//DONE: fix bls dus
+//DONE: in DeleteHandler function rendered twice 

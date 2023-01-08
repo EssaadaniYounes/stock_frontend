@@ -1,26 +1,22 @@
-import Link from 'next/link'
-import React, { useEffect } from 'react'
-import { CurrentPageHeader } from '@/components/layouts'
-import CustomDataTable from '@/components/parts/CustomDataTable'
-import { SearchVendor, VendorActions } from '@/components/ui'
-import icons from '@/data/iconsComponents'
-import { fetch } from '@/lib/fetch'
-import autoLogin, { deleteService } from '@/services'
-import { useMainStore } from '@/store/MainStore'
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { can } from '@/utils/can'
-import { Toast } from '@/components/parts'
-import useTranslation from 'next-translate/useTranslation'
-function index({ vendorsData, userData }) {
+import Link from 'next/link';
+import React, { useState } from 'react';
+import { ListPage } from '@/components/layouts';
+import { SearchVendor, VendorActions } from '@/components/ui';
+import icons from '@/data/iconsComponents';
+import { fetch } from '@/lib/fetch';
+import autoLogin from '@/services';
+import { can } from '@/utils/can';
+import { DeleteHandler } from '@/components/parts';
+import useTranslation from 'next-translate/useTranslation';
+function Index({ vendorsData, userData }) {
     const permission = JSON.parse(userData.data.permissions).vendors;
     const { t } = useTranslation()
+    const [selectedVendor, setSelectedVendor] = useState(null)
     const columns = [
-
         {
             name: "#",
             cell: row => <div className="flex items-center gap-x-2">
-                {can(permission, 'delete') && <button onClick={() => deleteVendor(row.id)}>
+                {can(permission, 'delete') && row.init == 0 && <button onClick={() => setSelectedVendor(row.id)}>
                     {<icons.Remove />}
                 </button>}
                 {can(permission, 'update') && < Link href={`/dashboard/vendors/vendor/${row.id}`}>
@@ -66,41 +62,25 @@ function index({ vendorsData, userData }) {
         }
 
     ];
-
-    const { vendors, setVendors } = useMainStore(state => state);
-
-    useEffect(() => {
-        if (!vendors.length) {
-            setVendors(vendorsData);
-        }
-    }, []);
-
-    const deleteVendor = async (id) => {
-        const res = await deleteService('vendors', id);
-        if (res) {
-            setVendors(vendors.filter(vendor => vendor.id !== id));
-            toast.success(res.message, {
-                position: "top-right",
-                autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-        }
-    };
     return (
         <div>
-            <CurrentPageHeader icon={icons.Vendor} title={t('common:pages.vendors')} showBack={false} component={VendorActions} />
-
-            <div className='px-2'>
-                <Toast />
-                <SearchVendor allVendors={vendorsData} />
-                <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
-                    <CustomDataTable data={vendors} columns={columns} />
-                </div>
-            </div>
+            {selectedVendor &&
+                <DeleteHandler
+                    name="vendors"
+                    item="vendors"
+                    setItem="setVendors"
+                    id={selectedClient}
+                    setState={setSelectedClient}
+                />}
+            <ListPage
+                name="vendors"
+                stateItem="vendors"
+                setStateItem="setVendors"
+                serverData={vendorsData}
+                columns={columns}
+                component={VendorActions}
+                searchComponent={<SearchVendor allVendors={vendorsData} />}
+                showBack={false} icon={icons.Vendor} />
         </div>
     )
 }
@@ -118,4 +98,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default index
+export default Index

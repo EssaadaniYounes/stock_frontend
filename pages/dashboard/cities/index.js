@@ -14,17 +14,19 @@ import { useSharedVariableStore } from '@/store/sharedVariablesStore'
 import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
-function index({ citiesData, userData }) {
+import union from '@/utils/union-data'
+import useAssing from '@/hooks/use-assign'
+function Index({ citiesData, userData }) {
     const { user, setUser } = useAuthStore(state => state);
     const { t } = useTranslation();
     const permission = JSON.parse(userData.data.permissions).cities;
-
+    const { items: data, setItems: setData } = useAssing(citiesData);
     const columns = [
 
         {
             name: "#",
             cell: row => <div className="flex items-center gap-2">
-                {can(permission, 'delete') && < button onClick={() => deleteCity(row.id)}>
+                {can(permission, 'delete') && row.init != 1 && < button onClick={() => deleteCity(row.id)}>
                     {<icons.Remove />}
                 </button>
                 }
@@ -47,7 +49,7 @@ function index({ citiesData, userData }) {
     const [city, setCity] = useState(null);
     const { cities, setCities } = useMainStore(state => state);
     const { showCity, setShowCity } = useSharedVariableStore(state => state);
-
+    
     useEffect(() => {
         setCities(citiesData);
         setUser(userData);
@@ -57,6 +59,7 @@ function index({ citiesData, userData }) {
         const res = await deleteService('cities', id, 'city');
         if (res.success) {
             setCities(cities.filter(c => c.id !== id));
+            //TODO: remove the deleted city from the serverData
             toast.success(res.message, {
                 position: "top-right",
                 autoClose: 1500,
@@ -73,14 +76,14 @@ function index({ citiesData, userData }) {
         setCity(cities.find(c => c.id == id));
         setShowCity(true);
     }
-
+    
     return (
         <>
             <CurrentPageHeader icon={icons.City} title={t('common:pages.cities')} showBack={false} component={CityActions} />
             <div className='content'>
                 <Toast />
-                {showCity && <City city={city} setState={setCity} />}
-                <SearchCity allCities={citiesData} />
+                {showCity && <City city={city} setState={setCity} setAll={setData} />}
+                <SearchCity allCities={data} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
                     <CustomDataTable data={cities} columns={columns} />
                 </div>
@@ -102,4 +105,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default index
+export default Index

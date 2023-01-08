@@ -14,5 +14,7 @@ const roles = {
     clients_invoices: ["create", "read", "update", "delete", "print"],
     clients_balance: ["create", "read", "update", "delete", "print"],
     suppliers_invoices: ["create", "read", "update", "delete", "print"],
+    pos: ["create", "read", "update", "delete", "print"],
+    printers: ["create", "read", "update", "delete"]
 }
 export default roles
