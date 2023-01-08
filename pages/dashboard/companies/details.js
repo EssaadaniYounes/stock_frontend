@@ -72,5 +72,4 @@ export async function getServerSideProps(ctx) {
         }
     }
 }
-
 export default Details

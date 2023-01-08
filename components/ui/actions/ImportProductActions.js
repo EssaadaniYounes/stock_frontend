@@ -10,7 +10,7 @@ function ImportProductActions({ link }) {
 
             <Button title={t('common:actions.download_examples')}
                 className='purple-button'
-                icon={<icons.Plus />}
+                icon={<icons.Download />}
                 style={{ fontSize: '12px', padding: '6px 20px' }}
                 parentStyle={{ width: 'fit-content' }}
                 onClickHandler={() => window.location.replace('http://127.0.0.1:8000/Examples/Excel/products_example.xlsx')}

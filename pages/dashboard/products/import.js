@@ -1,5 +1,6 @@
 import { CurrentPageHeader } from '@/components/layouts'
 import { ImportProductActions } from '@/components/ui'
+import icons from '@/data/iconsComponents';
 import uploadFile from '@/utils/files';
 import React, { useState } from 'react'
 
@@ -14,7 +15,7 @@ function ImportItems() {
     return (
         <div>
             <CurrentPageHeader title="Import Products" component={ImportProductActions} />
-            <div className="m-2 shadow-md bg-gray-300 rounded-md overflow-hidden">
+            <div className="m-2 shadow-md bg-[#fff0f0] rounded-md overflow-hidden">
                 <div className="text-uppercase font-semibold bg-red-300 py-2 px-3">
                     Warning!
                 </div>
@@ -30,7 +31,11 @@ function ImportItems() {
                             <label htmlFor="file" className="label">File:</label>
                             <input type="file" accept='.xlsx' name="file" onChange={(e) => setFile(e.target.files[0])} />
                         </div>
-                        <button className="hovered-blue-button" onClick={() => sendFile()}>Import</button>
+                        <button className="hovered-blue-button space-x-1" onClick={() => sendFile()}>
+                            <icons.Import />
+                            <span>Import</span>
+                           
+                        </button>
                     </div>
                 </div>
 
