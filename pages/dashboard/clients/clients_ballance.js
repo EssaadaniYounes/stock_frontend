@@ -4,7 +4,7 @@ import Tabs from '@/components/parts/Tabs'
 import { CurrentPageHeader } from '@/components/layouts';
 import icons from '@/data/iconsComponents';
 import useTranslation from 'next-translate/useTranslation';
-function files({ cities, clientsData }) {
+function Files({ cities, clientsData }) {
     const { t } = useTranslation();
     const [selectedCityId, setSelectedCityId] = useState(0);
     const [clients, setClients] = useState([]);
@@ -47,4 +47,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default files
+export default Files

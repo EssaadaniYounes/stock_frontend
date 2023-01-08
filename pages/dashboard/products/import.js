@@ -3,7 +3,7 @@ import { ImportProductActions } from '@/components/ui'
 import uploadFile from '@/utils/files';
 import React, { useState } from 'react'
 
-function importItems() {
+function ImportItems() {
     const [file, setFile] = useState(null);
 
     const sendFile = async () => {
@@ -39,4 +39,4 @@ function importItems() {
     )
 }
 
-export default importItems
+export default ImportItems

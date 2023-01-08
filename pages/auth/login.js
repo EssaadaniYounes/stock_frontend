@@ -3,7 +3,7 @@ import { CurrentPageHeader } from "@/components/layouts";
 import useTranslation from 'next-translate/useTranslation'
 import { Login } from '@/components/ui';
 import { useAuthStore } from '@/store/authStore';
-function login() {
+function Auth() {
 
     const { setUser } = useAuthStore(state => state);;
 
@@ -19,4 +19,4 @@ function login() {
     )
 }
 
-export default login
+export default Auth

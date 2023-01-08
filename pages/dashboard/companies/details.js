@@ -8,7 +8,7 @@ import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
 import autoLogin from '@/services'
 
-function update({ company, companyPermissions }) {
+function Update({ company, companyPermissions }) {
     const { t } = useTranslation();
     const bank_data = {
         'bank_name': company.bank_name,
