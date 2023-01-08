@@ -39,7 +39,8 @@ function ImportCities() {
     return (
         <div>
 
-            <input type="file" accept='.xlsx' name="xlsx" id="" onChange={e => importExcel(e)} />
+            <input type="file"
+                accept='.xlsx' name="xlsx" id="" onChange={e => importExcel(e)} />
 
         </div>
     )
