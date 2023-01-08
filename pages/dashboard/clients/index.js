@@ -1,26 +1,23 @@
+import React, { useState } from 'react'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
-import { CurrentPageHeader } from '@/components/layouts'
-import CustomDataTable from '@/components/parts/CustomDataTable'
-import { ClientActions, SearchClient } from '@/components/ui'
+import useTranslation from 'next-translate/useTranslation'
 import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
-import autoLogin, { deleteService } from '@/services'
-import { useMainStore } from '@/store/MainStore'
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import autoLogin from '@/services'
 import { can } from '@/utils/can'
-import { Toast } from '@/components/parts'
-import useTranslation from 'next-translate/useTranslation'
+import { ListPage } from '@/components/layouts'
+import { DeleteHandler } from '@/components/parts'
+import { ClientActions, SearchClient } from '@/components/ui'
 
 function Index({ clientsData, userData }) {
     const permission = JSON.parse(userData.data.permissions).clients;
-    const { t } = useTranslation()
+    const { t } = useTranslation();
+    const [selectedClient, setSelectedClient] = useState(null)
     const columns = [
         {
             name: "#",
             cell: row => <div className="flex items-center gap-x-2">
-                {can(permission, 'delete') && row.init == 0 && row.init == 0 && <button onClick={() => deleteClient(row.id)}>
+                {can(permission, 'delete') && row.init == 0 && row.init == 0 && <button onClick={() => setSelectedClient(row.id)}>
                     {<icons.Remove />}
                 </button>}
                 {can(permission, 'update') && < Link href={`/dashboard/clients/client/${row.id}`}>
@@ -66,42 +63,26 @@ function Index({ clientsData, userData }) {
         }
 
     ];
-
-    const { clients, setClients } = useMainStore(state => state);
-
-    useEffect(() => {
-        if (!clients.length) {
-            setClients(clientsData);
-        }
-    }, []);
-
-    const deleteClient = async (id) => {
-        const res = await deleteService('clients', id);
-        if (res) {
-            setClients(clients.filter(client => client.id !== id));
-            toast.success(res.message, {
-                position: "top-right",
-                autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-        }
-    };
     return (
-        <div>
-            <CurrentPageHeader icon={icons.Clients} title={t('common:pages.clients')} showBack={false} component={ClientActions} />
-
-            <div className='content'>
-                <Toast />
-                <SearchClient allClients={clientsData} />
-                <div className='w-full h-full rounded-md overflow-hidden px-4 mt-4'>
-                    <CustomDataTable data={clients} columns={columns} />
-                </div>
-            </div>
-        </div>
+        <>
+            {selectedClient &&
+                <DeleteHandler
+                    name="clients"
+                    item="clients"
+                    setItem="setClients"
+                    id={selectedClient}
+                    setState={setSelectedClient}
+                />}
+            <ListPage
+                name="clients"
+                stateItem="clients"
+                setStateItem="setClients"
+                serverData={clientsData}
+                columns={columns}
+                component={ClientActions}
+                searchComponent={<SearchClient allClients={clientsData} />}
+                showBack={false} icon={icons.Clients} />
+        </>
     )
 }
 

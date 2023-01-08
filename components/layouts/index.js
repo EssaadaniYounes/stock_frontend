@@ -5,3 +5,4 @@ export { default as PosHeader } from './PosHeader';
 export { default as CurrentPageHeader } from './CurrentPageHeader';
 export { default as SideBar } from './SideBar';
 export { default as Overlay } from './Overlay';
+export { default as ListPage } from './ListPage';

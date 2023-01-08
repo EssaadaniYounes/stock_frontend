@@ -1,18 +1,24 @@
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { ListPage } from '@/components/layouts';
-import { SearchVendor, VendorActions } from '@/components/ui';
-import icons from '@/data/iconsComponents';
-import { fetch } from '@/lib/fetch';
-import autoLogin from '@/services';
-import { can } from '@/utils/can';
-import { DeleteHandler } from '@/components/parts';
-import useTranslation from 'next-translate/useTranslation';
+import Link from 'next/link'
+import React, { useEffect } from 'react'
+import { CurrentPageHeader, ListPage } from '@/components/layouts'
+import CustomDataTable from '@/components/parts/CustomDataTable'
+import { SearchVendor, VendorActions } from '@/components/ui'
+import icons from '@/data/iconsComponents'
+import { fetch } from '@/lib/fetch'
+import autoLogin, { deleteService } from '@/services'
+import { useMainStore } from '@/store/MainStore'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { can } from '@/utils/can'
+import { DeleteHandler, Toast } from '@/components/parts'
+import useTranslation from 'next-translate/useTranslation'
+import { useState } from 'react'
 function Index({ vendorsData, userData }) {
     const permission = JSON.parse(userData.data.permissions).vendors;
     const { t } = useTranslation()
     const [selectedVendor, setSelectedVendor] = useState(null)
     const columns = [
+
         {
             name: "#",
             cell: row => <div className="flex items-center gap-x-2">
