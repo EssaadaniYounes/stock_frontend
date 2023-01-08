@@ -8,7 +8,7 @@ import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
 import autoLogin from '@/services'
 
-function Update({ company, companyPermissions }) {
+function Details({ company, companyPermissions }) {
     const { t } = useTranslation();
     const bank_data = {
         'bank_name': company.bank_name,
@@ -73,4 +73,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default update
+export default Details
