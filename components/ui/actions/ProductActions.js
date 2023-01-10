@@ -9,7 +9,7 @@ function ProductActions() {
     return (
         <div className='flex items-center gap-x-2'>
             <LinkButton href='/dashboard/products/add' icon={<icons.Add />} className="button-add mt-2" title={t('common:actions.add')} />
-            <LinkButton href='/dashboard/products/import' icon={<icons.Add />} className="button-add mt-2" title={t('common:actions.import')} />
+            <LinkButton href='/dashboard/products/import' icon={<icons.Import />} className="text-white mt-2 hover:bg-[#3044b9] font-medium rounded-lg text-sm px-5 py-2.5 mb-2  bg-[#4d66f4]" title={t('common:actions.import')} />
         </div>
         
     )

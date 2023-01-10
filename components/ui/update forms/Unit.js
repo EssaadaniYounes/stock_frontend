@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useTranslation from 'next-translate/useTranslation'
 import useFocus from '@/hooks/useAutoFocus'
-function Unit({ unit = null, callBack, setState = null }) {
+function Unit({ unit = null, callBack, setState = null, setAll = () => { } }) {
     const [data, setData] = useState(unit ? unit : {
         name: '',
         init: 0
@@ -28,6 +28,7 @@ function Unit({ unit = null, callBack, setState = null }) {
         if (!unit) {
             const res = await addService('units', data);
             !callBack ? setUnits([...units, res.data]) : setUnits([{ value: res.data.id, label: res.data.name }, ...units]);
+            setAll([...units, res.data]);
             if (callBack) {
                 callBack(res.data.id);
             }
@@ -41,6 +42,7 @@ function Unit({ unit = null, callBack, setState = null }) {
             });
             ToastDone("Unit updated successfully", id, res);
             setUnits(newUnits);
+            setAll(newUnits);
             setState && setState(null)
         }
         setIsLoading(false);

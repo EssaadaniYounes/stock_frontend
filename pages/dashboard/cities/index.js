@@ -1,8 +1,7 @@
-import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { CurrentPageHeader } from '@/components/layouts'
 import CustomDataTable from '@/components/parts/CustomDataTable'
-import { Category, CategoryActions, City, CityActions, SearchCategory, SearchCity } from '@/components/ui'
+import {City, CityActions, SearchCity } from '@/components/ui'
 import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
 import autoLogin, { deleteService } from '@/services'
@@ -14,7 +13,6 @@ import { useSharedVariableStore } from '@/store/sharedVariablesStore'
 import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
-import union from '@/utils/union-data'
 import useAssing from '@/hooks/use-assign'
 function Index({ citiesData, userData }) {
     const { user, setUser } = useAuthStore(state => state);
@@ -59,6 +57,7 @@ function Index({ citiesData, userData }) {
         const res = await deleteService('cities', id, 'city');
         if (res.success) {
             setCities(cities.filter(c => c.id !== id));
+            setData(data.filter(c => c.id !== id));
             //TODO: remove the deleted city from the serverData
             toast.success(res.message, {
                 position: "top-right",

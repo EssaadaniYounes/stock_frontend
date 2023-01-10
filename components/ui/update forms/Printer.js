@@ -11,7 +11,7 @@ import useTranslation from 'next-translate/useTranslation'
 import useFocus from '@/hooks/useAutoFocus'
 import { isText } from '@/utils/validate'
 
-function Printer({ printer = null, callBack, setState = null }) {
+function Printer({ printer = null, callBack, setState = null, setAll = () => { } }) {
     const { t } = useTranslation();
     const [data, setData] = useState(printer ? printer : {
         name: '',
@@ -65,7 +65,8 @@ function Printer({ printer = null, callBack, setState = null }) {
 
                 const res = await addService('printers', data);
                 !callBack ? setPrinters([...printers, res.data]) : setPrinters([{ value: res.data.id, label: res.data.name }, ...printers]);
-                console.log(res.data);
+                res.data.is_default = 0;
+                setAll(res.data);
                 if (callBack) {
                     callBack(res.data.id);
                 }
@@ -79,6 +80,7 @@ function Printer({ printer = null, callBack, setState = null }) {
                 });
                 ToastDone("Printer updated successfully", id, res);
                 setPrinters(newPrinters)
+                setAll(newPrinters);
                 setState && setState(null)
             }
             setIsLoading(false);
