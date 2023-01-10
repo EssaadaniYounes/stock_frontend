@@ -34,7 +34,6 @@ function ImportItems() {
                         <button className="hovered-blue-button space-x-1" onClick={() => sendFile()}>
                             <icons.Import />
                             <span>Import</span>
-                           
                         </button>
                     </div>
                 </div>

@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import useFocus from '@/hooks/useAutoFocus'
 import useTranslation from 'next-translate/useTranslation'
 
-function PayMethod({ payMethod = null, callBack, setState = null }) {
+function PayMethod({ payMethod = null, callBack, setState = null, setAll = () => { } }) {
     const { t } = useTranslation();
     const [data, setData] = useState(payMethod ? payMethod : {
         name: ''
@@ -28,6 +28,9 @@ function PayMethod({ payMethod = null, callBack, setState = null }) {
         if (!payMethod) {
             const res = await addService('pay_methods', data);
             setPayMethods([...payMethods, res.data]);
+            setAll([...payMethods, res.data]);
+            res.data.is_default = 0;
+            console.log(res.data)
             if (callBack) {
                 callBack(res.data.id);
             }
@@ -43,6 +46,7 @@ function PayMethod({ payMethod = null, callBack, setState = null }) {
             });
             ToastDone("Method updated successfully", id, res);
             setPayMethods(newPayMethods)
+            setAll(newPayMethods)
             setState && setState(null)
         }
         setIsLoading(false);

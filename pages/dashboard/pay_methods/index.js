@@ -14,6 +14,7 @@ import { useSharedVariableStore } from '@/store/sharedVariablesStore'
 import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
+import useAssing from '@/hooks/use-assign'
 function Index({ payMethodsData, userData }) {
     const { setUser } = useAuthStore(state => state);
     const { t } = useTranslation();
@@ -56,7 +57,7 @@ function Index({ payMethodsData, userData }) {
     const [payMethod, setPayMethod] = useState(null);
     const { payMethods, setPayMethods } = useMainStore(state => state);
     const { showPayMethod, setShowPayMethod } = useSharedVariableStore(state => state);
-
+    const { items: data, setItems: setData } = useAssing(payMethodsData);
     useEffect(() => {
         setPayMethods(payMethodsData);
         setUser(userData);
@@ -80,6 +81,7 @@ function Index({ payMethodsData, userData }) {
         const res = await deleteService('pay_methods', id, 'Method');
         if (res.success) {
             setPayMethods(payMethods.filter(c => c.id !== id));
+            setData(data.filter(c => c.id !== id));
             toast.success(res.message, {
                 position: "top-right",
                 autoClose: 1500,
@@ -102,8 +104,8 @@ function Index({ payMethodsData, userData }) {
             <CurrentPageHeader icon={icons.PayMethod} title={t('common:pages.pay_methods')} showBack={false} component={PayMethodActions} />
             <div className='content'>
                 <Toast />
-                {showPayMethod && <PayMethod payMethod={payMethod} setState={setPayMethod} />}
-                <SearchPayMethod allPayMethods={payMethodsData} />
+                {showPayMethod && <PayMethod payMethod={payMethod} setState={setPayMethod} setAll={setData} />}
+                <SearchPayMethod allPayMethods={data} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
                     <CustomDataTable data={payMethods} columns={columns} />
                 </div>

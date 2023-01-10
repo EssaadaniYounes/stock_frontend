@@ -13,11 +13,12 @@ import { useSharedVariableStore } from '@/store/sharedVariablesStore'
 import { can } from '@/utils/can'
 import { Toast } from '@/components/parts'
 import useTranslation from 'next-translate/useTranslation'
+import useAssing from '@/hooks/use-assign'
 function Index({ printersData, userData }) {
     const { user, setUser } = useAuthStore(state => state);
     const { t } = useTranslation();
     const permission = JSON.parse(userData.data.permissions).printers;
-
+    const { items: data, setItems: setData } = useAssing(printersData);
     const columns = [
 
         {
@@ -70,8 +71,8 @@ function Index({ printersData, userData }) {
     }, []);
 
     const makeDefault = async (id) => {
-        const res = await updateService('printers/default', id, { old_item: printersData.find(p => p.is_default == 1).id });
-
+        const old_item = printersData.find(p => p.is_default == 1)?.id;
+        const res = await updateService('printers/default', id, { old_item: old_item ? old_item : printersData[0].id });
         if (res.success) {
             const newPrinters = printers.map(p => {
                 if (p.id != id) {
@@ -87,6 +88,7 @@ function Index({ printersData, userData }) {
         const res = await deleteService('printers', id);
         if (res.success) {
             setPrinters(printers.filter(p => p.id !== id));
+            setData(data.filter(p => p.id !== id))
             toast.success(res.message, {
                 position: "top-right",
                 autoClose: 1500,
@@ -108,8 +110,8 @@ function Index({ printersData, userData }) {
             <CurrentPageHeader icon={icons.Print} title={t('common:pages.printers')} showBack={false} component={PrinterActions} />
             <div className='content'>
                 <Toast />
-                {showPrinter && <Printer printer={printer} setState={setPrinter} />}
-                <SearchPrinter allPrinters={printersData} />
+                {showPrinter && <Printer printer={printer} setState={setPrinter} setAll={setData} />}
+                <SearchPrinter allPrinters={data} />
                 <div className='w-full h-full relative rounded-md overflow-hidden px-4 mt-4'>
                     <CustomDataTable data={printers} columns={columns} />
                 </div>
