@@ -30,6 +30,7 @@ const Home = ({ dataUser }) => {
 
 export const getServerSideProps = async (ctx) => {
   const res = await autoLogin(ctx);
+  console.log('USER RES', res);
   return {
     props: {
       dataUser: res.dataUser,

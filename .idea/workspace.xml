@@ -4,27 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d3ce4e7f-7b74-42d9-9852-5b2a0a76da82" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/components/layouts/PosHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/layouts/PosHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layouts/SharedHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/layouts/SharedHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/parts/Empty.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/parts/Empty.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/parts/Reports/ThermalPreview/InvoiceThermalHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/parts/Reports/ThermalPreview/InvoiceThermalHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/parts/buttons/LinkButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/parts/buttons/LinkButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/parts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/parts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/update forms/Client.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/update forms/Client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/update forms/Invoice.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/update forms/Invoice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/update forms/Vendor.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/update forms/Vendor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/iconsComponents.js" beforeDir="false" afterPath="$PROJECT_DIR$/data/iconsComponents.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/fetch.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/fetch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/dashboard/invoices/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/dashboard/invoices/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/dashboard/pos/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/dashboard/pos/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/dashboard/products/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/dashboard/products/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/pos/add.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/pos/add.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/addService.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/addService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/files.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/files.js" afterDir="false" />
-    </list>
+    <list default="true" id="d3ce4e7f-7b74-42d9-9852-5b2a0a76da82" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,6 +49,7 @@
       <option name="presentableId" value="Default" />
       <updated>1668253946919</updated>
       <workItem from="1668253949317" duration="5941000" />
+      <workItem from="1680136397722" duration="17000" />
     </task>
     <servers />
   </component>

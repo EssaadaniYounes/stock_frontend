@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { CurrentPageHeader } from '@/components/layouts'
 import CustomDataTable from '@/components/parts/CustomDataTable'
-import {City, CityActions, SearchCity } from '@/components/ui'
+import { City, CityActions, SearchCity } from '@/components/ui'
 import icons from '@/data/iconsComponents'
 import { fetch } from '@/lib/fetch'
 import autoLogin, { deleteService } from '@/services'
@@ -47,7 +47,7 @@ function Index({ citiesData, userData }) {
     const [city, setCity] = useState(null);
     const { cities, setCities } = useMainStore(state => state);
     const { showCity, setShowCity } = useSharedVariableStore(state => state);
-    
+
     useEffect(() => {
         setCities(citiesData);
         setUser(userData);
@@ -75,7 +75,7 @@ function Index({ citiesData, userData }) {
         setCity(cities.find(c => c.id == id));
         setShowCity(true);
     }
-    
+
     return (
         <>
             <CurrentPageHeader icon={icons.City} title={t('common:pages.cities')} showBack={false} component={CityActions} />

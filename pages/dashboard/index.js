@@ -6,8 +6,11 @@ import { CurrentPageHeader } from '@/components/layouts'
 import icons from '@/data/iconsComponents'
 import getCookie from '@/utils/get-cookie'
 import { fetch } from '@/lib/fetch'
+import { useAuthStore } from '@/store/authStore'
 function Index() {
-    const { t } = useTranslation()
+    const { t } = useTranslation();
+    const { user } = useAuthStore(state => state);
+
     return (
         <div className='relative'>
             <div className='relative flex items-center justify-center'>
